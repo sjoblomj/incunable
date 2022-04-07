@@ -1,0 +1,7 @@
+<li>
+  <label for="futurebox${num}"><img src="${small}" title="${title}" /></label>
+  <input type="radio" id="futurebox${num}" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="${large}" class="large" /></label>
+  </div>
+</li>

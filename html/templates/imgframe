@@ -1,0 +1,4 @@
+<figure class="imageframe">
+<img src="${file}" alt="${title}" />
+<figcaption>Figure ${num}: ${title}</figcaption>
+</figure>

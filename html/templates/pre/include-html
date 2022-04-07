@@ -1,0 +1,49 @@
+#!/bin/bash
+# @produces include-script
+
+awk -i inplace -v targetfile="${2}" -v additionalfiles="${3}" '
+{
+    if ($0 ~ "{{include-html") {
+        # Add ref if not present
+        if ($0 !~ "\\|ref")
+            sub("{{include-html ", "{{include-html |ref=" targetfile " ", $0);
+        sub("\\|file *= *",        "|file="     targetfile "-files/",     $0);
+        sub("\\|fallback *= *",    "|fallback=" targetfile "-files/",     $0);
+
+        if (system("test -f " additionalfiles "/iframe.js") != 0) {
+            print iframe_script() > additionalfiles "/iframe.js"
+            $0 = "{{include-script |file=iframe.js}}\n" $0;
+        }
+    }
+    print $0;
+}
+
+function iframe_script() {
+  script = "";
+  script = script "// If the user runs Javascript, then hide the fallback\n";
+  script = script "// and show the iframe instead\n";
+  script = script "document.addEventListener(\"DOMContentLoaded\", function(event) {\n";
+  script = script "  const fallbackElements = document.getElementsByClassName(\"fallback\");\n";
+  script = script "  const iframes = document.getElementsByClassName(\"iframe\");\n";
+  script = script "  for (var i = 0; i < fallbackElements.length; i++) {\n";
+  script = script "    fallbackElements[i].style.display = \"none\";\n";
+  script = script "  }\n";
+  script = script "  for (var i = 0; i < iframes.length; i++) {\n";
+  script = script "    iframes[i].style.display = \"block\";\n";
+  script = script "  }\n";
+  script = script "});\n";
+  script = script "\n";
+  script = script "\n";
+  script = script "function resizeIframeToFitContent(iframe, size) {\n";
+  script = script "  iframe.width  = size.width;\n";
+  script = script "  iframe.height = size.height;\n";
+  script = script "}\n";
+  script = script "\n";
+  script = script "window.addEventListener(\"message\", (event) => {\n";
+  script = script "  const iframes = document.querySelectorAll(\"iframe\")\n";
+  script = script "  for (var i = 0; i < iframes.length; i++)\n";
+  script = script "    if (event.data.id === iframes[i].id)\n";
+  script = script "      resizeIframeToFitContent(iframes[i], event.data);\n";
+  script = script "})\n";
+  return script;
+}' $1

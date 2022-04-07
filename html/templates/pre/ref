@@ -1,0 +1,43 @@
+#!/bin/bash
+
+awk -i inplace -i "utils.awk" -v additionalfiles="${3}" '
+BEGIN {
+    REF_FILE = read_file(additionalfiles "/reflist");
+}
+{
+    line = $0;
+    last_index = 0;
+    while (1) {
+        remainder_of_line = substr(line, last_index + 1);
+        pos_beg = index(remainder_of_line, "{{ref");
+        if (pos_beg <= 0) {
+            break;
+        }
+        len = index(substr(remainder_of_line, pos_beg), "}}") + 1;
+        ref = update_ref(substr(remainder_of_line, pos_beg, len));
+
+        line = substr(line, 0, last_index + pos_beg - 1) ref substr(remainder_of_line, pos_beg + len);
+        last_index += pos_beg + length(ref);
+    }
+    print line;
+}
+
+function update_ref(template,  ref, ref_file, number) {
+    ref = get_parameter(template, "ref");
+    number = find_ref_number(ref);
+
+    sub("{{ref ", "{{ref |num=" number " ", template);
+    return template;
+}
+
+function find_ref_number(ref,  n, arr) {
+    n = split(REF_FILE, arr, "\n");
+    for (i = 1; i <= n; i++) {
+        if (arr[i] ~ "^" ref "=*") {
+            return substr(arr[i], index(arr[i], "=") + 1);
+        }
+    }
+    return -1;
+}
+' $1
+

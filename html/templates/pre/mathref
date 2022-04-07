@@ -1,0 +1,24 @@
+#!/bin/bash
+# @produces beginmath, endmath
+# (It doesn't actually produce these, but we want mathref to run before them)
+
+awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
+BEGIN {
+    MATH_REF_NO = 0;
+}
+{
+    if ($0 ~ "{{mathref ") {
+        ref = write_ref($0);
+        sub("{{mathref .*}}", "\\tag{" MATH_REF_NO "}\\label{" ref "}", $0);
+    }
+    print $0;
+}
+
+function write_ref(text,  ref) {
+    ref = get_parameter(text, "ref");
+
+    MATH_REF_NO += 1;
+    print ref "=" MATH_REF_NO >> additionalfiles "/reflist";
+    return ref;
+}
+' $1

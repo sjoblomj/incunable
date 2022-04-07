@@ -1,0 +1,47 @@
+#!/bin/bash
+# @produces thumbnails, thumbnails_after
+
+awk -i "utils.awk" -v "targetfile=$2" '
+BEGIN {
+    found_imglinklist = 0;
+    should_print_imglinklist_after = 0;
+}
+{
+    if ($0 ~ "{{imglinklist") {
+        found_imglinklist = 1;
+        print $0;
+        next;
+    }
+
+    if ($0 ~ "{{imglink ") {
+        should_print_imglinklist_after = 1;
+        if (found_imglinklist) {
+            print adjust_imglink($0);
+        } else {
+            print "{{imglinklist}}\n" adjust_imglink($0);
+            found_imglinklist = 1;
+        }
+    } else {
+        if (should_print_imglinklist_after) {
+            should_print_imglinklist_after = 0;
+            print "{{imglinklist_after}}\n" $0;
+        } else {
+            print $0;
+        }
+        found_imglinklist = 0;
+    }
+}
+END {
+    if (should_print_imglinklist_after) {
+        print "{{imglinklist_after}}";
+    }
+}
+
+function adjust_imglink(line) {
+    link = get_parameter(line, "link");
+    sub("\\|link *= *" link, "|link=" link ".html", line);
+    sub( "\\|img *= *",       "|img=" link "-files/", line);
+    return line;
+}
+' $1 > ${1}_2
+mv ${1}_2 $1

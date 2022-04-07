@@ -1,0 +1,22 @@
+#!/bin/bash
+
+awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
+BEGIN {
+    REF_NO = 0;
+}
+{
+    if ($0 ~ "{{imgframe ") {
+        write_ref($0);
+        sub("{{imgframe ", "{{imgframe |num=" REF_NO " ", $0);
+        sub("\\|file *= *", "|file=" targetfile "-files/", $0);
+    }
+    print $0;
+}
+
+function write_ref(text,  ref) {
+    ref = get_parameter(text, "ref");
+
+    REF_NO += 1;
+    print ref "=" REF_NO >> additionalfiles "/reflist";
+}
+' $1

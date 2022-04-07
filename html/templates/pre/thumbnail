@@ -1,0 +1,52 @@
+#!/bin/bash
+# @produces thumbnails, thumbnails_after
+
+awk -i "utils.awk" -v "targetfile=$2" '
+BEGIN {
+    THUMBNAIL_NO = 0;
+    found_thumbnails = 0;
+    should_print_thumbnails_after = 0;
+}
+{
+    if ($0 ~ "{{thumbnails ") {
+        found_thumbnails = 1;
+        print $0;
+        next;
+    }
+
+    if ($0 ~ "{{thumbnail ") {
+        should_print_thumbnails_after = 1;
+        if (found_thumbnails) {
+            print add_ordinal_and_target_to_thumbnail($0);
+        } else {
+            title = get_parameter($0, "title");
+
+            print "{{thumbnails |text=" title "}}\n" add_ordinal_and_target_to_thumbnail($0);
+            found_thumbnails = 1;
+        }
+    } else {
+        if (should_print_thumbnails_after) {
+            should_print_thumbnails_after = 0;
+            print "{{thumbnails_after}}\n" $0;
+        } else {
+            print $0;
+        }
+        found_thumbnails = 0;
+    }
+}
+END {
+    if (should_print_thumbnails_after) {
+        print "{{thumbnails_after}}";
+    }
+}
+
+function add_ordinal_and_target_to_thumbnail(line) {
+    sub("{{thumbnail ", "{{thumbnail |num=" THUMBNAIL_NO " ", line);
+    sub("\\|small *= *", "|small=" targetfile "-files/", line);
+    sub("\\|large *= *", "|large=" targetfile "-files/", line);
+
+    THUMBNAIL_NO += 1;
+    return line;
+}
+' $1 > ${1}_2
+mv ${1}_2 $1

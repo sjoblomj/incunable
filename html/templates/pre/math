@@ -1,0 +1,18 @@
+#!/bin/bash
+# @produces beginmath, endmath
+
+awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
+{
+    while (1) {
+        start_pos = index($0, "{{math ");
+        if (start_pos > 0) {
+            eq = get_parameter($0, "eq");
+            end_pos = find_template_closing_pos(substr($0, start_pos)) + start_pos + length(CLOSING_BRACKETS);
+            $0 = substr($0, 0, start_pos - 1) "{{beginmath |class=inlinemath |style=textstyle}}" eq "{{endmath}}" substr($0, end_pos);
+        } else {
+            break;
+        }
+    }
+    print $0;
+}
+' $1

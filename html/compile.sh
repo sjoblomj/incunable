@@ -23,6 +23,8 @@ for target in $(ls ${input}); do
   export INCUNABLE_TEMPLATE_DIR=${templatedir}
   ./template_substituter.awk /tmp/$target > /tmp/${target}_2 && mv /tmp/${target}_2 /tmp/$target
   cmark-gfm -e table -e strikethrough -e footnotes --table-prefer-style-attributes --unsafe /tmp/$target > /tmp/${target}_2 && mv /tmp/${target}_2 /tmp/$target
+  sed -i 's/&amp;lbrace;/\&lbrace;/g' /tmp/$target
+  sed -i 's/&amp;rbrace;/\&rbrace;/g' /tmp/$target
   unset INCUNABLE_TEMPLATE_DIR
 
 

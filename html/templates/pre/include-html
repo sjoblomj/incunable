@@ -4,9 +4,9 @@
 awk -i inplace -v targetfile="${2}" -v additionalfiles="${3}" '
 {
     if ($0 ~ "{{include-html") {
-        # Add ref if not present
-        if ($0 !~ "\\|ref")
-            sub("{{include-html ", "{{include-html |ref=" targetfile " ", $0);
+        # Add id if not present
+        if ($0 !~ "\\|id")
+            sub("{{include-html ", "{{include-html |id=" targetfile " ", $0);
         sub("\\|file *= *",        "|file="     targetfile "-files/",     $0);
         sub("\\|fallback *= *",    "|fallback=" targetfile "-files/",     $0);
 

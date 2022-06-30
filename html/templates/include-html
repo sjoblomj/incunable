@@ -1,2 +1,5 @@
+<figure class="imageframe fallback">
 <img class="fallback" src="${fallback}" alt="${fallback_text}" />
-<iframe class="iframe" id="${ref}" src="${file}" scrolling="no" style="display:none; border: 0;"></iframe>
+<figcaption class="fallback">${fallback_text}</figcaption>
+</figure>
+<iframe class="iframe" id="${id}" src="${file}" scrolling="no" style="display:none; border: 0;"></iframe>

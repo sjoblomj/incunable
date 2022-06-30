@@ -2,7 +2,7 @@
     <a href="${link}" class="iconlink">
         <figure>
             <img src="${img}" alt="${title}">
-            <figcaption><p><h7>${title}</h7><br />Written in: ${languages}<br /><br />${description}</p></figcaption>
+            <figcaption><p><h7>${title}</h7><br />${description}</p></figcaption>
         </figure>
     </a>
 </li>

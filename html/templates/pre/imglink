@@ -1,5 +1,7 @@
 #!/bin/bash
-# @produces thumbnails, thumbnails_after
+# @produces imglinklist, imglinklist_after, linebreak
+# (It doesn't actually produce linebreak, but we want imglink to run before it, in case the user included it)
+
 
 awk -i "utils.awk" -v "targetfile=$2" '
 BEGIN {
@@ -39,8 +41,11 @@ END {
 
 function adjust_imglink(line) {
     link = get_parameter(line, "link");
-    sub("\\|link *= *" link, "|link=" link ".html", line);
-    sub( "\\|img *= *",       "|img=" link "-files/", line);
+    img  = get_parameter(line, "img");
+    if (link !~ /^http/ && link !~ /html$/)
+        sub("\\|link *= *" link, "|link=" link   ".html", line);
+    if (img !~ /^http/)
+        sub( "\\|img *= *",       "|img=" link "-files/", line);
     return line;
 }
 ' $1 > ${1}_2

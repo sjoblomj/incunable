@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Images - Incunable</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+  <span class="header">
+    <img src="logo.jpg" alt="logo" />
+    <h1 class="headername">Incunable</h1>
+    <div class="vl"></div>
+
+    <ul class="headerlinks">
+        <li><a href="index.html">Index</a></li>
+        <li><a href="misc.html">Misc</a></li>
+        <li><a href="images.html">Images</a></li>
+        <li><a href="includes.html">Includes</a></li>
+        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="template_overview.html">Template Overview</a></li>
+    </ul>
+  </span>
+<h1>Images</h1>
+<p>Images can be included like below. All are from the book <a href="https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater">Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer</a>.</p>
+<pre><code>&lbrace;&lbrace;imgframe &#124;ref=death &#124;file=dance_of_death.jpg &#124;title=Dance of Death. Imago Mortis.&rbrace;&rbrace;
+&lbrace;&lbrace;imgframe &#124;ref=rider &#124;file=rider.jpg &#124;title=Horses of yore.&rbrace;&rbrace;
+&lbrace;&lbrace;imgframe &#124;ref=ship  &#124;file=ship.jpg  &#124;title=Detailed ship.&rbrace;&rbrace;
+</code></pre>
+<figure class="imageframe">
+<img src="images-files/dance_of_death.jpg" alt="Dance of Death. Imago Mortis." />
+<figcaption>Figure 1: Dance of Death. Imago Mortis.</figcaption>
+</figure>
+<figure class="imageframe">
+<img src="images-files/rider.jpg" alt="Horses of yore." />
+<figcaption>Figure 2: Horses of yore.</figcaption>
+</figure>
+<figure class="imageframe">
+<img src="images-files/ship.jpg" alt="Detailed ship." />
+<figcaption>Figure 3: Detailed ship.</figcaption>
+</figure>
+<p>They can be referenced by their enumerated number using <code>&lbrace;&lbrace;ref &#124;ref=id&rbrace;&rbrace;</code>; The ship is Figure 3 (<code>&lbrace;&lbrace;ref &#124;ref=ship&rbrace;&rbrace;</code>) while the image of the Dance of Death is Figure 1 (id=<code>&lbrace;&lbrace;ref &#124;ref=death&rbrace;&rbrace;</code>) and the image of the rider is Figure 2 (id=<code>&lbrace;&lbrace;ref &#124;ref=rider&rbrace;&rbrace;</code>).</p>
+<p>They can also be included inline, <code>&lbrace;&lbrace;img &#124;file=smiley.png &#124;title=:)&rbrace;&rbrace;</code> results in this: <img src="images-files/smiley.png" class="" alt=":)" /></p>
+<h1>Math</h1>
+<p>Math can be typeset with <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>. The equations will be turned into SVG images and included into the paragraph. There are two commands with which math can be included, <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> for (shorter) inline math snippets, and <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> for multiline equations.</p>
+<p>Inline equations can be included using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code>, like this one: <code>&lbrace;&lbrace;math &#124;eq=a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;&rbrace;&rbrace;</code>, which is typeset into: <img src="images-files/eq_0.svg" class="inlinemath" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}" />. Using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.</p>
+<p>Longer, or multi-line or more complex equations can be included by placing the tex markup between <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. This will automatically make the math be typeset in a more spacious way; compare how the following is typeset compared to the inlined equation of the previous paragraph. The characters of the two equations are identical, but they are typeset differently.</p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<img src="images-files/eq_1.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}" />
+<p>Under the hood, <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will be turned into <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. The equations will be used as the alt-text of the resulting image.</p>
+<h2>Style</h2>
+<p>As mentioned, using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will typeset equations compacted (using <code>\textstyle</code> of LaTeX). Using <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, equations will by default be typeset with <code>\displaystyle</code>. This can be overridden by providing the <code>style</code> argument to <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, like this:</p>
+<pre><code>&lbrace;&lbrace;beginmath &#124;style=textstyle&rbrace;&rbrace;
+\sum_&lbrace;i=1&rbrace;^n i = \frac&lbrace;n(n+1)&rbrace;&lbrace;2&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<img src="images-files/eq_2.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}" />
+<h2>Equations with references</h2>
+<p>Equations can be referenced by including a <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> in the tex markup, like this:</p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &#124;ref=EulersFormula&rbrace;&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<img src="images-files/eq_3.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}" />
+<p>Equation (1) above is known as Euler's Formula, and the number is referenced by <code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>. We can evaluate Euler's Formula for <img src="images-files/eq_4.svg" class="inlinemath" alt="\theta = \pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\theta = \pi&rbrace;&rbrace;</code>):</p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+e^&lbrace;i\pi&rbrace;    &= \cos&lbrace;\pi&rbrace; + i \sin&lbrace;\pi&rbrace;  &lbrace;&lbrace;mathref &#124;ref=Pi1&rbrace;&rbrace;\\
+e^&lbrace;i\pi&rbrace;    &= -1 + i\cdot 0            &lbrace;&lbrace;mathref &#124;ref=Pi2&rbrace;&rbrace;\\
+e^&lbrace;i\pi&rbrace;    &= -1                       &lbrace;&lbrace;mathref &#124;ref=Pi3&rbrace;&rbrace;\\
+e^&lbrace;i\pi&rbrace; +1 &= 0                        &lbrace;&lbrace;mathref &#124;ref=Pi4&rbrace;&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<img src="images-files/eq_5.svg" class="" alt="e^{i\pi}    &= \cos{\pi} + i \sin{\pi}  \tag{2}\label{Pi1}\ e^{i\pi}    &= -1 + i\cdot 0            \tag{3}\label{Pi2}\ e^{i\pi}    &= -1                       \tag{4}\label{Pi3}\ e^{i\pi} +1 &= 0                        \tag{5}\label{Pi4}" />
+<p>In (2) (<code>&lbrace;&lbrace;ref &#124;ref=Pi1&rbrace;&rbrace;</code>) we insert <img src="images-files/eq_6.svg" class="inlinemath" alt="\pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>) into (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>), i.e. Euler's Formula. In (3) (<code>&lbrace;&lbrace;ref &#124;ref=Pi2&rbrace;&rbrace;</code>) and (4) (<code>&lbrace;&lbrace;ref &#124;ref=Pi3&rbrace;&rbrace;</code>) we solve the equation, and finally in (5) (<code>&lbrace;&lbrace;ref &#124;ref=Pi4&rbrace;&rbrace;</code>), we obtain what is known as <a href="https://en.wikipedia.org/wiki/Euler%27s_identity">Euler's Identity</a>, sometimes called &quot;the most beautiful equation in mathematics&quot;.</p>
+<p>Of course, cool kids use <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) instead of <img src="images-files/eq_6.svg" class="inlinemath" alt="\pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>), see the <a href="https://tauday.com/tau-manifesto">Tau Manifesto</a>. Then we instead get the <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity:</p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+e^&lbrace;i\tau&rbrace;   &= \cos&lbrace;2\pi&rbrace; + i \sin&lbrace;2\pi&rbrace; &lbrace;&lbrace;mathref &#124;ref=Tau1&rbrace;&rbrace;\\
+e^&lbrace;i\tau&rbrace;   &= 1 + i \cdot 0             &lbrace;&lbrace;mathref &#124;ref=Tau2&rbrace;&rbrace;\\
+e^&lbrace;i\tau&rbrace;   &= 1                         &lbrace;&lbrace;mathref &#124;ref=Tau3&rbrace;&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<img src="images-files/eq_8.svg" class="" alt="e^{i\tau}   &= \cos{2\pi} + i \sin{2\pi} \tag{6}\label{Tau1}\ e^{i\tau}   &= 1 + i \cdot 0             \tag{7}\label{Tau2}\ e^{i\tau}   &= 1                         \tag{8}\label{Tau3}" />
+<p>In (6) (<code>&lbrace;&lbrace;ref &#124;ref=Tau1&rbrace;&rbrace;</code>) we solve equation (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>) for <img src="images-files/eq_9.svg" class="inlinemath" alt="\tau = 2\pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau = 2\pi&rbrace;&rbrace;</code>), and in (7) (<code>&lbrace;&lbrace;ref &#124;ref=Tau2&rbrace;&rbrace;</code>) we simplify. We then obtain the <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity in (8) (<code>&lbrace;&lbrace;ref &#124;ref=Tau3&rbrace;&rbrace;</code>).</p>
+<h2>Long equations</h2>
+<p>For technical reasons, equations with references have a max-width which means that for long equations, the reference might come on a different line. For example, when typesetting <a href="https://en.wikipedia.org/wiki/Callan%E2%80%93Symanzik_equation">the Callan-Symanzik equation</a>, the reference number (9) (<code>&lbrace;&lbrace;ref &#124;ref=CSE0&rbrace;&rbrace;</code>) ends up below the equation:</p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+\left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 &lbrace;&lbrace;mathref &#124;ref=CSE0&rbrace;&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<img src="images-files/eq_10.svg" class="" alt="\left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 \tag{9}\label{CSE0}" />
+<p>This can be overcome by providing a <code>length</code> argument to <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>. Now the reference number (10) (<code>&lbrace;&lbrace;ref &#124;ref=CSE1&rbrace;&rbrace;</code>) is to the right of the equation, as expected:</p>
+<pre><code>&lbrace;&lbrace;beginmath &#124;length=15cm&rbrace;&rbrace;
+\left[Mrac{\partial }{\partial M}+eta(e)rac{\partial }{\partial e}+n\gamma_2 +m\gamma_3ight]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 &lbrace;&lbrace;mathref &#124;ref=CSE1&rbrace;&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<img src="images-files/eq_11.svg" class="" alt="\left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 \tag{10}\label{CSE1}" />
+<h2>Reusing math</h2>
+<p>Each equation that is typeset will be saved, and if an identical equation is seen, the previous SVG will be used rather than a new identical one being generated. For example, the letter <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) has been typeset a few times already in previous paragraphs. If you open the page source of this website, you will see that the file name for the SVG with the <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) symbol is the same everywhere.</p>
+<p>Thus, reusal of already typeset equations are done automatically, without any need for manual control.</p>
+<h1>Galleries</h1>
+<h2>One Thumbnail</h2>
+<p>Below is a gallery with one single thumbnail. Just include a <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code>, and the engine will do the rest. The title of the thumbnail will be the title of the gallery (here the title is &quot;Pretty candles:&quot;, which is included in the text before the gallery).</p>
+<pre><code>&lbrace;&lbrace;thumbnail &#124;title=Pretty candles: &#124;small=candles_small.png &#124;large=candles.jpg&rbrace;&rbrace; &lbrace;&lbrace;comment &#124;text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg&rbrace;&rbrace;
+</code></pre>
+<p class="screenshottxt">Pretty candles:</p>
+<ul class="gallery_large_pic">
+<li>
+  <label for="futurebox0"><img src="images-files/candles_small.png" title="Pretty candles:" /></label>
+  <input type="radio" id="futurebox0" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="images-files/candles.jpg" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+</ul>
+<input type="radio" id="close" name="gallery" />
+<h2>Many thumbnails</h2>
+<p>If you want many thumbnails in a gallery, more work is done behind the scenes. The line before the first <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> should begin with a <code>&lbrace;&lbrace;thumbnails&rbrace;&rbrace;</code>, giving an explanatory title to the images.</p>
+<pre><code>&lbrace;&lbrace;thumbnails &#124;text=Many thumbnails in a gallery below:&rbrace;&rbrace;
+&lbrace;&lbrace;thumbnail &#124;title=Thumbnail two: &#124;small=candles_small.png &#124;large=candles.jpg&rbrace;&rbrace; &lbrace;&lbrace;comment &#124;text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg&rbrace;&rbrace;
+&lbrace;&lbrace;thumbnail &#124;title=Thumbnail three: &#124;small=trees_small.png &#124;large=trees.png&rbrace;&rbrace; &lbrace;&lbrace;comment &#124;text=Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg&rbrace;&rbrace;
+</code></pre>
+<p class="screenshottxt">Many thumbnails in a gallery below:</p>
+<ul class="gallery_large_pic">
+<li>
+  <label for="futurebox1"><img src="images-files/candles_small.png" title="Thumbnail two:" /></label>
+  <input type="radio" id="futurebox1" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="images-files/candles.jpg" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+<li>
+  <label for="futurebox2"><img src="images-files/trees_small.png" title="Thumbnail three:" /></label>
+  <input type="radio" id="futurebox2" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="images-files/trees.png" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg --> 
+</ul>
+<input type="radio" id="close" name="gallery" />
+</body>
+</html>

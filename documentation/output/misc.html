@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Miscellaneous - Incunable</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+  <span class="header">
+    <img src="logo.jpg" alt="logo" />
+    <h1 class="headername">Incunable</h1>
+    <div class="vl"></div>
+
+    <ul class="headerlinks">
+        <li><a href="index.html">Index</a></li>
+        <li><a href="misc.html">Misc</a></li>
+        <li><a href="images.html">Images</a></li>
+        <li><a href="includes.html">Includes</a></li>
+        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="template_overview.html">Template Overview</a></li>
+    </ul>
+  </span>
+<h1>Miscellaneous</h1>
+<p>Commonmark features are supported, such as inlining code and commands like this: <code>grep -Irin searchstring</code>.</p>
+<p>The <a href="https://github.com/github/cmark-gfm">GitHub flavour of Commonmark</a> is used, meaning it has support for extensions like tables and <del>Strikethrough</del>.<sup class="footnote-ref"><a href="#fn-1" id="fnref-1" data-footnote-ref>1</a></sup></p>
+<p>The engine supports templating common phrases. For example, there is a template to reference GitHub projects: The code is available at my <a href="https://github.com/sjoblomj/incunable" target="_blank">GitHub account</a>.<sup class="footnote-ref"><a href="#fn-2" id="fnref-2" data-footnote-ref>2</a></sup></p>
+<p>Linebreaks can be created with <code>&lbrace;&lbrace;linebreak&rbrace;&rbrace;</code>,<br />
+Like<br />
+this.</p>
+<p>Comments are supported. The following text can be seen if you view the source of this document: <!-- This text is hidden. --></p>
+<h1>Tables</h1>
+<h2>Basic table</h2>
+<table>
+<thead>
+<tr>
+<th>First Header</th>
+<th>Second Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+<tr>
+<td>Content Cell</td>
+<td>Content Cell</td>
+</tr>
+</tbody>
+</table>
+<h2>Advanced table</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center">First Header</th>
+<th style="text-align: right">Second Header</th>
+<th style="text-align: left">Third Header</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center">centered</td>
+<td style="text-align: right">right</td>
+<td style="text-align: left">left</td>
+</tr>
+</tbody>
+</table>
+<h1>Footnotes</h1>
+<section class="footnotes" data-footnotes>
+<ol>
+<li id="fn-1">
+<p>Footnotes can also be inserted. <a href="#fnref-1" class="footnote-backref" data-footnote-backref aria-label="Back to content">↩</a></p>
+</li>
+<li id="fn-2">
+<p>Another footnote. <a href="#fnref-2" class="footnote-backref" data-footnote-backref aria-label="Back to content">↩</a></p>
+</li>
+</ol>
+</section>
+</body>
+</html>

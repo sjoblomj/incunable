@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Incunable - Incunable</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+</head>
+
+<body>
+  <span class="header">
+    <img src="logo.jpg" alt="logo" />
+    <h1 class="headername">Incunable</h1>
+    <div class="vl"></div>
+
+    <ul class="headerlinks">
+        <li><a href="index.html">Index</a></li>
+        <li><a href="misc.html">Misc</a></li>
+        <li><a href="images.html">Images</a></li>
+        <li><a href="includes.html">Includes</a></li>
+        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="template_overview.html">Template Overview</a></li>
+    </ul>
+  </span>
+<h1>Incunable</h1>
+<p>Incunable is a templating engine, which operates on <a href="https://commonmark.org">Markdown/CommonMark documents</a> and turns them into for example webpages. In the Markdown, you can use pre-defined templates, on which variable substitution will be performed.</p>
+<p>The engine is made up of a series of awk scripts, along with some Bash and Python thrown in to manage the scripts.</p>
+<p>Incunable only has support for a flat file structure. Each page should have its own directory. The page content must be in a file called index.md, and any images or resources should also be in this directory. For each directory <em>[dir]</em>, Incunable will take the page content, work through any templates, and output a file called &quot;[dir].html&quot; and a folder called &quot;[dir]-files&quot; where the images and resources are (where &quot;[dir]&quot; is the name of the directory).</p>
+<p>Incunable is well suited for creating simple static webpages, although dynamic content can be included as well; see the <a href="includes.html">Includes page</a>.</p>
+<h2>Template example</h2>
+<p>As an example, consider the template <code>&lbrace;&lbrace;imgframe |file=bees.jpg |title=Bees entering their hive |ref=beeimage&rbrace;&rbrace;</code>. Since the engine has a template called <code>imgframe</code>, it will be read and the content of the arguments will be inserted into the template. This is the content of the <code>imgframe</code> template:</p>
+<pre><code>&lt;figure class=&quot;imageframe&quot;&gt;
+&lt;img src=&quot;${file}&quot; alt=&quot;${title}&quot; /&gt;
+&lt;figcaption&gt;Figure ${num}: ${title}&lt;/figcaption&gt;
+&lt;/figure&gt;
+</code></pre>
+<p>We provided three arguments to the template: <code>file</code>, <code>title</code> and <code>ref</code>. In <code>imgframe</code> above there are three variables to substitute: <code>file</code>, <code>title</code> and <code>num</code>. The reason for the difference is that the original template that the user inputs, is transformed during the pre-processing step of the engine.</p>
+<p>Some templates have pre-processing scripts associated with them, and before performing the substitution, a pre-processing run will execute these scripts as needed. They do different things for different templates, and tend to have side-effects. The pre-processing script for <code>imgframe</code> will do a few different things:</p>
+<ul>
+<li>It will adjust the <code>file</code>-argument so that it is relative to the right path.</li>
+<li>It will increment a counter for each <code>imgframe</code> that it encounters, and write this number associated with the <code>ref</code> argument to a temporary file. This allows the <code>ref</code> template to later fetch this number and from the text refer to the figure.</li>
+<li>It will insert the <code>num</code> variable into the <code>imgframe</code> reference.</li>
+</ul>
+<p>In other words, for this template the pre-processing step will <strong>modify</strong> the <code>file</code>-argument, <strong>insert</strong> a new argument <code>num</code>, and it will <strong>write</strong> an association between the <code>ref</code> argument and the <code>num</code> to a temporary file.</p>
+<h2>Pre-processing transformations</h2>
+<p>Some templates will as output write <strong>other</strong> templates; for example <code>&lbrace;&lbrace;math |eq=\Delta&rbrace;&rbrace;</code> will be turned into <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;\Delta&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>, and this LaTeX-code will be made into an SVG and the template turned into <code>&lbrace;&lbrace;img |file=eq_0.svg |title=\Delta&rbrace;&rbrace;</code>. Thus, <code>math</code> produces <code>beginmath</code> and <code>endmath</code>, and <code>beginmath</code> produces <code>img</code>.</p>
+<p>The engine takes care of creating a tree of the order in which the pre-processing scripts will be run, so that one can take over from another.</p>
+<h2>Algorithm</h2>
+<p>For each input file, the following operations will be performed:</p>
+<ol>
+<li>The pre-processing scripts will be run, in the right order.</li>
+<li>Template substitution is performed.</li>
+<li>The document is turned into HTML with <a href="https://github.com/github/cmark-gfm">cmark-gfm</a> (i.e. the GitHub fork of cmark).</li>
+</ol>
+<h2>Template documentation</h2>
+<p>Documentation of the templates and different features can be found in the <code>./documentation/output</code> directory.</p>
+<h2>Usage</h2>
+<p>Input markdown files are turned into HTML files using the compile script in the HTML directory. The script requires three arguments; The directory with input files, the directory where to write to, and a resources directory with header, footer and any custom resources.</p>
+<h3>Example usage</h3>
+<p>The documentation of the project can be generated like this:</p>
+<pre><code>./html/compile.sh documentation/input documentation/output documentation/input_resources
+</code></pre>
+<h2>Testing</h2>
+<p>There is a small test script that can be used to verify that the code and templates behave as expected. It will output the documentation in the <code>/tmp</code> directory, and verify that it is identical to what is in the <code>./documentation/output</code> directory. Run it with <code>./run_tests.sh</code>.</p>
+<h2>Project name</h2>
+<p>Wikipedia says that &quot;an incunable is a book, pamphlet, or broadside that was printed in the earliest stages of printing in Europe, up to the year 1500&quot;. In other words, a primitive form of automated printing. The likeliness is that this engine is a rudimentary template substitution engine, less performant and less versatile than more complex alternatives, but it is rather by design primitive.</p>
+</body>
+</html>

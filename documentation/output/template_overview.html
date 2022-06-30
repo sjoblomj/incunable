@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Template Overview - Incunable</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="template_overview-files/heading-style.css" />
+  <script src="template_overview-files/iframe.js"></script>
+  <script src="template_overview-files/animation.js"></script>
+</head>
+
+<body>
+  <span class="header">
+    <img src="logo.jpg" alt="logo" />
+    <h1 class="headername">Incunable</h1>
+    <div class="vl"></div>
+
+    <ul class="headerlinks">
+        <li><a href="index.html">Index</a></li>
+        <li><a href="misc.html">Misc</a></li>
+        <li><a href="images.html">Images</a></li>
+        <li><a href="includes.html">Includes</a></li>
+        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="template_overview.html">Template Overview</a></li>
+    </ul>
+  </span>
+<h1>Template Overview</h1>
+<p>Here follows an overview of all the templates and their arguments. A template in itself can only perform substitution; no logic is supported. However, some templates have a &quot;pre-run&quot; pass, where arguments can be changed, external programs can be called, other templates can be inserted etc. This is referred to in this document as &quot;Side effects&quot;. These side effects are where the convenience of Incunable comes from.</p>
+<p>The templates are classified into the categories Decorative, Misc, Images and Includes. In the arguments table below, arguments can have the statuses Mandatory (argument must be provided), Optional (argument may be provided) or Pseudo (argument must <strong>not</strong> be manually provided; it exists for technical reasons but the engine will take care of it for you).</p>
+<h2>Decorative</h2>
+<h3><code>comment</code></h3>
+<p>Inserts a comment into the page. It will not be rendered, but it can be seen in the HTML source view.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>text</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The content of the comment.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong> None<br />
+<strong>Example:</strong> (View the page source to see) <!-- This is a comment. --></p>
+<h3><code>linebreak</code></h3>
+<p>Inserts a linebreak into the page, i.e. it forces the text to be on a new line.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong> '<br />'</p>
+<h3><code>leftcurlybracket</code></h3>
+<p>Inserts a left curly bracket into the page.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong> {</p>
+<h3><code>rightcurlybracket</code></h3>
+<p>Inserts a right curly bracket into the page.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong> }</p>
+<h3><code>pipe</code></h3>
+<p>Inserts a pipe into the page.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong> |</p>
+<h2>Misc</h2>
+<h3><code>github</code></h3>
+<p>Inserts a link to a GitHub repo.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>repo</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The GitHub repository to link to.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong> None<br />
+<strong>Example:</strong> The code is available at my <a href="https://github.com/sjoblomj/incunable" target="_blank">GitHub account</a>.</p>
+<h2>Images</h2>
+<h3><code>img</code></h3>
+<p>Inserts an image. It can be either on a line of its own, or included in inline text.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>file</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the image file.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>title</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The alt-text of the image.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>class</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The CSS-class to use.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+<li>If the <code>class</code> argument is not given, it will be inserted, with an empty value.</li>
+</ul>
+<p><strong>Example:</strong> <img src="template_overview-files/smiley.png" class="custom-class" alt="Happy" /></p>
+<h3><code>imgframe</code></h3>
+<p>Inserts an image in a frame, with an associated caption and counter.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>file</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the image file.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>title</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The caption of the image, as well as the alt-text.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>ref</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">An id referring to the numeric counter of the caption text. Use the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template to retrieve the numeric counter.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>num</code></td>
+<td style="text-align: left">Pseudo</td>
+<td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is the numeric counter of the caption text.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+<li>An image counter is incremented for each encountered <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code> template. The number of the current image is inserted as the <code>num</code> argument.</li>
+<li>If the <code>ref</code> argument is given, the image counter is written to a temporary <code>reflist</code>-file, in the form of a key-value pair. The key is the value of the <code>ref</code> argument, and the value is the image counter. This can later be referred to using the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</li>
+</ul>
+<p><strong>Example:</strong> <figure class="imageframe">
+<img src="template_overview-files/rider.jpg" alt="Horses of yore" /></p>
+<figcaption>Figure 1: Horses of yore</figcaption>
+</figure> <!-- Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater --> 
+<h3><code>thumbnail</code></h3>
+<p>Inserts a gallery with one or many images. The images can be clicked on to be enlarged.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>title</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The title of the image when hovering with the mouse.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>small</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the thumbnail file.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>large</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the large image file.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>num</code></td>
+<td style="text-align: left">Pseudo</td>
+<td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is a numeric counter, needed for technical reasons.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>This template must be surrounded by <code>&lbrace;&lbrace;thumbnails&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;thumbnails_after&rbrace;&rbrace;</code>, but if these are not present, the engine will insert them.</li>
+<li>The path given in the <code>small</code> and <code>large</code> arguments will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+<li>An image counter is incremented for each encountered <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> template. The number of the current image is inserted as the <code>num</code> argument.</li>
+</ul>
+<p><strong>Example:</strong><br /></p>
+<p class="screenshottxt">Pretty candles</p>
+<ul class="gallery_large_pic">
+<li>
+  <label for="futurebox0"><img src="template_overview-files/candles_small.png" title="Pretty candles" /></label>
+  <input type="radio" id="futurebox0" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="template_overview-files/candles.jpg" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+</ul>
+<input type="radio" id="close" name="gallery" />
+<h3><code>thumbnails</code></h3>
+<p>Denotes the start of a gallery, and must come before the first <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the starting template and insert it. When it is automatically inserted, the <code>title</code> argument of the first <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> will be used as the <code>text</code> argument for the inserted <code>&lbrace;&lbrace;thumbnails&rbrace;&rbrace;</code>.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>text</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">Text to display before the gallery starts, to give the website guest an idea about what the gallery is about.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong> None<br />
+<strong>Example:</strong></p>
+<p class="screenshottxt">Candles and trees in a gallery:</p>
+<ul class="gallery_large_pic">
+<li>
+  <label for="futurebox1"><img src="template_overview-files/candles_small.png" title="Candles" /></label>
+  <input type="radio" id="futurebox1" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="template_overview-files/candles.jpg" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+<li>
+  <label for="futurebox2"><img src="template_overview-files/trees_small.png" title="Trees" /></label>
+  <input type="radio" id="futurebox2" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="template_overview-files/trees.png" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg --> 
+</ul>
+<input type="radio" id="close" name="gallery" />
+<h3><code>thumbnails_after</code></h3>
+<p>Denotes the end of a gallery, and must come after the last <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the ending template and insert it.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong></p>
+<p class="screenshottxt">Candles and trees in a gallery:</p>
+<ul class="gallery_large_pic">
+<li>
+  <label for="futurebox3"><img src="template_overview-files/candles_small.png" title="Candles" /></label>
+  <input type="radio" id="futurebox3" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="template_overview-files/candles.jpg" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+<li>
+  <label for="futurebox4"><img src="template_overview-files/trees_small.png" title="Trees" /></label>
+  <input type="radio" id="futurebox4" name="gallery" />
+  <div class="overlay">
+    <label for="close" title="Click to close"><img src="template_overview-files/trees.png" class="large" /></label>
+  </div>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg --> 
+</ul>
+<input type="radio" id="close" name="gallery" />
+</ul>
+<input type="radio" id="close" name="gallery" />
+<h3><code>math</code></h3>
+<p>Shorthand notation for inserting a mathematical equation in the middle of a paragraph.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>eq</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The equation to typeset.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>The template itself will be replaced by <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, followed by the equation given in the <code>eq</code> argument, followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. The <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template will have the argument <code>class</code> hardcoded to <code>inlinemath</code>, and the argument <code>style</code> hardcoded to <code>textstyle</code>.</li>
+</ul>
+<p><strong>Example:</strong> If <img src="template_overview-files/eq_0.svg" class="inlinemath" alt="t" /> is the temperature, then <img src="template_overview-files/eq_1.svg" class="inlinemath" alt="\Delta t" /> could refer to a difference between two temperature systems.</p>
+<h3><code>beginmath</code></h3>
+<p>Inserts a mathematical equation. It will treat everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template as an equation, typeset it using <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>, and turn
+it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template. Any previously encountered equations will be re-used instead of being typeset once again.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>class</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The CSS-class to use on the image, will be passed to the <code>class</code> argument of the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template that this template will be replaced by.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>length</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">For technical reasons, equations have a max-width, which means that long equations using the <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> template might be typeset with the reference number on a different line. By providing a larger value in the <code>length</code> argument, this can be overcome. Default: 7.1cm</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>style</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The style which LaTeX will typeset the equations with, see <a href="https://sv.overleaf.com/learn/latex/Display_style_in_math_mode">Overleaf</a> for more information. For equations in paragraphs, this is recommended to be <code>textstyle</code> (in this case it is recommended to use the <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> template, which will set the style to <code>textstyle</code> automatically). For equations on lines by themselves, it is recommended to use <code>displaystyle</code>. The default value if this argument is omitted is <code>displaystyle</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>The equation will be typeset with <code>pdflatex</code>, cropped with <code>pdfcrop</code> and turned into an SVG with <code>dvisvgm</code>. These programs need to be installed to run Incunable with the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template.</li>
+<li>The resulting SVG will be moved to the &quot;[page]-files&quot; folder, where &quot;[page]&quot; is the name of the page where the equation is included. The temporary input and output files used by <code>pdflatex</code> are created in the /tmp storage and is removed after completion.</li>
+<li>The template itself will be replaced by the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template. If the <code>class</code> argument is set, the value will be given to the <code>class</code> argument of the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template.</li>
+</ul>
+<p><strong>Example:</strong><br />
+<img src="template_overview-files/eq_2.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}" /></p>
+<h3><code>endmath</code></h3>
+<p>Ends a mathematical equation. Everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template will be treated as an equation. See the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template for more details.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong><br />
+<img src="template_overview-files/eq_3.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}" /></p>
+<h3><code>mathref</code></h3>
+<p>Will typeset an equation number in parenthesis to the right of the equation. The equation number can be retrieved with the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>ref</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">An id referring to the equation number to the right of the equation. Use the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template to retrieve the equation number.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>For each encountered <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> template, an equation counter is incremented and written to a temporary <code>reflist</code>-file, in the form of a key-value pair. The key is the value of the <code>ref</code> argument, and the value is the image counter. This can later be referred to using the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</li>
+</ul>
+<p><strong>Example:</strong><br />
+<img src="template_overview-files/eq_4.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}" /></p>
+<h3><code>ref</code></h3>
+<p>Will insert a reference to an image or equation.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>ref</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">Id of the image or equation being referred to.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>num</code></td>
+<td style="text-align: left">Pseudo</td>
+<td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is the number being referred to by the reference.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>Will read the temporarily created <code>reflist</code> file, which holds all references as key-value pairs. It will find the corresponding value to the key given in the <code>ref</code> argument, and insert the <code>num</code> argument with this value.</li>
+</ul>
+<p><strong>Example:</strong> On the example of the <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code> template, the example image has number 1, and on the <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> template example, the equation has number 1.</p>
+<h3><code>imglink</code></h3>
+<p>Inserts an image that acts as a link to a different page/website. When the webpage guest hovers over the image, descriptive text is displayed.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>link</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the page/website that the link leads to.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>img</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The image to insert as the link.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>title</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The title when hovering over the image, as well as the alt-text of the image.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>description</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">A text description that shows when hovering over the image.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>This template must be surrounded by <code>&lbrace;&lbrace;imglinklist&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;imglinklist_after&rbrace;&rbrace;</code>, but if these are not explicitly provided, the engine will insert them automatically.</li>
+<li>UNLESS the path given in the <code>link</code> argument starts with &quot;http&quot; or already ends with &quot;html&quot;, it will have &quot;.html&quot; appended to it.</li>
+<li>UNLESS the path given in the <code>img</code> argument starts with &quot;http&quot;, it will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<ul class="photo-grid">
+<li>
+    <a href="images.html" class="iconlink">
+        <figure>
+            <img src="images-files/candles_small.png" alt="Images">
+            <figcaption><p><h7>Images</h7><br />A more thorough description of the image templates.</p></figcaption>
+        </figure>
+    </a>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+</ul>
+<h3><code>imglinklist</code></h3>
+<p>Denotes the start of one or many image links, and must come before the first <code>&lbrace;&lbrace;imglink&rbrace;&rbrace;</code> of the list. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the image links lacks the starting template and insert it.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong></p>
+<ul class="photo-grid">
+<li>
+    <a href="images.html" class="iconlink">
+        <figure>
+            <img src="images-files/candles_small.png" alt="Images">
+            <figcaption><p><h7>Images</h7><br />A more thorough description of the image templates.</p></figcaption>
+        </figure>
+    </a>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+</ul>
+<h3><code>imglinklist_after</code></h3>
+<p>Denotes the end of one or many image links, and must come after the last <code>&lbrace;&lbrace;imglink&rbrace;&rbrace;</code> of the list. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the image links lacks the starting template and insert it.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example:</strong></p>
+<ul class="photo-grid">
+<li>
+    <a href="images.html" class="iconlink">
+        <figure>
+            <img src="images-files/candles_small.png" alt="Images">
+            <figcaption><p><h7>Images</h7><br />A more thorough description of the image templates.</p></figcaption>
+        </figure>
+    </a>
+</li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
+</ul>
+</ul>
+<h2>Includes</h2>
+<h3><code>include-html</code></h3>
+<p>Incunable is written to support static content, but using this template, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead.</p>
+<p>A Javascript file, called &quot;iframe.js&quot; is automatically created and inserted (via <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>). This file does two things:</p>
+<ul>
+<li>It replaces the fallback image with the given HTML page.</li>
+<li>It adds a listener for Messages, in order to set the iframe to the right size. This Message needs to be sent from somewhere in your Javascript code, and should be of the form <code>&lbrace;&quot;id&quot;: &quot;[id]&quot;, &quot;width&quot;: width, &quot;height&quot;: height&rbrace;</code>, where &quot;[id]&quot; must be the same value as the <code>id</code> argument to <code>&lbrace;&lbrace;include-html&rbrace;&rbrace;</code>.</li>
+</ul>
+<p>A Message can be sent for instance like this:</p>
+<pre><code>window.parent.postMessage(&lbrace;&quot;id&quot;: &quot;map&quot;, &quot;width&quot;: &quot;300px&quot;, &quot;height&quot;: &quot;500px&quot;&rbrace;, &quot;*&quot;);
+</code></pre>
+<p>By sending a Message with the sizes, you can calculate the space needed to fit the content dynamically.</p>
+<p>If there already is a file called &quot;iframe.js&quot; in the folder of the page, then no default script will be generated. Thus, you can overwrite the default behaviour with your own logic. In this case, you need to include this with an <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>file</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the file to include in an iframe.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>fallback</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">A fallback image to be displayed if the website guest has Javascript disabled.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>fallback_text</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The text to display along with the fallback image.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>id</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The id of the iframe. Used by the size Message to set the correct size of the iframe.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>If there is no file called &quot;iframe.js&quot; in the folder, it will be generated and included with an <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>; see above for further description of what this file does.</li>
+<li>The path given in the <code>file</code> and <code>fallback</code> arguments will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+<li>If the <code>id</code> argument is not given, it will be inserted, and the value will be the name of the page where the image is included.</li>
+</ul>
+<p><strong>Example:</strong></p>
+<figure class="imageframe fallback">
+<img class="fallback" src="template_overview-files/delta.png" alt="Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle." />
+<figcaption class="fallback">Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.</figcaption>
+</figure>
+<iframe class="iframe" id="template_overview" src="template_overview-files/iframe.html" scrolling="no" style="display:none; border: 0;"></iframe>
+<h3><code>include-css</code></h3>
+<p>Includes a CSS file into the <code>head</code> section of the HTML document. Thus it is possible to pass in custom CSS files to individual pages.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>file</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">CSS file to include.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>Each included CSS will be inserted into the <code>head</code> section of the HTML document. This is not done during the &quot;pre run&quot; pass like with other templates; instead this is hardcoded into the html compile script.</li>
+<li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+</ul>
+<p><strong>Example:</strong> The line and spacing above the headers in this document comes from an included css, &quot;heading-style.css&quot;, on the following line, which has been inserted into the HTML <code>head</code> section:</p>
+<h3><code>include-script</code></h3>
+<p>Includes a script file into the <code>head</code> section of the HTML document. Via custom scripts, you have full control over the resulting page and can make it dynamic. However, keep in mind that not all website guests have Javascript enabled.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>file</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">Script file to include.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>Each included script will be inserted into the <code>head</code> section of the HTML document. This is not done during the &quot;pre run&quot; pass like with other templates; instead this is hardcoded into the html compile script.</li>
+<li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+</ul>
+<p><strong>Example:</strong> Animation that is included in the HTML <code>head</code> section:</p>
+</body>
+</html>

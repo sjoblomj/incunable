@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>IFrames - Incunable</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <script src="iframes-files/iframe.js"></script>
+</head>
+
+<body>
+  <span class="header">
+    <img src="logo.jpg" alt="logo" />
+    <h1 class="headername">Incunable</h1>
+    <div class="vl"></div>
+
+    <ul class="headerlinks">
+        <li><a href="index.html">Index</a></li>
+        <li><a href="misc.html">Misc</a></li>
+        <li><a href="images.html">Images</a></li>
+        <li><a href="includes.html">Includes</a></li>
+        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="template_overview.html">Template Overview</a></li>
+    </ul>
+  </span>
+<h1>IFrames</h1>
+<h2>Technical</h2>
+<p>Incunable is written to support static content, but using <code>&lbrace;&lbrace;include-html&rbrace;&rbrace;</code>, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead.</p>
+<p>A Javascript file, called &quot;iframe.js&quot; is automatically created and inserted (via <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>). This file does two things:</p>
+<ul>
+<li>It replaces the fallback image with the given HTML page.</li>
+<li>It adds a listener for Messages, in order to set the iframe to the right size. This Message needs to be sent from somewhere in your Javascript code, and should be of the form <code>&lbrace;&quot;id&quot;: &quot;[id]&quot;, &quot;width&quot;: width, &quot;height&quot;: height&rbrace;</code>, where &quot;[id]&quot; must be the same value as the <code>id</code> argument to <code>&lbrace;&lbrace;include-html&rbrace;&rbrace;</code>.</li>
+</ul>
+<p>A Message can be sent for instance like this:</p>
+<pre><code>window.parent.postMessage(&lbrace;&quot;id&quot;: &quot;map&quot;, &quot;width&quot;: &quot;300px&quot;, &quot;height&quot;: &quot;500px&quot;&rbrace;, &quot;*&quot;);
+</code></pre>
+<p>By sending a Message with the sizes, you can calculate the space needed to fit the content dynamically.</p>
+<p>If there already is a file called &quot;iframe.js&quot; in the folder of the page, then no default script will be generated. Thus, you can overwrite the default behaviour with your own logic. In this case, you need to include this with an <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>. An example of this can be seen on the <a href="includes.html">includes page</a>.</p>
+<h2>Example</h2>
+<p>Below are three boxes with colours. They are included as iframes, using <code>&lbrace;&lbrace;include-html&rbrace;&rbrace;</code>. A script to broadcast the sizes of the iframes needs to be provided, that notifies the parent of their sizes (<a href="iframes-files/size-broadcaster.js">size-broadcaster.js</a> and <a href="iframes-files/orange-size-broadcaster.js">orange-size-broadcaster.js</a>). This allows for having custom code that gives the exact size needed.</p>
+<p>If you disable Javascript, static fallback images will be used instead of the iframes.</p>
+<p>Small blue box:</p>
+<pre><code>&lbrace;&lbrace;include-html &#124;id=blue &#124;file=blue.html &#124;fallback=blue.png &#124;fallback_text=Blue image&rbrace;&rbrace;
+</code></pre>
+<figure class="imageframe fallback">
+<img class="fallback" src="iframes-files/blue.png" alt="Blue image" />
+<figcaption class="fallback">Blue image</figcaption>
+</figure>
+<iframe class="iframe" id="blue" src="iframes-files/blue.html" scrolling="no" style="display:none; border: 0;"></iframe>
+<p>Medium yellow box:</p>
+<pre><code>&lbrace;&lbrace;include-html &#124;id=yellow &#124;file=yellow.html &#124;fallback=yellow.png &#124;fallback_text=Yellow image&rbrace;&rbrace;
+</code></pre>
+<figure class="imageframe fallback">
+<img class="fallback" src="iframes-files/yellow.png" alt="Yellow image" />
+<figcaption class="fallback">Yellow image</figcaption>
+</figure>
+<iframe class="iframe" id="yellow" src="iframes-files/yellow.html" scrolling="no" style="display:none; border: 0;"></iframe>
+<p>Big orange box:</p>
+<pre><code>&lbrace;&lbrace;include-html &#124;id=orange &#124;file=orange.html &#124;fallback=orange.png &#124;fallback_text=Orange image&rbrace;&rbrace;
+</code></pre>
+<figure class="imageframe fallback">
+<img class="fallback" src="iframes-files/orange.png" alt="Orange image" />
+<figcaption class="fallback">Orange image</figcaption>
+</figure>
+<iframe class="iframe" id="orange" src="iframes-files/orange.html" scrolling="no" style="display:none; border: 0;"></iframe>
+</body>
+</html>

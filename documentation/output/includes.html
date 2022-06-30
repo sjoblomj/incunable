@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Includes - Incunable</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="includes-files/custom.css" />
+  <script src="includes-files/animation.js"></script>
+  <script src="includes-files/iframe.js"></script>
+</head>
+
+<body>
+  <span class="header">
+    <img src="logo.jpg" alt="logo" />
+    <h1 class="headername">Incunable</h1>
+    <div class="vl"></div>
+
+    <ul class="headerlinks">
+        <li><a href="index.html">Index</a></li>
+        <li><a href="misc.html">Misc</a></li>
+        <li><a href="images.html">Images</a></li>
+        <li><a href="includes.html">Includes</a></li>
+        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="template_overview.html">Template Overview</a></li>
+    </ul>
+  </span>
+<h1>Includes</h1>
+<h2>Custom CSS and Javascript</h2>
+<p>This is a page that includes custom css (hence the background) and custom Javascript (hence the animation below).</p>
+<pre><code>&lbrace;&lbrace;include-css &#124;file=custom.css&rbrace;&rbrace;
+&lbrace;&lbrace;include-script &#124;file=animation.js&rbrace;&rbrace;
+</code></pre>
+<h2>Included IFrame</h2>
+<p>Below is an iframe. By including an iframe via <code>&lbrace;&lbrace;include-html&rbrace;&rbrace;</code>, the engine will also create a file called &quot;iframe.js&quot;. Should you need to, you can overwrite it with a custom one, as is done here. Also, see the <a href="iframes.html">iframes page</a>.</p>
+<pre><code>&lbrace;&lbrace;include-script &#124;file=iframe.js&rbrace;&rbrace;
+&lbrace;&lbrace;include-html &#124;file=iframe.html &#124;fallback=delta.png &#124;fallback_text=You need to enable Javascript to see this IFrame&rbrace;&rbrace;
+</code></pre>
+<figure class="imageframe fallback">
+<img class="fallback" src="includes-files/delta.png" alt="You need to enable Javascript to see this IFrame" />
+<figcaption class="fallback">You need to enable Javascript to see this IFrame</figcaption>
+</figure>
+<iframe class="iframe" id="includes" src="includes-files/iframe.html" scrolling="no" style="display:none; border: 0;"></iframe>
+</body>
+</html>

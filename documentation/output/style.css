@@ -1,0 +1,232 @@
+body {
+    background-color: #c6b692;
+    line-height: 150%;
+}
+
+.header {
+    display: inline-flex;
+    margin-left: 1em;
+}
+.headername {
+    font-size: 300%;
+    margin-top: 2.6ex;
+    margin-left: -1.7ex;
+}
+
+.vl {
+    border-left: 1px solid black;
+    margin-left: 2em;
+}
+
+.headerlinks {
+    overflow-x: scroll;
+    white-space: nowrap;
+    height: 5em;
+}
+.headerlinks li {
+    display: inline-block;
+}
+
+h1 {
+    font-size: 271%;
+    font-weight: bold;
+    font-variant: small-caps;
+    letter-spacing: 4pt;
+    clear: both;
+}
+
+h2 {
+    font-size: 171%;
+    font-weight: bold;
+    font-variant: small-caps;
+    letter-spacing: 4pt;
+    clear: both;
+}
+
+
+/* Futurebox styles */
+.photo-grid {
+    margin-left: 2ex;
+    margin-right: 2ex;
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+}
+.photo-grid ul {
+    float: left;
+}
+.photo-grid li {
+    margin: 1ex 0 1ex 1em;
+    display: inline-block;
+    list-style: none;
+}
+
+.photo-grid img:not(.large) {
+    width: inherit;
+    height: inherit;
+}
+
+.photo-grid .large {
+    max-width: 100%;
+    width: auto;
+    height: auto;
+}
+
+.photo-grid figure {
+    width: 275px;
+    height: 170px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.photo-grid figcaption {
+    width: inherit;
+    height: inherit;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    display: table;
+    left: 0;
+    right: 0;
+    top: 0;
+    opacity: 0;
+    position: absolute;
+    -webkit-transition: all 300ms;
+    -moz-transition: all 300ms;
+    transition: all 300ms;
+    -webkit-transition-delay: 100ms;
+    -moz-transition-delay: 100ms;
+    transition-delay: 100ms;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
+    z-index: 100;
+}
+
+
+.photo-grid figcaption p {
+    display: table-cell;
+    font-size: 15px;
+    position: relative;
+    width: inherit;
+    height: inherit;
+    vertical-align: middle;
+}
+
+.photo-grid figcaption h7 {
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+.photo-grid li:hover figcaption {
+    opacity: 1;
+}
+
+
+ul.gallery_large_pic {
+    padding-left: 20px;
+    float: left;
+}
+ul.gallery_large_pic li {
+    display: inline-block;
+    list-style: none;
+    float: left;
+    margin: 1ex;
+}
+
+ul.gallery_large_pic li img,
+ul.gallery_large_pic li label {
+    display: block;
+    cursor: pointer;
+}
+
+ul.gallery_large_pic li input {
+    display: none;
+}
+
+ul.gallery_large_pic li input:checked + .overlay {
+    display: table;
+}
+
+.gallery_large_pic .overlay {
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    z-index: 999;
+    background: rgba(0,0,0,0.7);
+}
+.gallery_large_pic .overlay label {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+.gallery_large_pic .overlay img,
+.gallery_large_pic .overlay iframe {
+    display: inline;
+    border: none;
+    padding: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.gallery_large_pic .overlay label > img,
+.gallery_large_pic .overlay iframe {
+    max-height: 100vh;
+    max-width: 100vw;
+    height: auto;
+    border: 1px solid #ccc;
+
+    -webkit-box-shadow: 5px 5px 10px #000, -5px -5px 10px #000;
+    -moz-box-shadow: 5px 5px 10px #000, -5px -5px 10px #000;
+    box-shadow: 5px 5px 10px #000, -5px -5px 10px #000;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+
+#close { display: none; }
+
+
+pre code {
+    display: block;
+    white-space: pre;
+    -webkit-overflow-scrolling: touch;
+    overflow-x: scroll;
+    max-width: 100%;
+    max-height: 100%;
+
+    background: #ccbbaa;
+    word-wrap: break-word;
+    padding: .1rem .3rem .3rem;
+    border-radius: .2rem;
+    border: 1px solid;
+    border-color: #ccc;
+    font-family: monospace;
+}
+
+p  > code,
+li > code,
+dd > code,
+td > code {
+    background: #ccbbaa;
+    word-wrap: break-word;
+    padding: .1rem .3rem .3rem;
+    border-radius: .2rem;
+    border: 1px solid;
+    border-color: #ccc;
+    font-family: monospace;
+}
+
+
+table, td {
+    padding: 0.5ex;
+    border: 1px solid #ccc;
+}

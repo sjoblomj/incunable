@@ -2,10 +2,11 @@
 
 input=$1
 output=$2
+resource_folder=$3
 
 templatedir=html/templates/
-mkdir -p ${output}
-cp -r resources/* ${output}
+mkdir -p "${output}"
+cp -r "${resource_folder}"/* "${output}"
 for target in $(ls ${input}); do
 
   echo "Compiling $target"
@@ -28,8 +29,8 @@ for target in $(ls ${input}); do
   unset INCUNABLE_TEMPLATE_DIR
 
 
-  cp html/header /tmp/header
-  cp html/footer /tmp/footer
+  cp ${output}/header /tmp/header
+  cp ${output}/footer /tmp/footer
   awk -v title="${title}" -v folder="${target}-files/" -v custom_css="${custom_css}" -v custom_scripts="${custom_scripts}" -i inplace '{
     css = "";
     scripts = "";
@@ -49,3 +50,5 @@ for target in $(ls ${input}); do
   rm /tmp/header /tmp/footer /tmp/$target
   rm -f ${additionalfiles}/reflist
 done
+
+rm ${output}/header ${output}/footer

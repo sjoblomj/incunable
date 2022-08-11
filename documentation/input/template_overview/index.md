@@ -15,7 +15,8 @@ Inserts a comment into the page. It will not be rendered, but it can be seen in 
 | `text`   | Mandatory | The content of the comment. |
 
 **Side effects:** None{{linebreak}}
-**Example:** (View the page source to see) {{comment |text=This is a comment.}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}comment {{pipe}}text=This is a comment - View the page source to see{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{comment |text=This is a comment - View the page source to see.}}
 
 
 ### `linebreak`
@@ -23,7 +24,8 @@ Inserts a linebreak into the page, i.e. it forces the text to be on a new line.
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:** '{{linebreak}}'
+**Example input:** `'{{leftcurlybracket}}{{leftcurlybracket}}linebreak{{rightcurlybracket}}{{rightcurlybracket}}'`{{linebreak}}
+**Example output:** '{{linebreak}}'
 
 
 ### `leftcurlybracket`
@@ -31,7 +33,8 @@ Inserts a left curly bracket into the page.
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:** {{leftcurlybracket}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}leftcurlybracket{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{leftcurlybracket}}
 
 
 ### `rightcurlybracket`
@@ -39,7 +42,8 @@ Inserts a right curly bracket into the page.
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:** {{rightcurlybracket}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}rightcurlybracket{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{rightcurlybracket}}
 
 
 ### `pipe`
@@ -47,7 +51,8 @@ Inserts a pipe into the page.
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:** {{pipe}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}pipe{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{pipe}}
 
 
 
@@ -62,7 +67,8 @@ Inserts a link to a GitHub repo.
 | `repo`   | Mandatory | The GitHub repository to link to. |
 
 **Side effects:** None{{linebreak}}
-**Example:** {{github |repo=incunable}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}github {{pipe}}repo=incunable{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{github |repo=incunable}}
 
 
 
@@ -82,7 +88,9 @@ Inserts an image. It can be either on a line of its own, or included in inline t
 * The path given in the `file` argument will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 * If the `class` argument is not given, it will be inserted, with an empty value.
 
-**Example:** {{img |file=smiley.png |title=Happy |class=custom-class}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}img {{pipe}}file=smiley.png {{pipe}}title=Happy
+{{pipe}}class=custom-class{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{img |file=smiley.png |title=Happy |class=custom-class}}
 
 
 ### `imgframe`
@@ -101,7 +109,8 @@ Inserts an image in a frame, with an associated caption and counter.
 * An image counter is incremented for each encountered `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}` template. The number of the current image is inserted as the `num` argument.
 * If the `ref` argument is given, the image counter is written to a temporary `reflist`-file, in the form of a key-value pair. The key is the value of the `ref` argument, and the value is the image counter. This can later be referred to using the `{{leftcurlybracket}}{{leftcurlybracket}}ref{{rightcurlybracket}}{{rightcurlybracket}}` template.
 
-**Example:** {{imgframe |ref=rider |file=rider.jpg |title=Horses of yore}} {{comment |text=Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}imgframe {{pipe}}ref=rider {{pipe}}file=rider.jpg {{pipe}}title=Horses of yore{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{imgframe |ref=rider |file=rider.jpg |title=Horses of yore}} {{comment |text=Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater}}
 
 ### `thumbnail`
 Inserts a gallery with one or many images. The images can be clicked on to be enlarged.
@@ -119,7 +128,8 @@ Inserts a gallery with one or many images. The images can be clicked on to be en
 * The path given in the `small` and `large` arguments will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 * An image counter is incremented for each encountered `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail{{rightcurlybracket}}{{rightcurlybracket}}` template. The number of the current image is inserted as the `num` argument.
 
-**Example:**{{linebreak}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail {{pipe}}title=Pretty candles {{pipe}}small=candles_small.png {{pipe}}large=candles.jpg{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:**{{linebreak}}
 {{thumbnail |title=Pretty candles |small=candles_small.png |large=candles.jpg}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 
 
@@ -132,7 +142,13 @@ Denotes the start of a gallery, and must come before the first `{{leftcurlybrack
 | `text`   | Mandatory | Text to display before the gallery starts, to give the website guest an idea about what the gallery is about. |
 
 **Side effects:** None{{linebreak}}
-**Example:**
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}thumbnails {{pipe}}text=Candles and trees in a gallery:{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}thumbnail {{pipe}}title=Candles {{pipe}}small=candles_small.png {{pipe}}large=candles.jpg{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}thumbnail {{pipe}}title=Trees   {{pipe}}small=trees_small.png   {{pipe}}large=trees.png{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
 {{thumbnails |text=Candles and trees in a gallery:}}
 {{thumbnail |title=Candles |small=candles_small.png |large=candles.jpg}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 {{thumbnail |title=Trees   |small=trees_small.png   |large=trees.png}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg}}
@@ -142,7 +158,14 @@ Denotes the end of a gallery, and must come after the last `{{leftcurlybracket}}
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:**
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}thumbnails {{pipe}}text=Candles and trees in a gallery:{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}thumbnail {{pipe}}title=Candles {{pipe}}small=candles_small.png {{pipe}}large=candles.jpg{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}thumbnail {{pipe}}title=Trees   {{pipe}}small=trees_small.png   {{pipe}}large=trees.png{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}thumbnails_after{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
 {{thumbnails |text=Candles and trees in a gallery:}}
 {{thumbnail |title=Candles |small=candles_small.png |large=candles.jpg}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 {{thumbnail |title=Trees   |small=trees_small.png   |large=trees.png}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg}}
@@ -160,7 +183,8 @@ Shorthand notation for inserting a mathematical equation in the middle of a para
 **Side effects:**
 * The template itself will be replaced by `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, followed by the equation given in the `eq` argument, followed by `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. The `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` template will have the argument `class` hardcoded to `inlinemath`, and the argument `style` hardcoded to `textstyle`.
 
-**Example:** If {{math |eq=t}} is the temperature, then {{math |eq=\Delta t}} could refer to a difference between two temperature systems.
+**Example input:** `If {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=t{{rightcurlybracket}}{{rightcurlybracket}} is the temperature, then {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\Delta t{{rightcurlybracket}}{{rightcurlybracket}} could refer to a difference between two temperature systems.`{{linebreak}}
+**Example output:** If {{math |eq=t}} is the temperature, then {{math |eq=\Delta t}} could refer to a difference between two temperature systems.
 
 
 ### `beginmath`
@@ -179,7 +203,13 @@ it into an SVG-image that will be inserted using the `{{leftcurlybracket}}{{left
 * The resulting SVG will be moved to the "[page]-files" folder, where "[page]" is the name of the page where the equation is included. The temporary input and output files used by `pdflatex` are created in the /tmp storage and is removed after completion.
 * The template itself will be replaced by the `{{leftcurlybracket}}{{leftcurlybracket}}img{{rightcurlybracket}}{{rightcurlybracket}}` template. If the `class` argument is set, the value will be given to the `class` argument of the `{{leftcurlybracket}}{{leftcurlybracket}}img{{rightcurlybracket}}{{rightcurlybracket}}` template.
 
-**Example:**{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
+a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\\,
+{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**{{linebreak}}
 {{beginmath}}
 a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\,
 {{endmath}}
@@ -190,7 +220,13 @@ Ends a mathematical equation. Everything between the `{{leftcurlybracket}}{{left
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:**{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
+\\sum_{{leftcurlybracket}}i=1{{rightcurlybracket}}^n i = \\frac{{leftcurlybracket}}n(n+1){{rightcurlybracket}}{{leftcurlybracket}}2{{rightcurlybracket}}\\,
+{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**{{linebreak}}
 {{beginmath}}
 \sum_{i=1}^n i = \frac{n(n+1)}{2}\,
 {{endmath}}
@@ -207,7 +243,13 @@ Will typeset an equation number in parenthesis to the right of the equation. The
 **Side effects:**
 * For each encountered `{{leftcurlybracket}}{{leftcurlybracket}}mathref{{rightcurlybracket}}{{rightcurlybracket}}` template, an equation counter is incremented and written to a temporary `reflist`-file, in the form of a key-value pair. The key is the value of the `ref` argument, and the value is the image counter. This can later be referred to using the `{{leftcurlybracket}}{{leftcurlybracket}}ref{{rightcurlybracket}}{{rightcurlybracket}}` template.
 
-**Example:**{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
+e^{{leftcurlybracket}}i\\theta{{rightcurlybracket}} = \\cos\\theta + i\\sin \\theta  {{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**{{linebreak}}
 {{beginmath}}
 e^{i\theta} = \cos\theta + i\sin \theta  {{mathref |ref=EulersFormula}}
 {{endmath}}
@@ -225,7 +267,8 @@ Will insert a reference to an image or equation.
 **Side effects:**
 * Will read the temporarily created `reflist` file, which holds all references as key-value pairs. It will find the corresponding value to the key given in the `ref` argument, and insert the `num` argument with this value.
 
-**Example:** On the example of the `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}` template, the example image has number {{ref |ref=rider}}, and on the `{{leftcurlybracket}}{{leftcurlybracket}}mathref{{rightcurlybracket}}{{rightcurlybracket}}` template example, the equation has number {{ref |ref=EulersFormula}}.
+**Example input:** `On the example of the imgframe template, the example image has number {{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=rider{{rightcurlybracket}}{{rightcurlybracket}}, and on the mathref template example, the equation has number {{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}.`{{linebreak}}
+**Example output:** On the example of the imgframe template, the example image has number {{ref |ref=rider}}, and on the mathref template example, the equation has number {{ref |ref=EulersFormula}}.
 
 
 ### `imglink`
@@ -244,7 +287,11 @@ Inserts an image that acts as a link to a different page/website. When the webpa
 * UNLESS the path given in the `link` argument starts with "http" or already ends with "html", it will have ".html" appended to it.
 * UNLESS the path given in the `img` argument starts with "http", it will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 
-**Example:**
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
 {{imglink |link=images |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 
 
@@ -253,7 +300,12 @@ Denotes the start of one or many image links, and must come before the first `{{
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:**
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}imglinklist{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
 {{imglinklist}}
 {{imglink |link=images |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 
@@ -263,7 +315,12 @@ Denotes the end of one or many image links, and must come after the last `{{left
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
-**Example:**
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}imglinklist_after{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
 {{imglink |link=images |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 {{imglinklist_after}}
 
@@ -300,7 +357,11 @@ If there already is a file called "iframe.js" in the folder of the page, then no
 * The path given in the `file` and `fallback` arguments will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 * If the `id` argument is not given, it will be inserted, and the value will be the name of the page where the image is included.
 
-**Example:**
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}include-html {{pipe}}file=iframe.html {{pipe}}fallback=delta.png {{pipe}}fallback_text=Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
 {{include-html |file=iframe.html |fallback=delta.png |fallback_text=Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.}}
 
 
@@ -316,7 +377,12 @@ Includes a CSS file into the `head` section of the HTML document. Thus it is pos
 * Each included CSS will be inserted into the `head` section of the HTML document. This is not done during the "pre run" pass like with other templates; instead this is hardcoded into the html compile script.
 * The path given in the `file` argument will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 
-**Example:** The line and spacing above the headers in this document comes from an included css, "heading-style.css", on the following line, which has been inserted into the HTML `head` section:
+**Example input:**
+```
+The line and spacing above the headers in this document comes from an included css, "heading-style.css", on the following line, which has been inserted into the HTML `head` section:
+{{leftcurlybracket}}{{leftcurlybracket}}include-css {{pipe}}file=heading-style.css{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:** The line and spacing above the headers in this document comes from an included css, "heading-style.css", on the following line, which has been inserted into the HTML `head` section:
 {{include-css |file=heading-style.css}}
 
 
@@ -332,5 +398,10 @@ Includes a script file into the `head` section of the HTML document. Via custom 
 * Each included script will be inserted into the `head` section of the HTML document. This is not done during the "pre run" pass like with other templates; instead this is hardcoded into the html compile script.
 * The path given in the `file` argument will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 
-**Example:** Animation that is included in the HTML `head` section:
+**Example input:**
+```
+Animation that is included in the HTML `head` section:
+{{leftcurlybracket}}{{leftcurlybracket}}include-script {{pipe}}file=animation.js{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:** Animation that is included in the HTML `head` section:
 {{include-script |file=animation.js}}

@@ -48,27 +48,32 @@
 </tbody>
 </table>
 <p><strong>Side effects:</strong> None<br />
-<strong>Example:</strong> (View the page source to see) <!-- This is a comment. --></p>
+<strong>Example input:</strong> <code>&lbrace;&lbrace;comment &#124;text=This is a comment - View the page source to see&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> <!-- This is a comment - View the page source to see. --></p>
 <h3><code>linebreak</code></h3>
 <p>Inserts a linebreak into the page, i.e. it forces the text to be on a new line.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong> '<br />'</p>
+<strong>Example input:</strong> <code>'&lbrace;&lbrace;linebreak&rbrace;&rbrace;'</code><br />
+<strong>Example output:</strong> '<br />'</p>
 <h3><code>leftcurlybracket</code></h3>
 <p>Inserts a left curly bracket into the page.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong> {</p>
+<strong>Example input:</strong> <code>&lbrace;&lbrace;leftcurlybracket&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> {</p>
 <h3><code>rightcurlybracket</code></h3>
 <p>Inserts a right curly bracket into the page.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong> }</p>
+<strong>Example input:</strong> <code>&lbrace;&lbrace;rightcurlybracket&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> }</p>
 <h3><code>pipe</code></h3>
 <p>Inserts a pipe into the page.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong> |</p>
+<strong>Example input:</strong> <code>&lbrace;&lbrace;pipe&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> |</p>
 <h2>Misc</h2>
 <h3><code>github</code></h3>
 <p>Inserts a link to a GitHub repo.</p>
@@ -90,7 +95,8 @@
 </tbody>
 </table>
 <p><strong>Side effects:</strong> None<br />
-<strong>Example:</strong> The code is available at my <a href="https://github.com/sjoblomj/incunable" target="_blank">GitHub account</a>.</p>
+<strong>Example input:</strong> <code>&lbrace;&lbrace;github &#124;repo=incunable&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> The code is available at my <a href="https://github.com/sjoblomj/incunable" target="_blank">GitHub account</a>.</p>
 <h2>Images</h2>
 <h3><code>img</code></h3>
 <p>Inserts an image. It can be either on a line of its own, or included in inline text.</p>
@@ -126,7 +132,8 @@
 <li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 <li>If the <code>class</code> argument is not given, it will be inserted, with an empty value.</li>
 </ul>
-<p><strong>Example:</strong> <img src="template_overview-files/smiley.png" class="custom-class" alt="Happy" /></p>
+<p><strong>Example input:</strong> <code>&lbrace;&lbrace;img &#124;file=smiley.png &#124;title=Happy &#124;class=custom-class&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> <img src="template_overview-files/smiley.png" class="custom-class" alt="Happy" /></p>
 <h3><code>imgframe</code></h3>
 <p>Inserts an image in a frame, with an associated caption and counter.</p>
 <p><strong>Arguments:</strong></p>
@@ -167,7 +174,8 @@
 <li>An image counter is incremented for each encountered <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code> template. The number of the current image is inserted as the <code>num</code> argument.</li>
 <li>If the <code>ref</code> argument is given, the image counter is written to a temporary <code>reflist</code>-file, in the form of a key-value pair. The key is the value of the <code>ref</code> argument, and the value is the image counter. This can later be referred to using the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</li>
 </ul>
-<p><strong>Example:</strong> <figure class="imageframe">
+<p><strong>Example input:</strong> <code>&lbrace;&lbrace;imgframe &#124;ref=rider &#124;file=rider.jpg &#124;title=Horses of yore&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> <figure class="imageframe">
 <img src="template_overview-files/rider.jpg" alt="Horses of yore" /></p>
 <figcaption>Figure 1: Horses of yore</figcaption>
 </figure> <!-- Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater --> 
@@ -211,7 +219,8 @@
 <li>The path given in the <code>small</code> and <code>large</code> arguments will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 <li>An image counter is incremented for each encountered <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> template. The number of the current image is inserted as the <code>num</code> argument.</li>
 </ul>
-<p><strong>Example:</strong><br /></p>
+<p><strong>Example input:</strong> <code>&lbrace;&lbrace;thumbnail &#124;title=Pretty candles &#124;small=candles_small.png &#124;large=candles.jpg&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong><br /></p>
 <p class="screenshottxt">Pretty candles</p>
 <ul class="gallery_large_pic">
 <li>
@@ -243,7 +252,12 @@
 </tbody>
 </table>
 <p><strong>Side effects:</strong> None<br />
-<strong>Example:</strong></p>
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;thumbnails &#124;text=Candles and trees in a gallery:&rbrace;&rbrace;
+&lbrace;&lbrace;thumbnail &#124;title=Candles &#124;small=candles_small.png &#124;large=candles.jpg&rbrace;&rbrace;
+&lbrace;&lbrace;thumbnail &#124;title=Trees   &#124;small=trees_small.png   &#124;large=trees.png&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
 <p class="screenshottxt">Candles and trees in a gallery:</p>
 <ul class="gallery_large_pic">
 <li>
@@ -266,7 +280,13 @@
 <p>Denotes the end of a gallery, and must come after the last <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the ending template and insert it.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong></p>
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;thumbnails &#124;text=Candles and trees in a gallery:&rbrace;&rbrace;
+&lbrace;&lbrace;thumbnail &#124;title=Candles &#124;small=candles_small.png &#124;large=candles.jpg&rbrace;&rbrace;
+&lbrace;&lbrace;thumbnail &#124;title=Trees   &#124;small=trees_small.png   &#124;large=trees.png&rbrace;&rbrace;
+&lbrace;&lbrace;thumbnails_after&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
 <p class="screenshottxt">Candles and trees in a gallery:</p>
 <ul class="gallery_large_pic">
 <li>
@@ -310,7 +330,8 @@
 <ul>
 <li>The template itself will be replaced by <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, followed by the equation given in the <code>eq</code> argument, followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. The <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template will have the argument <code>class</code> hardcoded to <code>inlinemath</code>, and the argument <code>style</code> hardcoded to <code>textstyle</code>.</li>
 </ul>
-<p><strong>Example:</strong> If <img src="template_overview-files/eq_0.svg" class="inlinemath" alt="t" /> is the temperature, then <img src="template_overview-files/eq_1.svg" class="inlinemath" alt="\Delta t" /> could refer to a difference between two temperature systems.</p>
+<p><strong>Example input:</strong> <code>If &lbrace;&lbrace;math &#124;eq=t&rbrace;&rbrace; is the temperature, then &lbrace;&lbrace;math &#124;eq=\Delta t&rbrace;&rbrace; could refer to a difference between two temperature systems.</code><br />
+<strong>Example output:</strong> If <img src="template_overview-files/eq_0.svg" class="inlinemath" alt="t" /> is the temperature, then <img src="template_overview-files/eq_1.svg" class="inlinemath" alt="\Delta t" /> could refer to a difference between two temperature systems.</p>
 <h3><code>beginmath</code></h3>
 <p>Inserts a mathematical equation. It will treat everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template as an equation, typeset it using <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>, and turn
 it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template. Any previously encountered equations will be re-used instead of being typeset once again.</p>
@@ -347,13 +368,23 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <li>The resulting SVG will be moved to the &quot;[page]-files&quot; folder, where &quot;[page]&quot; is the name of the page where the equation is included. The temporary input and output files used by <code>pdflatex</code> are created in the /tmp storage and is removed after completion.</li>
 <li>The template itself will be replaced by the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template. If the <code>class</code> argument is set, the value will be given to the <code>class</code> argument of the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template.</li>
 </ul>
-<p><strong>Example:</strong><br />
+<p><strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong><br />
 <img src="template_overview-files/eq_2.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\," /></p>
 <h3><code>endmath</code></h3>
 <p>Ends a mathematical equation. Everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template will be treated as an equation. See the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template for more details.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong><br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+\sum_&lbrace;i=1&rbrace;^n i = \frac&lbrace;n(n+1)&rbrace;&lbrace;2&rbrace;\,
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong><br />
 <img src="template_overview-files/eq_3.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}\," /></p>
 <h3><code>mathref</code></h3>
 <p>Will typeset an equation number in parenthesis to the right of the equation. The equation number can be retrieved with the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</p>
@@ -378,7 +409,12 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <ul>
 <li>For each encountered <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> template, an equation counter is incremented and written to a temporary <code>reflist</code>-file, in the form of a key-value pair. The key is the value of the <code>ref</code> argument, and the value is the image counter. This can later be referred to using the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</li>
 </ul>
-<p><strong>Example:</strong><br />
+<p><strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
+e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &#124;ref=EulersFormula&rbrace;&rbrace;
+&lbrace;&lbrace;endmath&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong><br />
 <img src="template_overview-files/eq_4.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}\," /></p>
 <h3><code>ref</code></h3>
 <p>Will insert a reference to an image or equation.</p>
@@ -408,7 +444,8 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <ul>
 <li>Will read the temporarily created <code>reflist</code> file, which holds all references as key-value pairs. It will find the corresponding value to the key given in the <code>ref</code> argument, and insert the <code>num</code> argument with this value.</li>
 </ul>
-<p><strong>Example:</strong> On the example of the <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code> template, the example image has number 1, and on the <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> template example, the equation has number 1.</p>
+<p><strong>Example input:</strong> <code>On the example of the imgframe template, the example image has number &lbrace;&lbrace;ref &#124;ref=rider&rbrace;&rbrace;, and on the mathref template example, the equation has number &lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;.</code><br />
+<strong>Example output:</strong> On the example of the imgframe template, the example image has number 1, and on the mathref template example, the equation has number 1.</p>
 <h3><code>imglink</code></h3>
 <p>Inserts an image that acts as a link to a different page/website. When the webpage guest hovers over the image, descriptive text is displayed.</p>
 <p><strong>Arguments:</strong></p>
@@ -449,7 +486,10 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <li>UNLESS the path given in the <code>link</code> argument starts with &quot;http&quot; or already ends with &quot;html&quot;, it will have &quot;.html&quot; appended to it.</li>
 <li>UNLESS the path given in the <code>img</code> argument starts with &quot;http&quot;, it will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 </ul>
-<p><strong>Example:</strong></p>
+<p><strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;imglink &#124;link=images &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
 <ul class="photo-grid">
 <li>
     <a href="images.html" class="iconlink">
@@ -464,7 +504,11 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <p>Denotes the start of one or many image links, and must come before the first <code>&lbrace;&lbrace;imglink&rbrace;&rbrace;</code> of the list. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the image links lacks the starting template and insert it.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong></p>
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;imglinklist&rbrace;&rbrace;
+&lbrace;&lbrace;imglink &#124;link=images &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
 <ul class="photo-grid">
 <li>
     <a href="images.html" class="iconlink">
@@ -479,7 +523,11 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <p>Denotes the end of one or many image links, and must come after the last <code>&lbrace;&lbrace;imglink&rbrace;&rbrace;</code> of the list. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the image links lacks the starting template and insert it.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
-<strong>Example:</strong></p>
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;imglink &#124;link=images &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
+&lbrace;&lbrace;imglinklist_after&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
 <ul class="photo-grid">
 <li>
     <a href="images.html" class="iconlink">
@@ -542,7 +590,10 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <li>The path given in the <code>file</code> and <code>fallback</code> arguments will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 <li>If the <code>id</code> argument is not given, it will be inserted, and the value will be the name of the page where the image is included.</li>
 </ul>
-<p><strong>Example:</strong></p>
+<p><strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;include-html &#124;file=iframe.html &#124;fallback=delta.png &#124;fallback_text=Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
 <figure class="imageframe fallback">
 <img class="fallback" src="template_overview-files/delta.png" alt="Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle." />
 <figcaption class="fallback">Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.</figcaption>
@@ -572,7 +623,11 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <li>Each included CSS will be inserted into the <code>head</code> section of the HTML document. This is not done during the &quot;pre run&quot; pass like with other templates; instead this is hardcoded into the html compile script.</li>
 <li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 </ul>
-<p><strong>Example:</strong> The line and spacing above the headers in this document comes from an included css, &quot;heading-style.css&quot;, on the following line, which has been inserted into the HTML <code>head</code> section:</p>
+<p><strong>Example input:</strong></p>
+<pre><code>The line and spacing above the headers in this document comes from an included css, &quot;heading-style.css&quot;, on the following line, which has been inserted into the HTML `head` section:
+&lbrace;&lbrace;include-css &#124;file=heading-style.css&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong> The line and spacing above the headers in this document comes from an included css, &quot;heading-style.css&quot;, on the following line, which has been inserted into the HTML <code>head</code> section:</p>
 <h3><code>include-script</code></h3>
 <p>Includes a script file into the <code>head</code> section of the HTML document. Via custom scripts, you have full control over the resulting page and can make it dynamic. However, keep in mind that not all website guests have Javascript enabled.</p>
 <p><strong>Arguments:</strong></p>
@@ -597,6 +652,10 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <li>Each included script will be inserted into the <code>head</code> section of the HTML document. This is not done during the &quot;pre run&quot; pass like with other templates; instead this is hardcoded into the html compile script.</li>
 <li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 </ul>
-<p><strong>Example:</strong> Animation that is included in the HTML <code>head</code> section:</p>
+<p><strong>Example input:</strong></p>
+<pre><code>Animation that is included in the HTML `head` section:
+&lbrace;&lbrace;include-script &#124;file=animation.js&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong> Animation that is included in the HTML <code>head</code> section:</p>
 </body>
 </html>

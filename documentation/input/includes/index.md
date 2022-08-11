@@ -1,7 +1,7 @@
 # Includes
 
 ## Custom CSS and Javascript
-This is a page that includes custom css (hence the background) and custom Javascript (hence the animation below).
+This is a page that includes custom css (hence the background colour) and custom Javascript (hence the animation at the bottom of the page).
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}include-css {{pipe}}file=custom.css{{rightcurlybracket}}{{rightcurlybracket}}

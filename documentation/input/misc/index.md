@@ -14,6 +14,15 @@ this.
 Comments are supported. The following text can be seen if you view the source of this document: {{comment |text=This text is hidden.}}
 
 
+# Templates within templates
+There is support for adding templates within templates, like this, where a line break is inserted in the description:
+```
+{{leftcurlybracket}}{{leftcurlybracket}}imgframe {{pipe}}ref=rider {{pipe}}file=rider.jpg {{pipe}}title=Horses of yore.{{leftcurlybracket}}{{leftcurlybracket}}linebreak{{rightcurlybracket}}{{rightcurlybracket}}From the book Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer.{{rightcurlybracket}}{{rightcurlybracket}}
+```
+
+{{imgframe |ref=rider |file=rider.jpg |title=Horses of yore.{{linebreak}}From the book Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer.}}
+
+
 # Tables
 ## Basic table
 | First Header  | Second Header |

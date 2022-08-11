@@ -43,28 +43,28 @@
 <p>They can also be included inline, <code>&lbrace;&lbrace;img &#124;file=smiley.png &#124;title=:)&rbrace;&rbrace;</code> results in this: <img src="images-files/smiley.png" class="" alt=":)" /></p>
 <h1>Math</h1>
 <p>Math can be typeset with <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>. The equations will be turned into SVG images and included into the paragraph. There are two commands with which math can be included, <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> for (shorter) inline math snippets, and <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> for multiline equations.</p>
-<p>Inline equations can be included using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code>, like this one: <code>&lbrace;&lbrace;math &#124;eq=a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;&rbrace;&rbrace;</code>, which is typeset into: <img src="images-files/eq_0.svg" class="inlinemath" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}" />. Using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.</p>
-<p>Longer, or multi-line or more complex equations can be included by placing the tex markup between <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. This will automatically make the math be typeset in a more spacious way; compare how the following is typeset compared to the inlined equation of the previous paragraph. The characters of the two equations are identical, but they are typeset differently.</p>
+<p>Inline equations can be included using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code>, like this one: <code>&lbrace;&lbrace;math &#124;eq=a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,&rbrace;&rbrace;</code>, which is typeset into: <img src="images-files/eq_0.svg" class="inlinemath" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\," />. Note that for technical reasons, an equation cannot end with }, hence <code>\,</code> is inserted at the end of the equation, which adds a tiny space. Using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.</p>
+<p>Longer, or multi-line or more complex equations can be included by placing the tex markup between <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. This will automatically make the math be typeset in a more spacious way; see how the following is typeset compared to the inlined equation of the previous paragraph. The characters of the two equations are identical, but they are typeset differently.</p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
-a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;
+a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
-<img src="images-files/eq_1.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}" />
+<img src="images-files/eq_1.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\," />
 <p>Under the hood, <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will be turned into <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. The equations will be used as the alt-text of the resulting image.</p>
 <h2>Style</h2>
 <p>As mentioned, using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will typeset equations compacted (using <code>\textstyle</code> of LaTeX). Using <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, equations will by default be typeset with <code>\displaystyle</code>. This can be overridden by providing the <code>style</code> argument to <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, like this:</p>
 <pre><code>&lbrace;&lbrace;beginmath &#124;style=textstyle&rbrace;&rbrace;
-\sum_&lbrace;i=1&rbrace;^n i = \frac&lbrace;n(n+1)&rbrace;&lbrace;2&rbrace;
+\sum_&lbrace;i=1&rbrace;^n i = \frac&lbrace;n(n+1)&rbrace;&lbrace;2&rbrace;\,
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
-<img src="images-files/eq_2.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}" />
+<img src="images-files/eq_2.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}\," />
 <h2>Equations with references</h2>
 <p>Equations can be referenced by including a <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> in the tex markup, like this:</p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
 e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &#124;ref=EulersFormula&rbrace;&rbrace;
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
-<img src="images-files/eq_3.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}" />
+<img src="images-files/eq_3.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}\," />
 <p>Equation (1) above is known as Euler's Formula, and the number is referenced by <code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>. We can evaluate Euler's Formula for <img src="images-files/eq_4.svg" class="inlinemath" alt="\theta = \pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\theta = \pi&rbrace;&rbrace;</code>):</p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
 e^&lbrace;i\pi&rbrace;    &= \cos&lbrace;\pi&rbrace; + i \sin&lbrace;\pi&rbrace;  &lbrace;&lbrace;mathref &#124;ref=Pi1&rbrace;&rbrace;\\
@@ -73,7 +73,7 @@ e^&lbrace;i\pi&rbrace;    &= -1                       &lbrace;&lbrace;mathref &#
 e^&lbrace;i\pi&rbrace; +1 &= 0                        &lbrace;&lbrace;mathref &#124;ref=Pi4&rbrace;&rbrace;
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
-<img src="images-files/eq_5.svg" class="" alt="e^{i\pi}    &= \cos{\pi} + i \sin{\pi}  \tag{2}\label{Pi1}\ e^{i\pi}    &= -1 + i\cdot 0            \tag{3}\label{Pi2}\ e^{i\pi}    &= -1                       \tag{4}\label{Pi3}\ e^{i\pi} +1 &= 0                        \tag{5}\label{Pi4}" />
+<img src="images-files/eq_5.svg" class="" alt="e^{i\pi}    &= \cos{\pi} + i \sin{\pi}  \tag{2}\label{Pi1}\,\ e^{i\pi}    &= -1 + i\cdot 0            \tag{3}\label{Pi2}\,\ e^{i\pi}    &= -1                       \tag{4}\label{Pi3}\,\ e^{i\pi} +1 &= 0                        \tag{5}\label{Pi4}\," />
 <p>In (2) (<code>&lbrace;&lbrace;ref &#124;ref=Pi1&rbrace;&rbrace;</code>) we insert <img src="images-files/eq_6.svg" class="inlinemath" alt="\pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>) into (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>), i.e. Euler's Formula. In (3) (<code>&lbrace;&lbrace;ref &#124;ref=Pi2&rbrace;&rbrace;</code>) and (4) (<code>&lbrace;&lbrace;ref &#124;ref=Pi3&rbrace;&rbrace;</code>) we solve the equation, and finally in (5) (<code>&lbrace;&lbrace;ref &#124;ref=Pi4&rbrace;&rbrace;</code>), we obtain what is known as <a href="https://en.wikipedia.org/wiki/Euler%27s_identity">Euler's Identity</a>, sometimes called &quot;the most beautiful equation in mathematics&quot;.</p>
 <p>Of course, cool kids use <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) instead of <img src="images-files/eq_6.svg" class="inlinemath" alt="\pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>), see the <a href="https://tauday.com/tau-manifesto">Tau Manifesto</a>. Then we instead get the <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity:</p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
@@ -82,7 +82,7 @@ e^&lbrace;i\tau&rbrace;   &= 1 + i \cdot 0             &lbrace;&lbrace;mathref &
 e^&lbrace;i\tau&rbrace;   &= 1                         &lbrace;&lbrace;mathref &#124;ref=Tau3&rbrace;&rbrace;
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
-<img src="images-files/eq_8.svg" class="" alt="e^{i\tau}   &= \cos{2\pi} + i \sin{2\pi} \tag{6}\label{Tau1}\ e^{i\tau}   &= 1 + i \cdot 0             \tag{7}\label{Tau2}\ e^{i\tau}   &= 1                         \tag{8}\label{Tau3}" />
+<img src="images-files/eq_8.svg" class="" alt="e^{i\tau}   &= \cos{2\pi} + i \sin{2\pi} \tag{6}\label{Tau1}\,\ e^{i\tau}   &= 1 + i \cdot 0             \tag{7}\label{Tau2}\,\ e^{i\tau}   &= 1                         \tag{8}\label{Tau3}\," />
 <p>In (6) (<code>&lbrace;&lbrace;ref &#124;ref=Tau1&rbrace;&rbrace;</code>) we solve equation (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>) for <img src="images-files/eq_9.svg" class="inlinemath" alt="\tau = 2\pi" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau = 2\pi&rbrace;&rbrace;</code>), and in (7) (<code>&lbrace;&lbrace;ref &#124;ref=Tau2&rbrace;&rbrace;</code>) we simplify. We then obtain the <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity in (8) (<code>&lbrace;&lbrace;ref &#124;ref=Tau3&rbrace;&rbrace;</code>).</p>
 <h2>Long equations</h2>
 <p>For technical reasons, equations with references have a max-width which means that for long equations, the reference might come on a different line. For example, when typesetting <a href="https://en.wikipedia.org/wiki/Callan%E2%80%93Symanzik_equation">the Callan-Symanzik equation</a>, the reference number (9) (<code>&lbrace;&lbrace;ref &#124;ref=CSE0&rbrace;&rbrace;</code>) ends up below the equation:</p>
@@ -90,13 +90,13 @@ e^&lbrace;i\tau&rbrace;   &= 1                         &lbrace;&lbrace;mathref &
 \left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 &lbrace;&lbrace;mathref &#124;ref=CSE0&rbrace;&rbrace;
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
-<img src="images-files/eq_10.svg" class="" alt="\left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 \tag{9}\label{CSE0}" />
+<img src="images-files/eq_10.svg" class="" alt="\left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 \tag{9}\label{CSE0}\," />
 <p>This can be overcome by providing a <code>length</code> argument to <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>. Now the reference number (10) (<code>&lbrace;&lbrace;ref &#124;ref=CSE1&rbrace;&rbrace;</code>) is to the right of the equation, as expected:</p>
 <pre><code>&lbrace;&lbrace;beginmath &#124;length=15cm&rbrace;&rbrace;
 \left[Mrac{\partial }{\partial M}+eta(e)rac{\partial }{\partial e}+n\gamma_2 +m\gamma_3ight]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 &lbrace;&lbrace;mathref &#124;ref=CSE1&rbrace;&rbrace;
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
-<img src="images-files/eq_11.svg" class="" alt="\left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 \tag{10}\label{CSE1}" />
+<img src="images-files/eq_11.svg" class="" alt="\left[M\frac{\partial }{\partial M}+\beta(e)\frac{\partial }{\partial e}+n\gamma_2 +m\gamma_3\right]G^{(n,m)}(x_1,x_2,\ldots,x_n;y_1,y_2,\ldots,y_m;M,e)=0 \tag{10}\label{CSE1}\," />
 <h2>Reusing math</h2>
 <p>Each equation that is typeset will be saved, and if an identical equation is seen, the previous SVG will be used rather than a new identical one being generated. For example, the letter <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) has been typeset a few times already in previous paragraphs. If you open the page source of this website, you will see that the file name for the SVG with the <img src="images-files/eq_7.svg" class="inlinemath" alt="\tau" /> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) symbol is the same everywhere.</p>
 <p>Thus, reusal of already typeset equations are done automatically, without any need for manual control.</p>

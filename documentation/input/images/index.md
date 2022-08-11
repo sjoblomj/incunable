@@ -18,18 +18,18 @@ They can also be included inline, `{{leftcurlybracket}}{{leftcurlybracket}}img {
 # Math
 Math can be typeset with [LaTeX](https://en.wikipedia.org/wiki/LaTeX). The equations will be turned into SVG images and included into the paragraph. There are two commands with which math can be included, `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` for (shorter) inline math snippets, and `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` followed by `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}` for multiline equations.
 
-Inline equations can be included using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}`, like this one: `{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}{{rightcurlybracket}}{{rightcurlybracket}}`, which is typeset into: {{math |eq=a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}}}. Using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.
+Inline equations can be included using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}`, like this one: `{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\,{{rightcurlybracket}}{{rightcurlybracket}}`, which is typeset into: {{math |eq=a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\,}}. Note that for technical reasons, an equation cannot end with {{rightcurlybracket}}, hence `\,` is inserted at the end of the equation, which adds a tiny space. Using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.
 
-Longer, or multi-line or more complex equations can be included by placing the tex markup between `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. This will automatically make the math be typeset in a more spacious way; compare how the following is typeset compared to the inlined equation of the previous paragraph. The characters of the two equations are identical, but they are typeset differently.
+Longer, or multi-line or more complex equations can be included by placing the tex markup between `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. This will automatically make the math be typeset in a more spacious way; see how the following is typeset compared to the inlined equation of the previous paragraph. The characters of the two equations are identical, but they are typeset differently.
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}
+a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\,
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 
 {{beginmath}}
-a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}
+a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\,
 {{endmath}}
 
 Under the hood, `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` will be turned into `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. The equations will be used as the alt-text of the resulting image.
@@ -40,12 +40,12 @@ As mentioned, using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybra
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath {{pipe}}style=textstyle{{rightcurlybracket}}{{rightcurlybracket}}
-\\sum_{{leftcurlybracket}}i=1{{rightcurlybracket}}^n i = \\frac{{leftcurlybracket}}n(n+1){{rightcurlybracket}}{{leftcurlybracket}}2{{rightcurlybracket}}
+\\sum_{{leftcurlybracket}}i=1{{rightcurlybracket}}^n i = \\frac{{leftcurlybracket}}n(n+1){{rightcurlybracket}}{{leftcurlybracket}}2{{rightcurlybracket}}\,
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 
 {{beginmath |style=textstyle}}
-\sum_{i=1}^n i = \frac{n(n+1)}{2}
+\sum_{i=1}^n i = \frac{n(n+1)}{2}\,
 {{endmath}}
 
 

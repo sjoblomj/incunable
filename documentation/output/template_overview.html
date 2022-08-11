@@ -348,13 +348,13 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <li>The template itself will be replaced by the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template. If the <code>class</code> argument is set, the value will be given to the <code>class</code> argument of the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template.</li>
 </ul>
 <p><strong>Example:</strong><br />
-<img src="template_overview-files/eq_2.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}" /></p>
+<img src="template_overview-files/eq_2.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\," /></p>
 <h3><code>endmath</code></h3>
 <p>Ends a mathematical equation. Everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template will be treated as an equation. See the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template for more details.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
 <strong>Example:</strong><br />
-<img src="template_overview-files/eq_3.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}" /></p>
+<img src="template_overview-files/eq_3.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}\," /></p>
 <h3><code>mathref</code></h3>
 <p>Will typeset an equation number in parenthesis to the right of the equation. The equation number can be retrieved with the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</p>
 <p><strong>Arguments:</strong></p>
@@ -379,7 +379,7 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 <li>For each encountered <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> template, an equation counter is incremented and written to a temporary <code>reflist</code>-file, in the form of a key-value pair. The key is the value of the <code>ref</code> argument, and the value is the image counter. This can later be referred to using the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</li>
 </ul>
 <p><strong>Example:</strong><br />
-<img src="template_overview-files/eq_4.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}" /></p>
+<img src="template_overview-files/eq_4.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}\," /></p>
 <h3><code>ref</code></h3>
 <p>Will insert a reference to an image or equation.</p>
 <p><strong>Arguments:</strong></p>

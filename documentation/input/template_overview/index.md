@@ -181,7 +181,7 @@ it into an SVG-image that will be inserted using the `{{leftcurlybracket}}{{left
 
 **Example:**{{linebreak}}
 {{beginmath}}
-a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}
+a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\,
 {{endmath}}
 
 
@@ -192,7 +192,7 @@ Ends a mathematical equation. Everything between the `{{leftcurlybracket}}{{left
 **Side effects:** None{{linebreak}}
 **Example:**{{linebreak}}
 {{beginmath}}
-\sum_{i=1}^n i = \frac{n(n+1)}{2}
+\sum_{i=1}^n i = \frac{n(n+1)}{2}\,
 {{endmath}}
 
 

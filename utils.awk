@@ -25,38 +25,66 @@ function get_parameter(text, param_name,  param, next_param_pos, template_end_po
 }
 
 
-# Returns the position of the rightmost occurrence of
-# closing brackets before a new template is opened.
-# If no template is opened, it returns the position of
-# the rightmost occurrence of closing brackets on the line.
-function find_template_closing_pos(line,  next_start_pos) {
-    # If the line starts with opening brackets, loop past them
-    while (1) {
-        next_start_pos = index(line, OPENING_BRACKETS);
-        if (next_start_pos == 1) {
-            line = substr(line, 2);
-        } else if (next_start_pos == 0) {
-            next_start_pos = length(line);
-            break;
-        } else {
-            break;
-        }
-    }
-    line = substr(line, 0, next_start_pos + 1);
+# Returns the position of the next closing brackets, that have not been opened as the given text in [line] was being
+# consumed. Consider this example:
+# apa |bepa={{cepa}} |depa={{epa}}}}
+#
+# For the above example, the number 33 will be returned, as that is the position of the next closing brackets that were
+# not opened as the text was being consumed. Since '{{cepa}}' both openes and closes a pair of brackets, it will be
+# ignored, and the same with '{{epa}}'. Stright after '{{epa}}', there is a pair of closing brackets, and its
+# position (33) is returned.
+#
+# If no closing brackets are found, 0 will be returned.
+function find_template_closing_pos(line,  result, max_depth) {
+    max_depth = 256; # The depth is an arbitrary limit, preventing infinite call stacks
+    result = recursively_find_template_closing_pos(line, 0, 0, max_depth);
 
-    return find_rightmost_occurrence(line, CLOSING_BRACKETS);
+    if (result == -1) {
+        print_error("Unable to find closing template on line: " line);
+        return 0;
+    } else if (result == -2) {
+        print_error("Performed more than " max_depth " recursive calls - giving up. Line: " line);
+        return 0;
+    } else {
+        return result;
+    }
 }
 
+# Function to recursively find the position of the next closing brackets.
+# Returns the position if found.
+# Returns -1 if no position is found.
+# Returns -2 if the call stack limit has been exceeded (to prevent stack overflow).
+function recursively_find_template_closing_pos(text, consumed_chars, opened_brackets, depth_left,  \
+                                               open_pos, end_pos, consumed, bracket_diff) {
+    open_pos = index(text, OPENING_BRACKETS);
+    end_pos  = index(text, CLOSING_BRACKETS);
 
-# Finds the rightmost occurrence of [str_to_find] in [line].
-# Returns 0 if no result is found.
-function find_rightmost_occurrence(line, str_to_find,  len, i) {
-    len = length(str_to_find);
-    for (i = length(line) - len + 1; i > 0; i--) {
-       if (substr(line, i, len) == str_to_find)
-           return i;
+    if (end_pos <= 0)
+        return -1;
+    if (depth_left <= 0) {
+        return -2;
+
+    } else if (open_pos > 0 && open_pos < end_pos) {
+        # New bracket opened
+        consumed = open_pos + length(OPENING_BRACKETS);
+        bracket_diff = 1;
+
+    } else if (opened_brackets > 0) {
+        # Bracket closed, but it is nested
+        consumed = end_pos  + length(CLOSING_BRACKETS);
+        bracket_diff = -1;
+
+    } else {
+        # End bracket found
+        return consumed_chars + end_pos;
     }
-    return 0;
+
+    return recursively_find_template_closing_pos(\
+        substr(text, consumed),                  \
+        consumed_chars + consumed,               \
+        opened_brackets + bracket_diff,          \
+        depth_left - 1                           \
+    );
 }
 
 # Trims away any whitespace (i.e. space, tab, newlines, carrige-returns) from the left and right of given [string]
@@ -84,4 +112,3 @@ function read_file(file,  line, lines) {
     close(file);
     return lines;
 }
-

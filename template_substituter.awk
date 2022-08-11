@@ -18,16 +18,10 @@ BEGIN {
             next;
         }
 
-        template_text = get_template_text(line);
-        template_substitute = substitute_template_content(template_text);
-        t = OPENING_BRACKETS template_text CLOSING_BRACKETS;
-#if (index(line, "img") > 0)
-#        print_error("Substituting '" t "' with '" template_substitute "'");
-
-        line = substr(line, 0, index(line, t) - 1) template_substitute substr(line, index(line, t) + length(t));
+        line = substitute_templates(line);
         if ($0 == line) {
             if (line ~ OPENING_BRACKETS && line ~ CLOSING_BRACKETS)
-                print_error("Found no template which to substitute for '" t "'")
+                print_error("Unable to perform substitution on line '" line "'")
             break;
         }
         $0 = line;
@@ -36,16 +30,25 @@ BEGIN {
 }
 
 
-function get_template_text(line,  start_pos, next_start_pos) {
+function substitute_templates(line,  start_pos, next_start_pos, end_pos, template_text, template_substitute, t, substituted_rest_of_line) {
+    if (line !~ OPENING_BRACKETS || line !~ CLOSING_BRACKETS)
+        return line;
+
     start_pos = index(line, OPENING_BRACKETS) +  length(OPENING_BRACKETS);
     next_start_pos = index(substr(line, start_pos + 1), OPENING_BRACKETS);
-    if (next_start_pos > 0)
-        next_start_pos += start_pos + 1;
-    else
-        next_start_pos = length(line);
-    line = substr(line, start_pos, next_start_pos - start_pos + 1);
+    end_pos = index(substr(line, start_pos + 1), CLOSING_BRACKETS);
 
-    return substr(line, 0, find_rightmost_occurrence(line, CLOSING_BRACKETS) - 1);
+    if (next_start_pos > 0 && next_start_pos < end_pos) {
+        substituted_rest_of_line = substitute_templates(substr(line, next_start_pos + length(OPENING_BRACKETS) + 1));
+        return substitute_templates(substr(line, 0, next_start_pos + length(OPENING_BRACKETS)) substituted_rest_of_line);
+    }
+
+    template_text = substr(line, start_pos, end_pos);
+    template_substitute = substitute_template_content(template_text);
+    t = OPENING_BRACKETS template_text CLOSING_BRACKETS;
+#    print_error("Substituting '" t "' with '" template_substitute "'");
+
+    return substr(line, 0, index(line, t) - 1) template_substitute substr(line, index(line, t) + length(t));
 }
 
 
@@ -79,4 +82,3 @@ function substitute_template_content(line,  a, template, template_content, l, ke
 function read_template_file(file) {
     return read_file(ENVIRON["INCUNABLE_TEMPLATE_DIR"] file);
 }
-

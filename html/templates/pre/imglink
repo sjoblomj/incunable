@@ -1,6 +1,5 @@
 #!/bin/bash
-# @produces imglinklist, imglinklist_after, linebreak
-# (It doesn't actually produce linebreak, but we want imglink to run before it, in case the user included it)
+# @produces imglinklist, imglinklist_after
 
 
 awk -i "utils.awk" -v "targetfile=$2" '

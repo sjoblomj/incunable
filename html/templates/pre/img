@@ -12,15 +12,15 @@ awk -i inplace -i "utils.awk" -v targetfile="${2}" '
                 break;
             }
 
-            img_template = substr(line_unread, open_pos);
+            img_template = substr(line_unread, open_pos + length(OPENING_BRACKETS));
             closing_pos  = find_template_closing_pos(img_template);
-            img_template = substr(img_template, 0, closing_pos + length(CLOSING_BRACKETS) + 1);
+            img_template = substr(img_template, 0, closing_pos - 1);
             sub("\\|file *= *", "|file=" targetfile "-files/", img_template);
             if (!match(img_template, "\\|class ?= ?")) {
                 sub("\\|file=", "|class= |file=", img_template);
             }
 
-            line_read   = line_read substr(line_unread, 0, open_pos - 1) img_template;
+            line_read   = line_read substr(line_unread, 0, open_pos - 1) OPENING_BRACKETS img_template CLOSING_BRACKETS;
             line_unread = substr(line_unread, open_pos + closing_pos + length(CLOSING_BRACKETS) + 1);
         }
         print line_read;

@@ -45,9 +45,9 @@ BEGIN {
             equation_content = equation_content eq; 
 
             # Remove the {{endmath}} from $0
-            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos)) + end_open_pos + 1;
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1;
             img = create_svg_file_and_reference();
-            $0 = img substr($0, end_finish_pos + 1);
+            $0 = img substr($0, end_finish_pos);
 
             is_reading_equation = 0;
             equation_length  = "";
@@ -60,7 +60,7 @@ BEGIN {
             # the current line contains both a start and an end of a one-line equation.
 
             begin_finish_pos = index(substr($0, begin_open_pos), CLOSING_BRACKETS) + begin_open_pos;
-            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos)) + end_open_pos + 1;
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1;
 
             # Get parameters if any
             template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
@@ -71,13 +71,13 @@ BEGIN {
             equation_content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1);
             img = create_svg_file_and_reference();
 
-            $0 = substr($0, 0, begin_open_pos - 1) img substr($0, end_finish_pos + 1);
+            $0 = substr($0, 0, begin_open_pos - 1) img substr($0, end_finish_pos);
 
         } else if (begin_open_pos > 0) {
             # We are not currently reading an equation, however,
             # the current line contains a start of a multi-line equation.
 
-            begin_finish_pos = find_template_closing_pos(substr($0, begin_open_pos)) + begin_open_pos + 1;
+            begin_finish_pos = find_template_closing_pos(substr($0, begin_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + begin_open_pos + 1;
 
             # Get parameters if any
             template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
@@ -90,7 +90,7 @@ BEGIN {
                 print line;
 
             # Read equation on this line
-            equation_content = substr($0, begin_finish_pos + 2) "\n";
+            equation_content = substr($0, begin_finish_pos) "\n";
 
             is_reading_equation = 1;
             break;

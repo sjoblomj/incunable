@@ -9,7 +9,7 @@ BEGIN {
 {
     if ($0 ~ "{{mathref ") {
         ref = write_ref($0);
-        sub("{{mathref .*}}", "\\tag{" MATH_REF_NO "}\\label{" ref "}", $0);
+        sub("{{mathref .*}}", "\\tag{" MATH_REF_NO "}\\label{" ref "}\\,", $0);
     }
     print $0;
 }

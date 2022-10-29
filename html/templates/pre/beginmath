@@ -151,8 +151,10 @@ function latex_to_svg(folder,  output_file) {
 
     run_system_command("pdflatex -output-directory=" folder " " folder "/equation.tex 1>/dev/null");
     run_system_command("pdfcrop " folder "/equation.pdf " folder "/equation.pdf 1>/dev/null");
-    ghostscript_workaround = "export GS_OPTIONS=-dNEWPDF=false; " # Workaround for dvisvgm version < 2.13.4, see https://dvisvgm.de/FAQ/
-    run_system_command(ghostscript_workaround "dvisvgm --verbosity=2 --zoom=2 -P " folder "/equation.pdf -o " folder "/equation.svg 1>/dev/null");
+    env_variables = "export LIBGS=/usr/lib/libgs.so; "; # Explicitly set Ghostscript location
+    ghostscript_workaround = "export GS_OPTIONS=-dNEWPDF=false; "; # Workaround for dvisvgm version < 2.13.4, see https://dvisvgm.de/FAQ/
+    env_variables = env_variables ghostscript_workaround;
+    run_system_command(env_variables "dvisvgm --verbosity=2 --zoom=2 -P " folder "/equation.pdf -o " folder "/equation.svg 1>/dev/null");
     run_system_command("mv " folder "/equation.svg " additionalfiles "/" output_file);
     run_system_command("rm -rf " folder);
 

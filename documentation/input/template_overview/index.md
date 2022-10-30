@@ -275,24 +275,24 @@ Will insert a reference to an image or equation.
 Inserts an image that acts as a link to a different page/website. When the webpage guest hovers over the image, descriptive text is displayed.
 
 **Arguments:**
-| Argument      | Status    | Description                                                                   |
-| :------------ | :-------- | :---------------------------------------------------------------------------- |
-| `link`        | Mandatory | The name of the page/website that the link leads to.                          |
-| `img`         | Mandatory | The image to insert as the link.                                              |
-| `title`       | Mandatory | The title when hovering over the image, as well as the alt-text of the image. |
-| `description` | Mandatory | A text description that shows when hovering over the image.                   |
+| Argument      | Status    | Description                                                                     |
+| :------------ | :-------- | :------------------------------------------------------------------------------ |
+| `link`        | Mandatory | The name of the page/website that the link leads to.                            |
+| `img`         | Mandatory | The image to insert as the link.                                                |
+| `title`       | Mandatory | The title when hovering over the image, as well as the alt-text of the image.   |
+| `description` | Mandatory | A text description that shows when hovering over the image.                     |
+| `dir`         | Optional  | If given, the directory will be preprended to the argument in `link` and `img`. |
 
 **Side effects:**
 * This template must be surrounded by `{{leftcurlybracket}}{{leftcurlybracket}}imglinklist{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}imglinklist_after{{rightcurlybracket}}{{rightcurlybracket}}`, but if these are not explicitly provided, the engine will insert them automatically.
-* UNLESS the path given in the `link` argument starts with "http" or already ends with "html", it will have ".html" appended to it.
-* UNLESS the path given in the `img` argument starts with "http", it will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
-
+* UNLESS the path given in the `link` argument starts with "http" or already ends with "html", it will have ".html" appended to it. If the `dir` argument is provided, that value will be prepended.
+* UNLESS the path given in the `img` argument starts with "http", it will be modified to be in the sub-directory "[page]-files", where "[page]" is the name of the page where the image is included. If the `dir` argument is provided, that value will be prepended to the sub-directory.
 **Example input:**
 ```
-{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}dir=examples {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 **Example output:**
-{{imglink |link=images |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
+{{imglink |link=images |dir=examples |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 
 
 ### `imglinklist`
@@ -303,11 +303,11 @@ Denotes the start of one or many image links, and must come before the first `{{
 **Example input:**
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}imglinklist{{rightcurlybracket}}{{rightcurlybracket}}
-{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}dir=examples {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 **Example output:**
 {{imglinklist}}
-{{imglink |link=images |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
+{{imglink |link=images |dir=examples |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 
 
 ### `imglinklist_after`
@@ -317,11 +317,11 @@ Denotes the end of one or many image links, and must come after the last `{{left
 **Side effects:** None{{linebreak}}
 **Example input:**
 ```
-{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}imglink {{pipe}}link=images {{pipe}}dir=examples {{pipe}}img=candles_small.png {{pipe}}title=Images {{pipe}}description=A more thorough description of the image templates.{{rightcurlybracket}}{{rightcurlybracket}}
 {{leftcurlybracket}}{{leftcurlybracket}}imglinklist_after{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 **Example output:**
-{{imglink |link=images |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
+{{imglink |link=images |dir=examples |img=candles_small.png |title=Images |description=A more thorough description of the image templates.}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg}}
 {{imglinklist_after}}
 
 

@@ -3,21 +3,21 @@
 <head>
   <title>${title} - Incunable</title>
   <meta charset="UTF-8">
-  <link rel="stylesheet" type="text/css" href="style.css" />
+  <link rel="stylesheet" type="text/css" href="${nesting}style.css" />
 </head>
 
 <body>
   <span class="header">
-    <img src="logo.jpg" alt="logo" />
+    <img src="${nesting}logo.jpg" alt="logo" />
     <h1 class="headername">Incunable</h1>
     <div class="vl"></div>
 
     <ul class="headerlinks">
-        <li><a href="index.html">Index</a></li>
-        <li><a href="misc.html">Misc</a></li>
-        <li><a href="images.html">Images</a></li>
-        <li><a href="includes.html">Includes</a></li>
-        <li><a href="iframes.html">IFrames</a></li>
-        <li><a href="template_overview.html">Template Overview</a></li>
+        <li><a href="${nesting}index.html">Index</a></li>
+        <li><a href="${nesting}examples/misc.html">Misc</a></li>
+        <li><a href="${nesting}examples/images.html">Images</a></li>
+        <li><a href="${nesting}examples/includes.html">Includes</a></li>
+        <li><a href="${nesting}examples/iframes.html">IFrames</a></li>
+        <li><a href="${nesting}template_overview.html">Template Overview</a></li>
     </ul>
   </span>

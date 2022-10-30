@@ -17,10 +17,10 @@
 
     <ul class="headerlinks">
         <li><a href="index.html">Index</a></li>
-        <li><a href="misc.html">Misc</a></li>
-        <li><a href="images.html">Images</a></li>
-        <li><a href="includes.html">Includes</a></li>
-        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="examples/misc.html">Misc</a></li>
+        <li><a href="examples/images.html">Images</a></li>
+        <li><a href="examples/includes.html">Includes</a></li>
+        <li><a href="examples/iframes.html">IFrames</a></li>
         <li><a href="template_overview.html">Template Overview</a></li>
     </ul>
   </span>
@@ -478,23 +478,28 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
 <td style="text-align: left">Mandatory</td>
 <td style="text-align: left">A text description that shows when hovering over the image.</td>
 </tr>
+<tr>
+<td style="text-align: left"><code>dir</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">If given, the directory will be preprended to the argument in <code>link</code> and <code>img</code>.</td>
+</tr>
 </tbody>
 </table>
 <p><strong>Side effects:</strong></p>
 <ul>
 <li>This template must be surrounded by <code>&lbrace;&lbrace;imglinklist&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;imglinklist_after&rbrace;&rbrace;</code>, but if these are not explicitly provided, the engine will insert them automatically.</li>
-<li>UNLESS the path given in the <code>link</code> argument starts with &quot;http&quot; or already ends with &quot;html&quot;, it will have &quot;.html&quot; appended to it.</li>
-<li>UNLESS the path given in the <code>img</code> argument starts with &quot;http&quot;, it will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+<li>UNLESS the path given in the <code>link</code> argument starts with &quot;http&quot; or already ends with &quot;html&quot;, it will have &quot;.html&quot; appended to it. If the <code>dir</code> argument is provided, that value will be prepended.</li>
+<li>UNLESS the path given in the <code>img</code> argument starts with &quot;http&quot;, it will be modified to be in the sub-directory &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included. If the <code>dir</code> argument is provided, that value will be prepended to the sub-directory.
+<strong>Example input:</strong></li>
 </ul>
-<p><strong>Example input:</strong></p>
-<pre><code>&lbrace;&lbrace;imglink &#124;link=images &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
+<pre><code>&lbrace;&lbrace;imglink &#124;link=images &#124;dir=examples &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
 </code></pre>
 <p><strong>Example output:</strong></p>
 <ul class="photo-grid">
 <li>
-    <a href="images.html" class="iconlink">
+    <a href="examples/images.html" class="iconlink">
         <figure>
-            <img src="images-files/candles_small.png" alt="Images">
+            <img src="examples/images-files/candles_small.png" alt="Images">
             <figcaption><h3>Images</h3><p>A more thorough description of the image templates.</p></figcaption>
         </figure>
     </a>
@@ -506,14 +511,14 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
 <strong>Side effects:</strong> None<br />
 <strong>Example input:</strong></p>
 <pre><code>&lbrace;&lbrace;imglinklist&rbrace;&rbrace;
-&lbrace;&lbrace;imglink &#124;link=images &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
+&lbrace;&lbrace;imglink &#124;link=images &#124;dir=examples &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
 </code></pre>
 <p><strong>Example output:</strong></p>
 <ul class="photo-grid">
 <li>
-    <a href="images.html" class="iconlink">
+    <a href="examples/images.html" class="iconlink">
         <figure>
-            <img src="images-files/candles_small.png" alt="Images">
+            <img src="examples/images-files/candles_small.png" alt="Images">
             <figcaption><h3>Images</h3><p>A more thorough description of the image templates.</p></figcaption>
         </figure>
     </a>
@@ -524,15 +529,15 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
 <strong>Example input:</strong></p>
-<pre><code>&lbrace;&lbrace;imglink &#124;link=images &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
+<pre><code>&lbrace;&lbrace;imglink &#124;link=images &#124;dir=examples &#124;img=candles_small.png &#124;title=Images &#124;description=A more thorough description of the image templates.&rbrace;&rbrace;
 &lbrace;&lbrace;imglinklist_after&rbrace;&rbrace;
 </code></pre>
 <p><strong>Example output:</strong></p>
 <ul class="photo-grid">
 <li>
-    <a href="images.html" class="iconlink">
+    <a href="examples/images.html" class="iconlink">
         <figure>
-            <img src="images-files/candles_small.png" alt="Images">
+            <img src="examples/images-files/candles_small.png" alt="Images">
             <figcaption><h3>Images</h3><p>A more thorough description of the image templates.</p></figcaption>
         </figure>
     </a>

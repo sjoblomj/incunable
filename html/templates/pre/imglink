@@ -38,13 +38,23 @@ END {
     }
 }
 
-function adjust_imglink(line) {
+function adjust_imglink(line,  link, img, dir, linkdir) {
     link = get_parameter(line, "link");
     img  = get_parameter(line, "img");
-    if (link !~ /^http/ && link !~ /html$/)
-        sub("\\|link *= *" link, "|link=" link   ".html", line);
+    dir  = get_parameter(line, "dir");
+    linkdir = link;
+    if (dir != "")
+        linkdir = dir "/" link;
+
+    if (link !~ /^http/) {
+        if (link !~ /html$/) {
+            sub("\\|link *= *" link, "|link=" linkdir ".html", line);
+        } else {
+            sub("\\|link *= *" link, "|link=" linkdir,         line);
+        }
+    }
     if (img !~ /^http/)
-        sub( "\\|img *= *",       "|img=" link "-files/", line);
+        sub("\\|img *= *", "|img=" linkdir "-files/", line);
     return line;
 }
 ' $1 > ${1}_2

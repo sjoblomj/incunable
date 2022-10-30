@@ -14,18 +14,18 @@
 
     <ul class="headerlinks">
         <li><a href="index.html">Index</a></li>
-        <li><a href="misc.html">Misc</a></li>
-        <li><a href="images.html">Images</a></li>
-        <li><a href="includes.html">Includes</a></li>
-        <li><a href="iframes.html">IFrames</a></li>
+        <li><a href="examples/misc.html">Misc</a></li>
+        <li><a href="examples/images.html">Images</a></li>
+        <li><a href="examples/includes.html">Includes</a></li>
+        <li><a href="examples/iframes.html">IFrames</a></li>
         <li><a href="template_overview.html">Template Overview</a></li>
     </ul>
   </span>
 <h1>Incunable</h1>
 <p>Incunable is a templating engine, which operates on <a href="https://commonmark.org">Markdown/CommonMark documents</a> and turns them into for example webpages. In the Markdown, you can use pre-defined templates, on which variable substitution will be performed.</p>
 <p>The engine is made up of a series of awk scripts, along with some Bash and Python thrown in to manage the scripts.</p>
-<p>Incunable only has support for a flat file structure. Each page should have its own directory. The page content must be in a file called index.md, and any images or resources should also be in this directory. For each directory <em>[dir]</em>, Incunable will take the page content, work through any templates, and output a file called &quot;[dir].html&quot; and a folder called &quot;[dir]-files&quot; where the images and resources are (where &quot;[dir]&quot; is the name of the directory).</p>
-<p>Incunable is well suited for creating simple static webpages, although dynamic content can be included as well; see the <a href="includes.html">Includes page</a>.</p>
+<p>Each page to process should have its own directory. The page content must be in a file called index.md, and any images or resources should also be in this directory. For each directory <em>[dir]</em>, Incunable will take the page content, work through any templates, and output a file called &quot;[dir].html&quot; and a folder called &quot;[dir]-files&quot; where the images and resources are (where &quot;[dir]&quot; is the name of the directory). Any directory structure of the input will be preserved in the output.</p>
+<p>Incunable is well suited for creating simple static webpages, although dynamic content can be included as well; see the <a href="examples/includes.html">Includes page</a>.</p>
 <h2>Template example</h2>
 <p>As an example, consider the template <code>&lbrace;&lbrace;imgframe |file=bees.jpg |title=Bees entering their hive |ref=beeimage&rbrace;&rbrace;</code>. Since the engine has a template called <code>imgframe</code>, it will be read and the content of the arguments will be inserted into the template. This is the content of the <code>imgframe</code> template:</p>
 <pre><code>&lt;figure class=&quot;imageframe&quot;&gt;

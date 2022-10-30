@@ -4,9 +4,9 @@ Incunable is a templating engine, which operates on [Markdown/CommonMark documen
 
 The engine is made up of a series of awk scripts, along with some Bash and Python thrown in to manage the scripts.
 
-Incunable only has support for a flat file structure. Each page should have its own directory. The page content must be in a file called index.md, and any images or resources should also be in this directory. For each directory *[dir]*, Incunable will take the page content, work through any templates, and output a file called "[dir].html" and a folder called "[dir]-files" where the images and resources are (where "[dir]" is the name of the directory).
+Each page to process should have its own directory. The page content must be in a file called index.md, and any images or resources should also be in this directory. For each directory *[dir]*, Incunable will take the page content, work through any templates, and output a file called "[dir].html" and a folder called "[dir]-files" where the images and resources are (where "[dir]" is the name of the directory). Any directory structure of the input will be preserved in the output.
 
-Incunable is well suited for creating simple static webpages, although dynamic content can be included as well; see the [Includes page](includes.html).
+Incunable is well suited for creating simple static webpages, although dynamic content can be included as well; see the [Includes page](examples/includes.html).
 
 
 ## Template example

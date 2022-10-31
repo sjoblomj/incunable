@@ -3,13 +3,19 @@
 input=$1
 output=$2
 resource_folder=$3
+custom_templates=$4
+
+templatedir="$(mktemp -d)/"
+cp -r html/templates/* ${templatedir}
+if [ ! -z ${custom_templates} ]; then
+  cp -r ${custom_templates}/* ${templatedir}
+fi
 
 targets=$(find "${input}" -type f -name "index.md" | sed -r "s|^${input}/||" | sed -r "s|/index.md$||")
 
 # Replicate input directory structure in output directory:
 echo "${targets}" | grep -Po '(.*)/' | sort | uniq | xargs -i mkdir -p "${output}"/{}
 
-templatedir=html/templates/
 cp -r "${resource_folder}"/* "${output}"
 for target in ${targets}; do
 
@@ -62,4 +68,4 @@ for target in ${targets}; do
   rm -f ${additionalfiles}/reflist
 done
 
-rm ${output}/header ${output}/footer
+rm -rf ${output}/header ${output}/footer ${templatedir}

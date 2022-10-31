@@ -56,22 +56,6 @@ Inserts a pipe into the page.
 
 
 
-## Misc
-
-### `github`
-Inserts a link to a GitHub repo.
-
-**Arguments:**
-| Argument | Status    | Description                       |
-| :------- | :-------- | :-------------------------------- |
-| `repo`   | Mandatory | The GitHub repository to link to. |
-
-**Side effects:** None{{linebreak}}
-**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}github {{pipe}}repo=incunable{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
-**Example output:** {{github |repo=incunable}}
-
-
-
 ## Images
 
 ### `img`

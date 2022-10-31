@@ -5,8 +5,6 @@ Commonmark features are supported, such as inlining code and commands like this:
 The [GitHub flavour of Commonmark](https://github.com/github/cmark-gfm) is used, meaning it has support for extensions like tables and ~~Strikethrough~~.[^1]
 
 
-The engine supports templating common phrases. For example, there is a template to reference GitHub projects: {{github |repo=incunable}}[^2]
-
 Linebreaks can be created with `{{leftcurlybracket}}{{leftcurlybracket}}linebreak{{rightcurlybracket}}{{rightcurlybracket}}`,{{linebreak}}
 Like{{linebreak}}
 this.
@@ -37,4 +35,3 @@ There is support for adding templates within templates, like this, where a line 
 
 # Footnotes
 [^1]: Footnotes can also be inserted.
-[^2]: Another footnote.

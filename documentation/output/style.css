@@ -44,6 +44,15 @@ h2 {
 }
 
 
+.articleheader {
+    margin: 2ex;
+    font-style: italic;
+}
+.articlecategories {
+    font-family: monospace;
+    font-size: x-large;
+}
+
 /* Futurebox styles */
 .photo-grid {
     margin-left: 2ex;

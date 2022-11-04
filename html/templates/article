@@ -1,0 +1,3 @@
+<div class="articleheader">By: ${author}, ${date}. ${time} minute read.</div>
+<div class="articlecategories">Categories: ${categories}</div>
+

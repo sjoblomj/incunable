@@ -74,6 +74,48 @@
 <strong>Side effects:</strong> None<br />
 <strong>Example input:</strong> <code>&lbrace;&lbrace;pipe&rbrace;&rbrace;</code><br />
 <strong>Example output:</strong> |</p>
+<h2>Misc</h2>
+<h3><code>article</code></h3>
+<p>Marks a page as an article, This will insert a div with the author's name, the date of the article and an automatically calculated reading time approximation. A div with a list of categories will also be inserted.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>date</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The date to put in the heading.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>author</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the author to put in the heading.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>categories</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">A list of categories.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>time</code></td>
+<td style="text-align: left">Pseudo</td>
+<td style="text-align: left">Don't provide this argument manually; the engine will do it for you! Generated approximation of how long it will take to read the page.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>The number of words of the article is calculated, and based on an average reading speed of 230 words per minute, the amount of time to read the article is calculated (if over 5 minutes, it will be rounded to the nearest multiple of 5) and inserted in the <code>time</code> argument.</li>
+</ul>
+<p><strong>Example input:</strong> <code>&lbrace;&lbrace;article &#124;date=2022-11-04 &#124;author=Johan Sjöblom &#124;categories=technology, templates, incunable&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> <div class="articleheader">By: Johan Sjöblom, 2022-11-04. 15 minute read.</div></p>
+<div class="articlecategories">Categories: technology, templates, incunable</div>
 <h2>Images</h2>
 <h3><code>img</code></h3>
 <p>Inserts an image. It can be either on a line of its own, or included in inline text.</p>

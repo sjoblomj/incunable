@@ -56,6 +56,27 @@ Inserts a pipe into the page.
 
 
 
+## Misc
+
+### `article`
+Marks a page as an article, This will insert a div with the author's name, the date of the article and an automatically calculated reading time approximation. A div with a list of categories will also be inserted.
+
+**Arguments:**
+| Argument     | Status    | Description                                   |
+| :----------- | :-------- | :-------------------------------------------- |
+| `date`       | Mandatory | The date to put in the heading.               |
+| `author`     | Mandatory | The name of the author to put in the heading. |
+| `categories` | Mandatory | A list of categories.                         |
+| `time`       | Pseudo    | Don't provide this argument manually; the engine will do it for you! Generated approximation of how long it will take to read the page. |
+
+**Side effects:**
+* The number of words of the article is calculated, and based on an average reading speed of 230 words per minute, the amount of time to read the article is calculated (if over 5 minutes, it will be rounded to the nearest multiple of 5) and inserted in the `time` argument.
+
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}article {{pipe}}date=2022-11-04 {{pipe}}author=Johan Sjöblom {{pipe}}categories=technology, templates, incunable{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{article |date=2022-11-04 |author=Johan Sjöblom |categories=technology, templates, incunable}}
+
+
+
 ## Images
 
 ### `img`

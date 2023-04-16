@@ -112,3 +112,17 @@ function read_file(file,  line, lines) {
     close(file);
     return lines;
 }
+
+# Runs the given system command and returns its output
+function run_system_command_with_output(command,  output) {
+    command | getline output;
+    close(command);
+    return output;
+}
+
+# Runs the given system command
+function run_system_command(command) {
+    system(command);
+    close(command);
+}
+

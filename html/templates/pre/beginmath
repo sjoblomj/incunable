@@ -170,16 +170,4 @@ function update_equation_name_dictionary(filename) {
     hash = run_system_command_with_output("echo \"" equation_style "_" equation_length "_" equation_content "\" | md5sum");
     EQ_HASHES[hash] = filename;
 }
-
-
-function run_system_command_with_output(command,  output) {
-    command | getline output;
-    close(command);
-    return output;
-}
-
-function run_system_command(command) {
-    system(command);
-    close(command);
-}
 ' $1

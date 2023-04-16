@@ -24,10 +24,4 @@ function calculate_article_length(len) {
         return len * 5;
     }
 }
-
-function run_system_command_with_output(command,  output) {
-    command | getline output;
-    close(command);
-    return output;
-}
 ' $1

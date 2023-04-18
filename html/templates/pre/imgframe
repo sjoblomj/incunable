@@ -6,16 +6,35 @@ BEGIN {
 }
 {
     if ($0 ~ "{{imgframe ") {
-        write_ref($0);
-        sub("{{imgframe ", "{{imgframe |num=" REF_NO " ", $0);
-        sub("\\|file *= *", "|file=" targetfile "-files/", $0);
+        line_read   = "";
+        line_unread = $0;
+        while (1) {
+            open_pos = match(line_unread, "{{imgframe ");
+            if (open_pos == 0) {
+                line_read = line_read line_unread;
+                break;
+            }
+
+            template = substr(line_unread, open_pos + length(OPENING_BRACKETS));
+            closing_pos = find_template_closing_pos(template);
+            template = OPENING_BRACKETS substr(template, 0, closing_pos - 1) CLOSING_BRACKETS;
+
+            ref = get_parameter(template, "ref");
+            write_ref(ref);
+
+            file  = get_parameter(template, "file");
+            title = get_parameter(template, "title");
+            template = "imgframe |num=" REF_NO " |file=" targetfile "-files/" file " |title=" title;
+
+            line_read   = line_read substr(line_unread, 0, open_pos - 1) OPENING_BRACKETS template CLOSING_BRACKETS;
+            line_unread = substr(line_unread, open_pos + closing_pos + length(CLOSING_BRACKETS) + 1);
+        }
+        $0 = line_read;
     }
     print $0;
 }
 
-function write_ref(text,  ref) {
-    ref = get_parameter(text, "ref");
-
+function write_ref(ref) {
     REF_NO += 1;
     print ref "=" REF_NO >> additionalfiles "/reflist";
 }

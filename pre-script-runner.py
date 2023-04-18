@@ -9,6 +9,7 @@ from os.path import isfile, join
 # 2. Path to file being processed
 # 3. Name of file being processed
 # 4. Path to directory with extra files belonging to the file being processed
+# 5. Root path to all files being processed
 
 produce_string = "# *@produces"
 path = join(sys.argv[1], "pre")
@@ -85,7 +86,7 @@ def run_scripts(scripts):
     for f in scripts:
         filepath = join(path, f)
         if isfile(filepath):
-            s = [filepath, sys.argv[2], sys.argv[3], sys.argv[4]]
+            s = [filepath, sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]]
             subprocess.call(s)
 
 scripts = find_all_scripts()

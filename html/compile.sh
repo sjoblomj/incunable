@@ -34,7 +34,7 @@ for target in ${targets}; do
   cp -r ${input}/$target/* $additionalfiles
   mv $additionalfiles/index.md $tmp_name
 
-  python pre-script-runner.py ${templatedir} $tmp_name $basename $additionalfiles
+  python pre-script-runner.py ${templatedir} $tmp_name $basename $additionalfiles $input
   title=$(grep -oP '^# *\K.*' $tmp_name | head -n 1)
   custom_scripts=$(awk '{if ($0 ~ "{{include-script") { sub("}}", "", $2); file = substr($2, index($2, "=") + 1); print file;}}' $tmp_name)
   custom_css=$(    awk '{if ($0 ~ "{{include-css")    { sub("}}", "", $2); file = substr($2, index($2, "=") + 1); print file;}}' $tmp_name)

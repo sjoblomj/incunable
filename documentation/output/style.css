@@ -53,6 +53,13 @@ h2 {
     font-size: x-large;
 }
 
+.imageframe {
+    border: 1px dotted black;
+    border-radius: 1em;
+    padding: 1em;
+    width: min-content;
+}
+
 /* Futurebox styles */
 .photo-grid {
     margin-left: 2ex;

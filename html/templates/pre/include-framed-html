@@ -1,0 +1,70 @@
+#!/bin/bash
+# @produces imgframe, include-script
+
+awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
+{
+    if ($0 ~ "{{include-framed-html") {
+        line_read   = "";
+        line_unread = $0;
+        while (1) {
+            open_pos = match(line_unread, "{{include-framed-html ");
+            if (open_pos == 0) {
+                line_read = line_read line_unread;
+                break;
+            }
+
+            template = substr(line_unread, open_pos + length(OPENING_BRACKETS));
+            closing_pos = find_template_closing_pos(template);
+            template = OPENING_BRACKETS substr(template, 0, closing_pos - 1) CLOSING_BRACKETS;
+
+            id = get_parameter(template, "id");
+            if (id == "")
+                id = targetfile;
+            file     = get_parameter(template, "file");
+            fallback = get_parameter(template, "fallback");
+            title    = get_parameter(template, "title");
+
+            template = "imgframe |ref=" id " |file=" fallback " |title=" title " |elem=" file;
+
+            line_read   = line_read substr(line_unread, 0, open_pos - 1) OPENING_BRACKETS template CLOSING_BRACKETS;
+            line_unread = substr(line_unread, open_pos + closing_pos + length(CLOSING_BRACKETS) + 1);
+        }
+        $0 = line_read;
+
+        if (system("test -f " additionalfiles "/iframe.js") != 0) {
+            print iframe_script() > additionalfiles "/iframe.js"
+            $0 = "{{include-script |file=iframe.js}}\n" $0;
+        }
+    }
+    print $0;
+}
+
+function iframe_script() {
+  script = "";
+  script = script "// If the user runs Javascript, then hide the fallback\n";
+  script = script "// and show the iframe instead\n";
+  script = script "document.addEventListener(\"DOMContentLoaded\", function(event) {\n";
+  script = script "  const fallbackElements = document.getElementsByClassName(\"fallback\");\n";
+  script = script "  const iframes = document.getElementsByClassName(\"iframe\");\n";
+  script = script "  for (var i = 0; i < fallbackElements.length; i++) {\n";
+  script = script "    fallbackElements[i].style.display = \"none\";\n";
+  script = script "  }\n";
+  script = script "  for (var i = 0; i < iframes.length; i++) {\n";
+  script = script "    iframes[i].style.display = \"block\";\n";
+  script = script "  }\n";
+  script = script "});\n";
+  script = script "\n";
+  script = script "\n";
+  script = script "function resizeIframeToFitContent(iframe, size) {\n";
+  script = script "  iframe.width  = size.width;\n";
+  script = script "  iframe.height = size.height;\n";
+  script = script "}\n";
+  script = script "\n";
+  script = script "window.addEventListener(\"message\", (event) => {\n";
+  script = script "  const iframes = document.querySelectorAll(\"iframe\")\n";
+  script = script "  for (var i = 0; i < iframes.length; i++)\n";
+  script = script "    if (event.data.id === iframes[i].id)\n";
+  script = script "      resizeIframeToFitContent(iframes[i], event.data);\n";
+  script = script "})\n";
+  return script;
+}' $1

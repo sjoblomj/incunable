@@ -99,23 +99,26 @@ Inserts an image. It can be either on a line of its own, or included in inline t
 
 
 ### `imgframe`
-Inserts an image in a frame, with an associated caption and counter.
+Inserts an image in a frame, with an associated caption and counter. One can also insert an iframe in addition, in which case the image works as a fallback if the user has disabled Javascript.
 
 **Arguments:**
-| Argument | Status    | Description                                          |
-| :------- | :-------- | :--------------------------------------------------- |
-| `file`   | Mandatory | The name of the image file.                          |
-| `title`  | Mandatory | The caption of the image, as well as the alt-text.   |
+| Argument | Status    | Description |
+| :------- | :-------- | :---------- |
+| `file`   | Mandatory | The name of the image file. If `elem`  argument is given, this will be the fallback image if the user has disabled Javascript. |
+| `title`  | Mandatory | The caption of the image, as well as the alt-text. |
 | `ref`    | Optional  | An id referring to the numeric counter of the caption text. Use the `{{leftcurlybracket}}{{leftcurlybracket}}ref{{rightcurlybracket}}{{rightcurlybracket}}` template to retrieve the numeric counter. |
+| `elem`   | Optional  | The path to an iframe that can be included. If given, this will set the class of the image in the `file` argument to be "fallback", so the iframe takes precedence over the image in the `file` argument. |
 | `num`    | Pseudo    | Don't provide this argument manually; the engine will do it for you! It is the numeric counter of the caption text. |
 
 **Side effects:**
-* The path given in the `file` argument will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
+* The path given in the `file` and `frame` arguments will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 * An image counter is incremented for each encountered `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}` template. The number of the current image is inserted as the `num` argument.
 * If the `ref` argument is given, the image counter is written to a temporary `reflist`-file, in the form of a key-value pair. The key is the value of the `ref` argument, and the value is the image counter. This can later be referred to using the `{{leftcurlybracket}}{{leftcurlybracket}}ref{{rightcurlybracket}}{{rightcurlybracket}}` template.
+* If the `frame` argument is given, then the image will have class "fallback", and the `elem` argument will be overwritten with an `iframe` HTML tag, loading the page given in the `elem` argument. If the `frame` argument is not given, the class of the image will be empty, and the `frame` argument will be empty.
 
 **Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}imgframe {{pipe}}ref=rider {{pipe}}file=rider.jpg {{pipe}}title=Horses of yore{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
 **Example output:** {{imgframe |ref=rider |file=rider.jpg |title=Horses of yore}} {{comment |text=Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater}}
+
 
 ### `thumbnail`
 Inserts a gallery with one or many images. The images can be clicked on to be enlarged.
@@ -334,7 +337,7 @@ Denotes the end of one or many image links, and must come after the last `{{left
 ## Includes
 
 ### `include-html`
-Incunable is written to support static content, but using this template, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead. 
+Incunable is written to support static content, but using this template, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead.
 
 A Javascript file, called "iframe.js" is automatically created and inserted (via `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`). This file does two things:
 * It replaces the fallback image with the given HTML page.
@@ -350,12 +353,12 @@ By sending a Message with the sizes, you can calculate the space needed to fit t
 If there already is a file called "iframe.js" in the folder of the page, then no default script will be generated. Thus, you can overwrite the default behaviour with your own logic. In this case, you need to include this with an `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`.
 
 **Arguments:**
-| Argument        | Status    | Description                                                                           |
-| :-------------- | :-------- | :------------------------------------------------------------------------------------ |
-| `file`          | Mandatory | The name of the file to include in an iframe.                                         |
-| `fallback`      | Mandatory | A fallback image to be displayed if the website guest has Javascript disabled.        |
-| `fallback_text` | Mandatory | The text to display along with the fallback image.                                    |
-| `id`            | Optional  | The id of the iframe. Used by the size Message to set the correct size of the iframe. |
+| Argument        | Status    | Description                                                                            |
+| :-------------- | :-------- | :------------------------------------------------------------------------------------- |
+| `file`          | Mandatory | The name of the file to include in an iframe.                                          |
+| `fallback`      | Mandatory | A fallback image to be displayed if the viewer of the website has Javascript disabled. |
+| `fallback_text` | Mandatory | The text to display along with the fallback image.                                     |
+| `id`            | Optional  | The id of the iframe. Used by the size Message to set the correct size of the iframe.  |
 
 **Side effects:**
 * If there is no file called "iframe.js" in the folder, it will be generated and included with an `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`; see above for further description of what this file does.
@@ -368,6 +371,44 @@ If there already is a file called "iframe.js" in the folder of the page, then no
 ```
 **Example output:**
 {{include-html |file=iframe.html |fallback=delta.png |fallback_text=Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.}}
+
+### `include-framed-html`
+Incunable is written to support static content, but using this template, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead.
+
+The difference between this template and `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}` is that the iframe will be included inside a frame with a caption beneath (specifically by replacing this template with an `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}`).
+
+A Javascript file, called "iframe.js" is automatically created and inserted (via `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`). This file does two things:
+* It replaces the fallback image with the given HTML page.
+* It adds a listener for Messages, in order to set the iframe to the right size. This Message needs to be sent from somewhere in your Javascript code, and should be of the form `{{leftcurlybracket}}"id": "[id]", "width": width, "height": height{{rightcurlybracket}}`, where "[id]" must be the same value as the `id` argument to `{{leftcurlybracket}}{{leftcurlybracket}}include-framed-html{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+A Message can be sent for instance like this:
+```
+window.parent.postMessage({{leftcurlybracket}}"id": "map", "width": "300px", "height": "500px"{{rightcurlybracket}}, "*");
+```
+
+By sending a Message with the sizes, you can calculate the space needed to fit the content dynamically.
+
+If there already is a file called "iframe.js" in the folder of the page, then no default script will be generated. Thus, you can overwrite the default behaviour with your own logic. In this case, you need to include this with an `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+**Arguments:**
+| Argument   | Status    | Description                                                                            |
+| :--------- | :-------- | :------------------------------------------------------------------------------------- |
+| `file`     | Mandatory | The name of the file to include in an iframe.                                          |
+| `fallback` | Mandatory | A fallback image to be displayed if the viewer of the website has Javascript disabled. |
+| `title`    | Mandatory | The text to display along with the fallback image.                                     |
+| `id`       | Optional  | The id of the iframe. Used by the size Message to set the correct size of the iframe.  |
+
+**Side effects:**
+* If there is no file called "iframe.js" in the folder, it will be generated and included with an `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`; see above for further description of what this file does.
+* If the `id` argument is not given, it will be inserted, and the value will be the name of the page where the image is included.
+* The template itself will be replaced by `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}`. The argument `file` of this template will be the `elem` argument of `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}`; the argument `fallback` of this template will be the `file` argument of `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}`; the argument `title` of this template will be the `title` argument of `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}`; the argument `id` of this template will be the `ref` argument of `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}include-framed-html {{pipe}}id=framed-html {{pipe}}file=iframe.html {{pipe}}fallback=delta.png {{pipe}}title=Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
+{{include-framed-html |id=framed-html |file=iframe.html |fallback=delta.png |title=Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.}}
 
 
 ### `include-css`

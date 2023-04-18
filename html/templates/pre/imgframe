@@ -24,7 +24,15 @@ BEGIN {
 
             file  = get_parameter(template, "file");
             title = get_parameter(template, "title");
+            elem  = get_parameter(template, "elem");
             template = "imgframe |num=" REF_NO " |file=" targetfile "-files/" file " |title=" title;
+            if (elem != "") {
+                elem = targetfile "-files/" elem;
+                template = template "|class=fallback ";
+                template = template "|elem=<iframe class=\"iframe\" id=\"" ref "\" src=\"" elem "\" scrolling=\"no\" style=\"display:none; border: 0;\"></iframe>";
+            } else {
+                template = template "|class= |elem=";
+            }
 
             line_read   = line_read substr(line_unread, 0, open_pos - 1) OPENING_BRACKETS template CLOSING_BRACKETS;
             line_unread = substr(line_unread, open_pos + closing_pos + length(CLOSING_BRACKETS) + 1);

@@ -3,12 +3,10 @@ BEGIN {
     CLOSING_BRACKETS = "}}";
 }
 
-# Given a [text], this function returns the value of the
-# parameter key given in [param_name].
-# If [text] does not contain [param_name], the empty string
-# is returned.
+# Given a [text], this function returns the value of the parameter key given in [param_name].
+# If [text] does not contain [param_name], the empty string is returned.
 function get_parameter(text, param_name,  param, next_param_pos, template_end_pos, pos) {
-    if (!match(text, param_name))
+    if (index(text, "|" param_name) == 0)
         return "";
     param_name = "|" param_name;
     param = substr(text, index(text, param_name) + length(param_name));
@@ -30,8 +28,8 @@ function get_parameter(text, param_name,  param, next_param_pos, template_end_po
 # apa |bepa={{cepa}} |depa={{epa}}}}
 #
 # For the above example, the number 33 will be returned, as that is the position of the next closing brackets that were
-# not opened as the text was being consumed. Since '{{cepa}}' both openes and closes a pair of brackets, it will be
-# ignored, and the same with '{{epa}}'. Stright after '{{epa}}', there is a pair of closing brackets, and its
+# not opened as the text was being consumed. Since '{{cepa}}' both opens and closes a pair of brackets, it will be
+# ignored, and the same with '{{epa}}'. Straight after '{{epa}}', there is a pair of closing brackets, and its
 # position (33) is returned.
 #
 # If no closing brackets are found, 0 will be returned.
@@ -71,7 +69,7 @@ function recursively_find_template_closing_pos(text, consumed_chars, opened_brac
 
     } else if (opened_brackets > 0) {
         # Bracket closed, but it is nested
-        consumed = end_pos  + length(CLOSING_BRACKETS);
+        consumed =  end_pos + length(CLOSING_BRACKETS);
         bracket_diff = -1;
 
     } else {
@@ -81,7 +79,7 @@ function recursively_find_template_closing_pos(text, consumed_chars, opened_brac
 
     return recursively_find_template_closing_pos(\
         substr(text, consumed),                  \
-        consumed_chars + consumed,               \
+        consumed_chars + consumed - 1,           \
         opened_brackets + bracket_diff,          \
         depth_left - 1                           \
     );
@@ -99,8 +97,7 @@ function print_error(message) {
     print FILENAME ": " message > "/dev/stderr"
 }
 
-# Reads every line of the given [file] from disk and
-# returns the content.
+# Reads every line of the given [file] from disk and returns the content.
 function read_file(file,  line, lines) {
     lines = "";
     while ((getline line < file) > 0) {
@@ -125,4 +122,3 @@ function run_system_command(command) {
     system(command);
     close(command);
 }
-

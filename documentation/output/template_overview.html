@@ -154,7 +154,7 @@
 <p><strong>Example input:</strong> <code>&lbrace;&lbrace;img &#124;file=smiley.png &#124;title=Happy &#124;class=custom-class&rbrace;&rbrace;</code><br />
 <strong>Example output:</strong> <img src="template_overview-files/smiley.png" class="custom-class" alt="Happy" /></p>
 <h3><code>imgframe</code></h3>
-<p>Inserts an image in a frame, with an associated caption and counter.</p>
+<p>Inserts an image in a frame, with an associated caption and counter. One can also insert an iframe in addition, in which case the image works as a fallback if the user has disabled Javascript.</p>
 <p><strong>Arguments:</strong></p>
 <table>
 <thead>
@@ -168,7 +168,7 @@
 <tr>
 <td style="text-align: left"><code>file</code></td>
 <td style="text-align: left">Mandatory</td>
-<td style="text-align: left">The name of the image file.</td>
+<td style="text-align: left">The name of the image file. If <code>elem</code>  argument is given, this will be the fallback image if the user has disabled Javascript.</td>
 </tr>
 <tr>
 <td style="text-align: left"><code>title</code></td>
@@ -181,6 +181,11 @@
 <td style="text-align: left">An id referring to the numeric counter of the caption text. Use the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template to retrieve the numeric counter.</td>
 </tr>
 <tr>
+<td style="text-align: left"><code>elem</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The path to an iframe that can be included. If given, this will set the class of the image in the <code>file</code> argument to be &quot;fallback&quot;, so the iframe takes precedence over the image in the <code>file</code> argument.</td>
+</tr>
+<tr>
 <td style="text-align: left"><code>num</code></td>
 <td style="text-align: left">Pseudo</td>
 <td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is the numeric counter of the caption text.</td>
@@ -189,13 +194,14 @@
 </table>
 <p><strong>Side effects:</strong></p>
 <ul>
-<li>The path given in the <code>file</code> argument will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
+<li>The path given in the <code>file</code> and <code>frame</code> arguments will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 <li>An image counter is incremented for each encountered <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code> template. The number of the current image is inserted as the <code>num</code> argument.</li>
 <li>If the <code>ref</code> argument is given, the image counter is written to a temporary <code>reflist</code>-file, in the form of a key-value pair. The key is the value of the <code>ref</code> argument, and the value is the image counter. This can later be referred to using the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</li>
+<li>If the <code>frame</code> argument is given, then the image will have class &quot;fallback&quot;, and the <code>elem</code> argument will be overwritten with an <code>iframe</code> HTML tag, loading the page given in the <code>elem</code> argument. If the <code>frame</code> argument is not given, the class of the image will be empty, and the <code>frame</code> argument will be empty.</li>
 </ul>
 <p><strong>Example input:</strong> <code>&lbrace;&lbrace;imgframe &#124;ref=rider &#124;file=rider.jpg &#124;title=Horses of yore&rbrace;&rbrace;</code><br />
 <strong>Example output:</strong> <figure class="imageframe">
-<img src="template_overview-files/rider.jpg" alt="Horses of yore" /></p>
+<img src="template_overview-files/rider.jpg" alt="Horses of yore" class="" /></p>
 <figcaption>Figure 1: Horses of yore</figcaption>
 </figure> <!-- Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater --> 
 <h3><code>thumbnail</code></h3>
@@ -594,7 +600,7 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
 <tr>
 <td style="text-align: left"><code>fallback</code></td>
 <td style="text-align: left">Mandatory</td>
-<td style="text-align: left">A fallback image to be displayed if the website guest has Javascript disabled.</td>
+<td style="text-align: left">A fallback image to be displayed if the viewer of the website has Javascript disabled.</td>
 </tr>
 <tr>
 <td style="text-align: left"><code>fallback_text</code></td>
@@ -623,6 +629,66 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
 <figcaption class="fallback">Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.</figcaption>
 </figure>
 <iframe class="iframe" id="template_overview" src="template_overview-files/iframe.html" scrolling="no" style="display:none; border: 0;"></iframe>
+<h3><code>include-framed-html</code></h3>
+<p>Incunable is written to support static content, but using this template, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead.</p>
+<p>The difference between this template and <code>&lbrace;&lbrace;include-html&rbrace;&rbrace;</code> is that the iframe will be included inside a frame with a caption beneath (specifically by replacing this template with an <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code>).</p>
+<p>A Javascript file, called &quot;iframe.js&quot; is automatically created and inserted (via <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>). This file does two things:</p>
+<ul>
+<li>It replaces the fallback image with the given HTML page.</li>
+<li>It adds a listener for Messages, in order to set the iframe to the right size. This Message needs to be sent from somewhere in your Javascript code, and should be of the form <code>&lbrace;&quot;id&quot;: &quot;[id]&quot;, &quot;width&quot;: width, &quot;height&quot;: height&rbrace;</code>, where &quot;[id]&quot; must be the same value as the <code>id</code> argument to <code>&lbrace;&lbrace;include-framed-html&rbrace;&rbrace;</code>.</li>
+</ul>
+<p>A Message can be sent for instance like this:</p>
+<pre><code>window.parent.postMessage(&lbrace;&quot;id&quot;: &quot;map&quot;, &quot;width&quot;: &quot;300px&quot;, &quot;height&quot;: &quot;500px&quot;&rbrace;, &quot;*&quot;);
+</code></pre>
+<p>By sending a Message with the sizes, you can calculate the space needed to fit the content dynamically.</p>
+<p>If there already is a file called &quot;iframe.js&quot; in the folder of the page, then no default script will be generated. Thus, you can overwrite the default behaviour with your own logic. In this case, you need to include this with an <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>file</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The name of the file to include in an iframe.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>fallback</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">A fallback image to be displayed if the viewer of the website has Javascript disabled.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>title</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The text to display along with the fallback image.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>id</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The id of the iframe. Used by the size Message to set the correct size of the iframe.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>If there is no file called &quot;iframe.js&quot; in the folder, it will be generated and included with an <code>&lbrace;&lbrace;include-script&rbrace;&rbrace;</code>; see above for further description of what this file does.</li>
+<li>If the <code>id</code> argument is not given, it will be inserted, and the value will be the name of the page where the image is included.</li>
+<li>The template itself will be replaced by <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code>. The argument <code>file</code> of this template will be the <code>elem</code> argument of <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code>; the argument <code>fallback</code> of this template will be the <code>file</code> argument of <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code>; the argument <code>title</code> of this template will be the <code>title</code> argument of <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code>; the argument <code>id</code> of this template will be the <code>ref</code> argument of <code>&lbrace;&lbrace;imgframe&rbrace;&rbrace;</code>.</li>
+</ul>
+<p><strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;include-framed-html &#124;id=framed-html &#124;file=iframe.html &#124;fallback=delta.png &#124;title=Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
+<figure class="imageframe">
+<img src="template_overview-files/delta.png" alt="Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle." class="fallback" />
+<iframe class="iframe" id="framed-html" src="template_overview-files/iframe.html" scrolling="no" style="display:none; border: 0;"></iframe>
+<figcaption>Figure 2: Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.</figcaption>
+</figure>
 <h3><code>include-css</code></h3>
 <p>Includes a CSS file into the <code>head</code> section of the HTML document. Thus it is possible to pass in custom CSS files to individual pages.</p>
 <p><strong>Arguments:</strong></p>

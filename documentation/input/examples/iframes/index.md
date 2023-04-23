@@ -1,8 +1,10 @@
 # IFrames
 ## Technical
-Incunable is written to support static content, but using `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}`, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead.
+Incunable is written to support static content, but using `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}` or `{{leftcurlybracket}}{{leftcurlybracket}}include-framed-html{{rightcurlybracket}}{{rightcurlybracket}}`, dynamic content can be included through an iframe. If a user has Javascript disabled, a static fallback image will be displayed instead.
 
-A Javascript file, called "iframe.js" is automatically created and inserted (via `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`). This file does two things:
+The difference between `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}include-framed-html{{rightcurlybracket}}{{rightcurlybracket}}` is that the former will insert the dynamic content as is, whereas the latter will insert it inside a frame and provide a caption, much like an `{{leftcurlybracket}}{{leftcurlybracket}}imgframe{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+When using either `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}` or `{{leftcurlybracket}}{{leftcurlybracket}}include-framed-html{{rightcurlybracket}}{{rightcurlybracket}}`, a Javascript file, called "iframe.js" is automatically created and inserted (via `{{leftcurlybracket}}{{leftcurlybracket}}include-script{{rightcurlybracket}}{{rightcurlybracket}}`). This file does two things:
 * It replaces the fallback image with the given HTML page.
 * It adds a listener for Messages, in order to set the iframe to the right size. This Message needs to be sent from somewhere in your Javascript code, and should be of the form `{{leftcurlybracket}}"id": "[id]", "width": width, "height": height{{rightcurlybracket}}`, where "[id]" must be the same value as the `id` argument to `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}`.
 
@@ -17,7 +19,7 @@ If there already is a file called "iframe.js" in the folder of the page, then no
 
 
 ## Example
-Below are three boxes with colours. They are included as iframes, using `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}`. A script to broadcast the sizes of the iframes needs to be provided, that notifies the parent of their sizes ([size-broadcaster.js](iframes-files/size-broadcaster.js) and [orange-size-broadcaster.js](iframes-files/orange-size-broadcaster.js)). This allows for having custom code that gives the exact size needed.
+Below are three boxes with colours. They are included as iframes, using `{{leftcurlybracket}}{{leftcurlybracket}}include-html{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}include-framed-html{{rightcurlybracket}}{{rightcurlybracket}}`. A script to broadcast the sizes of the iframes needs to be provided, that notifies the parent of their sizes ([size-broadcaster.js](iframes-files/size-broadcaster.js) and [orange-size-broadcaster.js](iframes-files/orange-size-broadcaster.js)). This allows for having custom code that gives the exact size needed.
 
 If you disable Javascript, static fallback images will be used instead of the iframes.
 
@@ -29,9 +31,9 @@ Small blue box:
 
 Medium yellow box:
 ```
-{{leftcurlybracket}}{{leftcurlybracket}}include-html {{pipe}}id=yellow {{pipe}}file=yellow.html {{pipe}}fallback=yellow.png {{pipe}}fallback_text=Yellow image{{rightcurlybracket}}{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}include-framed-html {{pipe}}id=yellow {{pipe}}file=yellow.html {{pipe}}fallback=yellow.png {{pipe}}fallback_text=Yellow image{{rightcurlybracket}}{{rightcurlybracket}}
 ```
-{{include-html |id=yellow |file=yellow.html |fallback=yellow.png |fallback_text=Yellow image}}
+{{include-framed-html |id=yellow |file=yellow.html |fallback=yellow.png |title=Yellow image in a frame}}
 
 Big orange box:
 ```

@@ -1,19 +1,14 @@
 #!/bin/bash
-# @produces ref, img
+# @produces ref
 # It doesn't produce ref, but we say that it does, so that this gets parsed first.
 
-# Parameters: length = 5cm, style = displaystyle, (textstyle)
+# Parameters:  style = displaystyle, (textstyle)
 
 awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
 BEGIN {
-    DEFAULT_LENGTH = "7.1cm";
-    DEFAULT_STYLE  = "displaystyle";
     EQ_NUMBER = 0;
-    delete EQ_HASHES[""];
 
     is_reading_equation = 0;
-    equation_length  = "";
-    equation_class   = "";
     equation_style   = "";
     equation_content = "";
 }
@@ -34,7 +29,8 @@ BEGIN {
         # ipa.
 
         if (is_reading_equation && end_open_pos == 0) {
-            # We are currently reading a multiline equation and this line does not end it. Read one more line of the equation
+            # We are currently reading a multiline equation and this line does not end it.
+            # Read one more line of the equation
             equation_content = equation_content $0 "\n";
             break;
 
@@ -46,12 +42,10 @@ BEGIN {
 
             # Remove the {{endmath}} from $0
             end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1;
-            img = create_svg_file_and_reference();
-            $0 = img substr($0, end_finish_pos);
+            math = latex_to_math();
+            $0 = math substr($0, end_finish_pos);
 
             is_reading_equation = 0;
-            equation_length  = "";
-            equation_class   = "";
             equation_style   = "";
             equation_content = "";
 
@@ -64,14 +58,12 @@ BEGIN {
 
             # Get parameters if any
             template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
-            equation_length = get_parameter(template, "length");
-            equation_class  = get_parameter(template, "class");
             equation_style  = get_parameter(template, "style");
 
             equation_content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1);
-            img = create_svg_file_and_reference();
+            math = latex_to_math();
 
-            $0 = substr($0, 0, begin_open_pos - 1) img substr($0, end_finish_pos);
+            $0 = substr($0, 0, begin_open_pos - 1) math substr($0, end_finish_pos);
 
         } else if (begin_open_pos > 0) {
             # We are not currently reading an equation, however,
@@ -81,8 +73,6 @@ BEGIN {
 
             # Get parameters if any
             template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
-            equation_length = get_parameter(template, "length");
-            equation_class  = get_parameter(template, "class");
             equation_style  = get_parameter(template, "style");
 
             line = trim(substr($0, 0, begin_open_pos - 1));
@@ -103,69 +93,18 @@ BEGIN {
     }
 }
 
-function create_svg_file_and_reference(folder, filename,  eq) {
+function latex_to_math(eq, tempfile, style, result) {
+    tempfile = run_system_command_with_output("mktemp");
+
     eq = trim(equation_content);
-    filename = get_equation_name_if_exists();
+    print eq > tempfile;
+    fflush(tempfile);
 
-    if (filename == "") {
-        folder = write_to_file(eq, equation_length, equation_style);
-        filename = latex_to_svg(folder);
-        update_equation_name_dictionary(filename);
-    }
+    style = (equation_style == "textstyle") ? "--inline" : "";
+    result = run_system_command_with_output("texmath " style " --from=tex --to=mathml " tempfile);
+    run_system_command("rm -f " tempfile);
 
-    gsub("\n", " ", eq);
-    gsub(/\\/, "\\\\", eq);
-    gsub("&", "\\\\&", eq);
-    return "{{img" ((equation_class == "") ? "" : " |class=" equation_class) " |file=" filename " |title=" eq "}}";
-}
-
-function write_to_file(eq, eqlength, style,  latex, command, tempfolder) {
-    if (eqlength == "")
-        eqlength = DEFAULT_LENGTH;
-    if (style == "")
-        style = DEFAULT_STYLE;
-
-    latex = "";
-    latex = latex "\\documentclass{article}\n";
-    latex = latex "\\usepackage{varwidth}\n";
-    latex = latex "\\usepackage{amsmath}\n";
-    latex = latex "\\usepackage{mathtools}\n"
-    latex = latex "\\begin{document}\n";
-    latex = latex "\\pagestyle{empty}\n";
-    latex = latex "\\begin{varwidth}{" eqlength "}\n";
-    latex = latex "\\begin{align*}\n";
-    latex = latex "\\" style "\n";
-    latex = latex eq "\n";
-    latex = latex "\\end{align*}\n";
-    latex = latex "\\end{varwidth}\n";
-    latex = latex "\\end{document}\n";
-
-    tempfolder = run_system_command_with_output("mktemp -dp /tmp");
-    print latex > tempfolder "/equation.tex"
-    return tempfolder;
-}
-
-function latex_to_svg(folder,  output_file) {
-    output_file = "eq_" EQ_NUMBER ".svg";
     EQ_NUMBER += 1;
-
-    run_system_command("xelatex -output-directory=" folder " " folder "/equation.tex 1>/dev/null");
-    run_system_command("pdfcrop --margin 2 " folder "/equation.pdf " folder "/equation.pdf 1>/dev/null");
-    run_system_command("dvisvgm --no-fonts --verbosity=2 --zoom=2 -P " folder "/equation.pdf -o " folder "/equation.svg 1>/dev/null");
-    run_system_command("inkscape --actions \"select-all;fit-canvas-to-selection\" --export-overwrite " folder "/equation.svg");
-    run_system_command("mv " folder "/equation.svg " additionalfiles "/" output_file);
-    run_system_command("rm -rf " folder);
-
-    return output_file;
-}
-
-function get_equation_name_if_exists(hash) {
-    hash = run_system_command_with_output("echo \"" equation_style "_" equation_length "_" equation_content "\" | md5sum");
-    return EQ_HASHES[hash];
-}
-
-function update_equation_name_dictionary(filename) {
-    hash = run_system_command_with_output("echo \"" equation_style "_" equation_length "_" equation_content "\" | md5sum");
-    EQ_HASHES[hash] = filename;
+    return result;
 }
 ' $1

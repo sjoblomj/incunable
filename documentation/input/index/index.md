@@ -29,7 +29,7 @@ Some templates have pre-processing scripts associated with them, and before perf
 In other words, for this template the pre-processing step will **modify** the `file`-argument, **insert** a new argument `num`, and it will **write** an association between the `ref` argument and the `num` to a temporary file.
 
 ## Pre-processing transformations
-Some templates will as output write **other** templates; for example `{{leftcurlybracket}}{{leftcurlybracket}}math |eq=\Delta{{rightcurlybracket}}{{rightcurlybracket}}` will be turned into `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}\Delta{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`, and this LaTeX-code will be made into an SVG and the template turned into `{{leftcurlybracket}}{{leftcurlybracket}}img |file=eq_0.svg |title=\Delta{{rightcurlybracket}}{{rightcurlybracket}}`. Thus, `math` produces `beginmath` and `endmath`, and `beginmath` produces `img`.
+Some templates will as output write **other** templates; for example `{{leftcurlybracket}}{{leftcurlybracket}}math |eq=\Delta{{rightcurlybracket}}{{rightcurlybracket}}` will be turned into `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}\Delta{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`, and this LaTeX-code will be turned into [MathML](https://en.wikipedia.org/wiki/MathML). Thus, `math` produces `beginmath` and `endmath`.
 
 The engine takes care of creating a tree of the order in which the pre-processing scripts will be run, so that one can take over from another.
 

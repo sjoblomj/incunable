@@ -196,21 +196,14 @@ Shorthand notation for inserting a mathematical equation in the middle of a para
 
 
 ### `beginmath`
-Inserts a mathematical equation. It will treat everything between the `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` template and the `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}` template as an equation, typeset it using [LaTeX](https://en.wikipedia.org/wiki/LaTeX), and turn
-it into an SVG-image that will be inserted using the `{{leftcurlybracket}}{{leftcurlybracket}}img{{rightcurlybracket}}{{rightcurlybracket}}` template. Any previously encountered equations will be re-used instead of being typeset once again.
+Inserts a [LaTeX](https://en.wikipedia.org/wiki/LaTeX) mathematical equation. It will treat everything between the `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` template and the `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}` template as an equation, and turn it into [MathML](https://en.wikipedia.org/wiki/MathML).
 
 **Arguments:**
 | Argument | Status   | Description |
 | :------- | :------- | :---------- |
-| `class`  | Optional | The CSS-class to use on the image, will be passed to the `class` argument of the `{{leftcurlybracket}}{{leftcurlybracket}}img{{rightcurlybracket}}{{rightcurlybracket}}` template that this template will be replaced by. |
-| `length` | Optional | For technical reasons, equations have a max-width, which means that long equations using the `{{leftcurlybracket}}{{leftcurlybracket}}mathref{{rightcurlybracket}}{{rightcurlybracket}}` template might be typeset with the reference number on a different line. By providing a larger value in the `length` argument, this can be overcome. Default: 7.1cm |
-| `style`  | Optional | The style which LaTeX will typeset the equations with, see [Overleaf](https://sv.overleaf.com/learn/latex/Display_style_in_math_mode) for more information. For equations in paragraphs, this is recommended to be `textstyle` (in this case it is recommended to use the `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` template, which will set the style to `textstyle` automatically). For equations on lines by themselves, it is recommended to use `displaystyle`. The default value if this argument is omitted is `displaystyle`. |
+| `style`  | Optional | The style to typeset the equations with. For equations in paragraphs, it is recommended to use `textstyle` (in this case it is recommended to use the `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` template, which will set the style to `textstyle` automatically). For equations on lines by themselves, it is recommended to use `displaystyle`. The default value if this argument is omitted is `displaystyle`. |
 
-**Side effects:**
-* The equation will be typeset with `pdflatex`, cropped with `pdfcrop` and turned into an SVG with `dvisvgm`. These programs need to be installed to run Incunable with the `{{leftcurlybracket}}{{leftcurlybracket}}img{{rightcurlybracket}}{{rightcurlybracket}}` template.
-* The resulting SVG will be moved to the "[page]-files" folder, where "[page]" is the name of the page where the equation is included. The temporary input and output files used by `pdflatex` are created in the /tmp storage and is removed after completion.
-* The template itself will be replaced by the `{{leftcurlybracket}}{{leftcurlybracket}}img{{rightcurlybracket}}{{rightcurlybracket}}` template. If the `class` argument is set, the value will be given to the `class` argument of the `{{leftcurlybracket}}{{leftcurlybracket}}img{{rightcurlybracket}}{{rightcurlybracket}}` template.
-
+**Side effects:** None{{linebreak}}
 **Example input:**
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}

@@ -42,7 +42,7 @@
 </ul>
 <p>In other words, for this template the pre-processing step will <strong>modify</strong> the <code>file</code>-argument, <strong>insert</strong> a new argument <code>num</code>, and it will <strong>write</strong> an association between the <code>ref</code> argument and the <code>num</code> to a temporary file.</p>
 <h2>Pre-processing transformations</h2>
-<p>Some templates will as output write <strong>other</strong> templates; for example <code>&lbrace;&lbrace;math |eq=\Delta&rbrace;&rbrace;</code> will be turned into <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;\Delta&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>, and this LaTeX-code will be made into an SVG and the template turned into <code>&lbrace;&lbrace;img |file=eq_0.svg |title=\Delta&rbrace;&rbrace;</code>. Thus, <code>math</code> produces <code>beginmath</code> and <code>endmath</code>, and <code>beginmath</code> produces <code>img</code>.</p>
+<p>Some templates will as output write <strong>other</strong> templates; for example <code>&lbrace;&lbrace;math |eq=\Delta&rbrace;&rbrace;</code> will be turned into <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;\Delta&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>, and this LaTeX-code will be turned into <a href="https://en.wikipedia.org/wiki/MathML">MathML</a>. Thus, <code>math</code> produces <code>beginmath</code> and <code>endmath</code>.</p>
 <p>The engine takes care of creating a tree of the order in which the pre-processing scripts will be run, so that one can take over from another.</p>
 <h2>Algorithm</h2>
 <p>For each input file, the following operations will be performed:</p>

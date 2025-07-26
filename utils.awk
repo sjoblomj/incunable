@@ -112,9 +112,12 @@ function read_file(file,  line, lines) {
 
 # Runs the given system command and returns its output
 function run_system_command_with_output(command,  output) {
-    command | getline output;
+    output = "";
+    while ((command | getline line) > 0) {
+        output = output "\n" line;
+    }
     close(command);
-    return output;
+    return trim(output);
 }
 
 # Runs the given system command

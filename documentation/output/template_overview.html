@@ -356,10 +356,16 @@
 <li>The template itself will be replaced by <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, followed by the equation given in the <code>eq</code> argument, followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. The <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template will have the argument <code>class</code> hardcoded to <code>inlinemath</code>, and the argument <code>style</code> hardcoded to <code>textstyle</code>.</li>
 </ul>
 <p><strong>Example input:</strong> <code>If &lbrace;&lbrace;math &#124;eq=t&rbrace;&rbrace; is the temperature, then &lbrace;&lbrace;math &#124;eq=\Delta t&rbrace;&rbrace; could refer to a difference between two temperature systems.</code><br />
-<strong>Example output:</strong> If <img src="template_overview-files/eq_0.svg" class="inlinemath" alt="t" /> is the temperature, then <img src="template_overview-files/eq_1.svg" class="inlinemath" alt="\Delta t" /> could refer to a difference between two temperature systems.</p>
+<strong>Example output:</strong> If <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
+<mi>t</mi>
+</math> is the temperature, then <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<mi mathvariant="normal">Δ</mi>
+<mi>t</mi>
+</mrow>
+</math> could refer to a difference between two temperature systems.</p>
 <h3><code>beginmath</code></h3>
-<p>Inserts a mathematical equation. It will treat everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template as an equation, typeset it using <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a>, and turn
-it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template. Any previously encountered equations will be re-used instead of being typeset once again.</p>
+<p>Inserts a <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a> mathematical equation. It will treat everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template as an equation, and turn it into <a href="https://en.wikipedia.org/wiki/MathML">MathML</a>.</p>
 <p><strong>Arguments:</strong></p>
 <table>
 <thead>
@@ -371,35 +377,56 @@ it into an SVG-image that will be inserted using the <code>&lbrace;&lbrace;img&r
 </thead>
 <tbody>
 <tr>
-<td style="text-align: left"><code>class</code></td>
-<td style="text-align: left">Optional</td>
-<td style="text-align: left">The CSS-class to use on the image, will be passed to the <code>class</code> argument of the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template that this template will be replaced by.</td>
-</tr>
-<tr>
-<td style="text-align: left"><code>length</code></td>
-<td style="text-align: left">Optional</td>
-<td style="text-align: left">For technical reasons, equations have a max-width, which means that long equations using the <code>&lbrace;&lbrace;mathref&rbrace;&rbrace;</code> template might be typeset with the reference number on a different line. By providing a larger value in the <code>length</code> argument, this can be overcome. Default: 7.1cm</td>
-</tr>
-<tr>
 <td style="text-align: left"><code>style</code></td>
 <td style="text-align: left">Optional</td>
-<td style="text-align: left">The style which LaTeX will typeset the equations with, see <a href="https://sv.overleaf.com/learn/latex/Display_style_in_math_mode">Overleaf</a> for more information. For equations in paragraphs, this is recommended to be <code>textstyle</code> (in this case it is recommended to use the <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> template, which will set the style to <code>textstyle</code> automatically). For equations on lines by themselves, it is recommended to use <code>displaystyle</code>. The default value if this argument is omitted is <code>displaystyle</code>.</td>
+<td style="text-align: left">The style to typeset the equations with. For equations in paragraphs, it is recommended to use <code>textstyle</code> (in this case it is recommended to use the <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> template, which will set the style to <code>textstyle</code> automatically). For equations on lines by themselves, it is recommended to use <code>displaystyle</code>. The default value if this argument is omitted is <code>displaystyle</code>.</td>
 </tr>
 </tbody>
 </table>
-<p><strong>Side effects:</strong></p>
-<ul>
-<li>The equation will be typeset with <code>pdflatex</code>, cropped with <code>pdfcrop</code> and turned into an SVG with <code>dvisvgm</code>. These programs need to be installed to run Incunable with the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template.</li>
-<li>The resulting SVG will be moved to the &quot;[page]-files&quot; folder, where &quot;[page]&quot; is the name of the page where the equation is included. The temporary input and output files used by <code>pdflatex</code> are created in the /tmp storage and is removed after completion.</li>
-<li>The template itself will be replaced by the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template. If the <code>class</code> argument is set, the value will be given to the <code>class</code> argument of the <code>&lbrace;&lbrace;img&rbrace;&rbrace;</code> template.</li>
-</ul>
-<p><strong>Example input:</strong></p>
+<p><strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
 a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
 <p><strong>Example output:</strong><br />
-<img src="template_overview-files/eq_2.svg" class="" alt="a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\," /></p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msub>
+<mi>a</mi>
+<mn>1</mn>
+</msub>
+<mo>+</mo>
+<msub>
+<mi>a</mi>
+<mn>2</mn>
+</msub>
+<mo>+</mo>
+<mi>.</mi>
+<mi>.</mi>
+<mi>.</mi>
+<mo>+</mo>
+<msub>
+<mi>a</mi>
+<mi>n</mi>
+</msub>
+<mo>=</mo>
+<munderover>
+<mo>∑</mo>
+<mrow>
+<mi>i</mi>
+<mo>=</mo>
+<mn>1</mn>
+</mrow>
+<mi>n</mi>
+</munderover>
+<msub>
+<mi>a</mi>
+<mi>i</mi>
+</msub>
+<mspace width="0.167em" />
+</mrow>
+</math></p>
 <h3><code>endmath</code></h3>
 <p>Ends a mathematical equation. Everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template will be treated as an equation. See the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template for more details.</p>
 <p><strong>Arguments:</strong> None<br />
@@ -410,7 +437,33 @@ a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
 <p><strong>Example output:</strong><br />
-<img src="template_overview-files/eq_3.svg" class="" alt="\sum_{i=1}^n i = \frac{n(n+1)}{2}\," /></p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<munderover>
+<mo>∑</mo>
+<mrow>
+<mi>i</mi>
+<mo>=</mo>
+<mn>1</mn>
+</mrow>
+<mi>n</mi>
+</munderover>
+<mi>i</mi>
+<mo>=</mo>
+<mfrac>
+<mrow>
+<mi>n</mi>
+<mo stretchy="false" form="prefix">(</mo>
+<mi>n</mi>
+<mo>+</mo>
+<mn>1</mn>
+<mo stretchy="false" form="postfix">)</mo>
+</mrow>
+<mn>2</mn>
+</mfrac>
+<mspace width="0.167em" />
+</mrow>
+</math></p>
 <h3><code>mathref</code></h3>
 <p>Will typeset an equation number in parenthesis to the right of the equation. The equation number can be retrieved with the <code>&lbrace;&lbrace;ref&rbrace;&rbrace;</code> template.</p>
 <p><strong>Arguments:</strong></p>
@@ -440,7 +493,37 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
 &lbrace;&lbrace;endmath&rbrace;&rbrace;
 </code></pre>
 <p><strong>Example output:</strong><br />
-<img src="template_overview-files/eq_4.svg" class="" alt="e^{i\theta} = \cos\theta + i\sin \theta  \tag{1}\label{EulersFormula}\," /></p>
+<math display="block" xmlns="http://www.w3.org/1998/Math/MathML">
+<mrow>
+<msup>
+<mi>e</mi>
+<mrow>
+<mi>i</mi>
+<mi>θ</mi>
+</mrow>
+</msup>
+<mo>=</mo>
+<mrow>
+<mi>cos</mi>
+<mo>⁡</mo>
+</mrow>
+<mi>θ</mi>
+<mo>+</mo>
+<mi>i</mi>
+<mrow>
+<mi>sin</mi>
+<mo>⁡</mo>
+</mrow>
+<mi>θ</mi>
+<mspace width="2.0em" />
+<mrow>
+<mo stretchy="true" form="prefix">(</mo>
+<mn>1</mn>
+<mo stretchy="true" form="postfix">)</mo>
+</mrow>
+<mspace width="0.167em" />
+</mrow>
+</math></p>
 <h3><code>ref</code></h3>
 <p>Will insert a reference to an image or equation.</p>
 <p><strong>Arguments:</strong></p>

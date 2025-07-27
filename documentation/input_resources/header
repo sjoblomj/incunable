@@ -8,7 +8,7 @@
 
 <body>
   <span class="header">
-    <img src="${nesting}logo.jpg" alt="logo" />
+    <img src="${nesting}logo.png" alt="logo" />
     <h1 class="headername">Incunable</h1>
     <div class="vl"></div>
 

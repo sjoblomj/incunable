@@ -9,8 +9,8 @@ body {
 }
 .headername {
     font-size: 300%;
-    margin-top: 2.6ex;
-    margin-left: -1.7ex;
+    margin-top: 2.5ex;
+    margin-left: -1.5ex;
 }
 
 .vl {
@@ -19,8 +19,6 @@ body {
 }
 
 .headerlinks {
-    overflow-x: scroll;
-    white-space: nowrap;
     height: 5em;
 }
 .headerlinks li {

@@ -22,6 +22,10 @@
     </ul>
   </span>
 <h1>Incunable</h1>
+<figure class="imageframe">
+<img src="index-files/Inkunabel.ValMax.001.jpg" alt="Page from Valerius Maximus, Facta et dicta memorabilia, printed in red and black by Peter Schöffer, 1471" class="" />
+<figcaption>Figure 1: Page from Valerius Maximus, Facta et dicta memorabilia, printed in red and black by Peter Schöffer, 1471</figcaption>
+</figure> <!-- Source: https://commons.wikimedia.org/wiki/File:Inkunabel.ValMax.001.jpg --> 
 <p>Incunable is a templating engine, which operates on <a href="https://commonmark.org">Markdown/CommonMark documents</a> and turns them into for example webpages. In the Markdown, you can use pre-defined templates, on which variable substitution will be performed.</p>
 <p>The engine is made up of a series of awk scripts, along with some Bash and Python thrown in to manage the scripts.</p>
 <p>Each page to process should have its own directory. The page content must be in a file called index.md, and any images or resources should also be in this directory. For each directory <em>[dir]</em>, Incunable will take the page content, work through any templates, and output a file called &quot;[dir].html&quot; and a folder called &quot;[dir]-files&quot; where the images and resources are (where &quot;[dir]&quot; is the name of the directory). Any directory structure of the input will be preserved in the output.</p>
@@ -34,7 +38,7 @@
 &lt;/figure&gt;
 </code></pre>
 <p>We provided three arguments to the template: <code>file</code>, <code>title</code> and <code>ref</code>. In <code>imgframe</code> above there are three variables to substitute: <code>file</code>, <code>title</code> and <code>num</code>. The reason for the difference is that the original template that the user inputs, is transformed during the pre-processing step of the engine.</p>
-<p>Some templates have pre-processing scripts associated with them, and before performing the substitution, a pre-processing run will execute these scripts as needed. They do different things for different templates, and tend to have side-effects. The pre-processing script for <code>imgframe</code> will do a few different things:</p>
+<p>Some templates have pre-processing scripts associated with them, and before performing the substitution, a pre-processing run will execute these scripts as needed. They do different things for different templates, and tend to have side effects. The pre-processing script for <code>imgframe</code> will do a few different things:</p>
 <ul>
 <li>It will adjust the <code>file</code>-argument so that it is relative to the right path.</li>
 <li>It will increment a counter for each <code>imgframe</code> that it encounters, and write this number associated with the <code>ref</code> argument to a temporary file. This allows the <code>ref</code> template to later fetch this number and from the text refer to the figure.</li>

@@ -1,5 +1,7 @@
 # Incunable
 
+{{imgframe |file=Inkunabel.ValMax.001.jpg |title=Page from Valerius Maximus, Facta et dicta memorabilia, printed in red and black by Peter Schöffer, 1471}} {{comment |text=Source: https://commons.wikimedia.org/wiki/File:Inkunabel.ValMax.001.jpg}}
+
 Incunable is a templating engine, which operates on [Markdown/CommonMark documents](https://commonmark.org) and turns them into for example webpages. In the Markdown, you can use pre-defined templates, on which variable substitution will be performed.
 
 The engine is made up of a series of awk scripts, along with some Bash and Python thrown in to manage the scripts.
@@ -21,7 +23,7 @@ As an example, consider the template `{{leftcurlybracket}}{{leftcurlybracket}}im
 
 We provided three arguments to the template: `file`, `title` and `ref`. In `imgframe` above there are three variables to substitute: `file`, `title` and `num`. The reason for the difference is that the original template that the user inputs, is transformed during the pre-processing step of the engine.
 
-Some templates have pre-processing scripts associated with them, and before performing the substitution, a pre-processing run will execute these scripts as needed. They do different things for different templates, and tend to have side-effects. The pre-processing script for `imgframe` will do a few different things:
+Some templates have pre-processing scripts associated with them, and before performing the substitution, a pre-processing run will execute these scripts as needed. They do different things for different templates, and tend to have side effects. The pre-processing script for `imgframe` will do a few different things:
 * It will adjust the `file`-argument so that it is relative to the right path.
 * It will increment a counter for each `imgframe` that it encounters, and write this number associated with the `ref` argument to a temporary file. This allows the `ref` template to later fetch this number and from the text refer to the figure.
 * It will insert the `num` variable into the `imgframe` reference.

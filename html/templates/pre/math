@@ -1,5 +1,5 @@
 #!/bin/bash
-# @produces beginmath, endmath
+# @precedes beginmath, endmath
 
 awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
 {

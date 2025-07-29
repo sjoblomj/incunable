@@ -1,6 +1,5 @@
 #!/bin/bash
-# @produces ref
-# It doesn't produce ref, but we say that it does, so that this gets parsed first.
+# @precedes ref
 
 # Parameters:  style = displaystyle, (textstyle)
 

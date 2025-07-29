@@ -1,5 +1,5 @@
 #!/bin/bash
-# @produces include-script
+# @precedes include-script
 
 awk -i inplace -v targetfile="${2}" -v additionalfiles="${3}" '
 {

@@ -1,6 +1,5 @@
 #!/bin/bash
-# @produces beginmath, endmath
-# (It doesn't actually produce these, but we want mathref to run before them)
+# @precedes beginmath, endmath
 
 awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
 BEGIN {

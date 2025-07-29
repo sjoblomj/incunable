@@ -11,7 +11,7 @@ from os.path import isfile, join
 # 4. Path to directory with extra files belonging to the file being processed
 # 5. Root path to all files being processed
 
-produce_string = "# *@produces"
+precedes_string = "# *@precedes"
 path = join(sys.argv[1], "pre")
 root_node_name = ""
 
@@ -46,12 +46,12 @@ def find_all_scripts():
             all_nodes[f] = Tree(f)
 
         for line in open(join(path, f)).readlines():
-            if re.match(produce_string, line):
-                line = re.sub(produce_string, "", line)
-                produced_scripts = map(lambda x: x.strip(), line.split(","))
+            if re.match(precedes_string, line):
+                line = re.sub(precedes_string, "", line)
+                following_scripts = map(lambda x: x.strip(), line.split(","))
 
                 parent = all_nodes[f]
-                for s in produced_scripts:
+                for s in following_scripts:
                     if is_descendant_of_itself(parent, s):
                         raise ValueError("Attempting to add '" + s + "', but it is already a descendant of itself")
 

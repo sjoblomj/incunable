@@ -1,6 +1,5 @@
 #!/bin/bash
-# @produces imglinklist, imglinklist_after
-
+# @precedes imglinklist, imglinklist_after
 
 awk -i "utils.awk" -v "targetfile=$2" '
 BEGIN {

@@ -1,5 +1,5 @@
 #!/bin/bash
-# @produces imgframe, include-script
+# @precedes imgframe, include-script
 
 awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
 {

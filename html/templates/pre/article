@@ -1,6 +1,6 @@
 #!/bin/bash
 
-awk -i inplace -i "utils.awk" -v targetfilepath="${1}" '
+awk -i inplace -i "utils.awk" -v targetfilepath="$1" '
 BEGIN {
     AVERAGE_WORDS_PER_MINUTE_READ = 230;
 }
@@ -24,4 +24,4 @@ function calculate_article_length(len) {
         return len * 5;
     }
 }
-' $1
+' "$1"

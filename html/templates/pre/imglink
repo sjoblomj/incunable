@@ -1,7 +1,7 @@
 #!/bin/bash
 # @precedes imglinklist, imglinklist_after
 
-awk -i "utils.awk" -v "targetfile=$2" '
+awk -i inplace -i "utils.awk" '
 BEGIN {
     found_imglinklist = 0;
     should_print_imglinklist_after = 0;
@@ -56,5 +56,4 @@ function adjust_imglink(line,  link, img, dir, linkdir) {
         sub("\\|img *= *", "|img=" linkdir "-files/", line);
     return line;
 }
-' $1 > ${1}_2
-mv ${1}_2 $1
+' "$1"

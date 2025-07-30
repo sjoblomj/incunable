@@ -1,7 +1,7 @@
 #!/bin/bash
 # @precedes include-script
 
-awk -i inplace -v targetfile="${2}" -v additionalfiles="${3}" '
+awk -i inplace -v targetfile="$2" -v additionalfiles="$3" '
 {
     if ($0 ~ "{{include-html") {
         # Add id if not present
@@ -46,4 +46,4 @@ function iframe_script() {
   script = script "      resizeIframeToFitContent(iframes[i], event.data);\n";
   script = script "})\n";
   return script;
-}' $1
+}' "$1"

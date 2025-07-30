@@ -1,7 +1,7 @@
 #!/bin/bash
 # @precedes thumbnails, thumbnails_after
 
-awk -i "utils.awk" -v "targetfile=$2" '
+awk -i inplace -i "utils.awk" -v targetfile="$2" '
 BEGIN {
     THUMBNAIL_NO = 0;
     found_thumbnails = 0;
@@ -48,5 +48,4 @@ function add_ordinal_and_target_to_thumbnail(line) {
     THUMBNAIL_NO += 1;
     return line;
 }
-' $1 > ${1}_2
-mv ${1}_2 $1
+' "$1"

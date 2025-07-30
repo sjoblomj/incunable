@@ -46,4 +46,4 @@ function write_ref(ref) {
     REF_NO += 1;
     print ref "=" REF_NO >> additionalfiles "/reflist";
 }
-' $1
+' "$1"

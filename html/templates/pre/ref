@@ -1,6 +1,6 @@
 #!/bin/bash
 
-awk -i inplace -i "utils.awk" -v additionalfiles="${3}" '
+awk -i inplace -i "utils.awk" -v additionalfiles="$3" '
 BEGIN {
     REF_FILE = read_file(additionalfiles "/reflist");
 }
@@ -39,5 +39,4 @@ function find_ref_number(ref,  n, arr) {
     }
     return -1;
 }
-' $1
-
+' "$1"

@@ -3,7 +3,7 @@
 
 # Parameters:  style = displaystyle, (textstyle)
 
-awk -i inplace -i "utils.awk" -v targetfile="${2}" -v additionalfiles="${3}" '
+awk -i inplace -i "utils.awk" '
 BEGIN {
     EQ_NUMBER = 0;
 
@@ -106,4 +106,4 @@ function latex_to_math(eq, tempfile, style, result) {
     EQ_NUMBER += 1;
     return result;
 }
-' $1
+' "$1"

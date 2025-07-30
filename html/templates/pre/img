@@ -1,6 +1,6 @@
 #!/bin/bash
 
-awk -i inplace -i "utils.awk" -v targetfile="${2}" '
+awk -i inplace -i "utils.awk" -v targetfile="$2" '
 {
     if ($0 ~ "{{img ") {
         line_read   = "";
@@ -27,4 +27,4 @@ awk -i inplace -i "utils.awk" -v targetfile="${2}" '
     } else {
         print $0;
     }
-}' $1
+}' "$1"

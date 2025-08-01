@@ -52,6 +52,12 @@ The documentation of the project can be generated like this:
 ./html/compile.sh documentation/input documentation/output documentation/input_resources
 ```
 
+## Dependencies
+* Gawk
+* Python3
+* [cmark-gfm](https://github.com/github/cmark-gfm)
+* [texmath](https://github.com/jgm/texmath) - Optional - only required for mathematical equations
+
 ## Testing
 There is a small test script that can be used to verify that the code and templates behave as expected. It will output the documentation in the `/tmp` directory, and verify that it is identical to what is in the `./documentation/output` directory. Run it with `./run_tests.sh`.
 

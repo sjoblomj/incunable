@@ -55,6 +55,15 @@ Inserts a pipe into the page.
 **Example output:** {{pipe}}
 
 
+### `amp`
+Inserts an amphersand into the page.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}amp{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{amp}}
+
+
 
 ## Misc
 

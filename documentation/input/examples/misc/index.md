@@ -12,6 +12,27 @@ this.
 Comments are supported. The following text can be seen if you view the source of this document: {{comment |text=This text is hidden.}}
 
 
+# Code blocks
+Code blocks can be inserted as follows. The syntax highlighting from [GlyphDrawing.Club](https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/) is applied by the font itself, and the colours can be customized in the CSS. It is not perfect, but it is neat. The line numbering is applied by the CSS.
+
+```
+{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}
+function add(a, b) {
+  return a + b;
+}
+console.log(add(1, 2));
+{{leftcurlybracket}}{{leftcurlybracket}}endcode{{rightcurlybracket}}{{rightcurlybracket}}
+```
+
+{{begincode}}
+function add(a, b) {
+  return a + b;
+}
+console.log(add(1, 2));
+{{endcode}}
+
+
+
 # Templates within templates
 There is support for adding templates within templates, like this, where a line break is inserted in the description:
 ```

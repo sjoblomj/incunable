@@ -122,6 +122,55 @@
 <p><strong>Example input:</strong> <code>&lbrace;&lbrace;article &#124;date=2022-11-04 &#124;author=Johan Sjöblom &#124;categories=technology, templates, incunable&rbrace;&rbrace;</code><br />
 <strong>Example output:</strong> <div class="articleheader">By: Johan Sjöblom, 2022-11-04. 15 minute read.</div></p>
 <div class="articlecategories">Categories: technology, templates, incunable</div>
+<h3><code>begincode</code></h3>
+<p>Inserts a code block. It will treat everything between the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endcode&rbrace;&rbrace;</code> template as code to be put into a block. Every line will be wrapped between <code>&lt;span class=&quot;line&quot;&gt;</code> and <code>&lt;/span&gt;</code>. All <code>&lt;</code> and <code>&gt;</code> characters will be replaced with <code>&amp;lt;</code> and <code>&amp;gt;</code>, respectively, so that the code is not interpreted as HTML.</p>
+<p>The syntax highlighting from <a href="https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/">GlyphDrawing.Club</a> is applied by the font itself, and the colours can be customized in the CSS. It is not perfect, but it is neat. The line numbering is applied by the CSS.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;begincode&rbrace;&rbrace;
+function add(a, b) {
+  return a + b;
+}
+console.log(add(1, 2));
+&lbrace;&lbrace;endcode&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong><br /></p>
+<pre class="code-block"><code>
+<span class="line">function add(a, b) {</span>
+<span class="line">  return a + b;</span>
+<span class="line">}</span>
+<span class="line">console.log(add(1, 2));</span>
+</code></pre>
+<h3><code>endcode</code></h3>
+<p>Ends a code block. Fverything between the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endcode&rbrace;&rbrace;</code> template will be put into a block. See the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> template for more details.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;begincode&rbrace;&rbrace;
+fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt; Vec&lt;Vec&lt;u8&gt;&gt; {
+  let mut raw_row_data = Vec::with_capacity(height as usize);
+  for row in 0..height {
+    let start = row as usize * width as usize;
+    let row_data = pixels[start..start + width as usize].to_vec();
+    raw_row_data.push(row_data.clone());
+  }
+  raw_row_data
+}
+&lbrace;&lbrace;endcode&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong><br /></p>
+<pre class="code-block"><code>
+<span class="line">fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt; Vec&lt;Vec&lt;u8&gt;&gt; {</span>
+<span class="line">  let mut raw_row_data = Vec::with_capacity(height as usize);</span>
+<span class="line">  for row in 0..height {</span>
+<span class="line">    let start = row as usize * width as usize;</span>
+<span class="line">    let row_data = pixels[start..start + width as usize].to_vec();</span>
+<span class="line">    raw_row_data.push(row_data.clone());</span>
+<span class="line">  }</span>
+<span class="line">  raw_row_data</span>
+<span class="line">}</span>
+</code></pre>
 <h2>Images</h2>
 <h3><code>img</code></h3>
 <p>Inserts an image. It can be either on a line of its own, or included in inline text.</p>

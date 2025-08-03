@@ -1,3 +1,26 @@
+@font-face {
+  font-family: 'FontWithASyntaxHighlighter';
+  src:
+    url('FontWithASyntaxHighlighter-Regular.woff2')
+    format('woff2')
+  ;
+}
+@font-palette-values --myCustomPalette {
+  font-family: 'FontWithASyntaxHighlighter';
+  override-colors:
+    0 red,         /* keywords, {} */
+    1 red,         /* comments */
+    2 yellow,      /* literals */
+    3 black,       /* numbers */
+    4 blue,        /* functions, [] */
+    5 green,       /* js others */
+    6 black,       /* not in use */
+    7 hotpink,     /* inside quotes, css properties, few chars */
+    8 blue         /* few chars */
+  ;
+}
+
+
 body {
     background-color: #c6b692;
     line-height: 150%;
@@ -235,6 +258,50 @@ td > code {
     border-color: #ccc;
     font-family: monospace;
 }
+
+.code-block code {
+    border: 0;
+    display: inline;
+    padding: 0;
+}
+.code-block {
+    word-wrap: break-word;
+    padding: .1rem .3rem .3rem;
+    border-radius: .2rem;
+    border: 1px solid;
+    border-color: var(--border-colour);
+
+    background: lightgray;
+    line-height: 1em;
+    font-size: medium;
+
+    counter-reset: line;
+    padding-left: 3em;
+    position: relative;
+    white-space: pre;
+}
+
+.line {
+    display: block;
+    position: relative;
+    padding-left: 1.5em;
+    font-family: "FontWithASyntaxHighlighter", monospace;
+    font-palette: --myCustomPalette;
+}
+
+/* Line number styling */
+.line::before {
+    counter-increment: line;
+    content: counter(line);
+    position: absolute;
+    left: -2.5em;
+    width: 2em;
+    text-align: right;
+    color: #000;
+    user-select: none; /* prevents selecting line numbers */
+    font-family: monospace;
+}
+
 
 
 table, td {

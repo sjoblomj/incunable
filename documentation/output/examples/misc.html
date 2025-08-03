@@ -28,6 +28,21 @@
 Like<br />
 this.</p>
 <p>Comments are supported. The following text can be seen if you view the source of this document: <!-- This text is hidden. --></p>
+<h1>Code blocks</h1>
+<p>Code blocks can be inserted as follows. The syntax highlighting from <a href="https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/">GlyphDrawing.Club</a> is applied by the font itself, and the colours can be customized in the CSS. It is not perfect, but it is neat. The line numbering is applied by the CSS.</p>
+<pre><code>&lbrace;&lbrace;begincode&rbrace;&rbrace;
+function add(a, b) {
+  return a + b;
+}
+console.log(add(1, 2));
+&lbrace;&lbrace;endcode&rbrace;&rbrace;
+</code></pre>
+<pre class="code-block"><code>
+<span class="line">function add(a, b) {</span>
+<span class="line">  return a + b;</span>
+<span class="line">}</span>
+<span class="line">console.log(add(1, 2));</span>
+</code></pre>
 <h1>Templates within templates</h1>
 <p>There is support for adding templates within templates, like this, where a line break is inserted in the description:</p>
 <pre><code>&lbrace;&lbrace;imgframe &#124;ref=rider &#124;file=rider.jpg &#124;title=Horses of yore.&lbrace;&lbrace;linebreak&rbrace;&rbrace;From the book Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer.&rbrace;&rbrace;

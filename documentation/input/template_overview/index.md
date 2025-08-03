@@ -85,6 +85,65 @@ Marks a page as an article, This will insert a div with the author's name, the d
 **Example output:** {{article |date=2022-11-04 |author=Johan Sjöblom |categories=technology, templates, incunable}}
 
 
+### `begincode`
+Inserts a code block. It will treat everything between the `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` template and the `{{leftcurlybracket}}{{leftcurlybracket}}endcode{{rightcurlybracket}}{{rightcurlybracket}}` template as code to be put into a block. Every line will be wrapped between `<span class="line">` and `</span>`. All `<` and `>` characters will be replaced with `{{amp}}lt;` and `{{amp}}gt;`, respectively, so that the code is not interpreted as HTML.
+
+The syntax highlighting from [GlyphDrawing.Club](https://blog.glyphdrawing.club/font-with-built-in-syntax-highlighting/) is applied by the font itself, and the colours can be customized in the CSS. It is not perfect, but it is neat. The line numbering is applied by the CSS.
+
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}
+function add(a, b) {
+  return a + b;
+}
+console.log(add(1, 2));
+{{leftcurlybracket}}{{leftcurlybracket}}endcode{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**{{linebreak}}
+{{begincode}}
+function add(a, b) {
+  return a + b;
+}
+console.log(add(1, 2));
+{{endcode}}
+
+
+### `endcode`
+Ends a code block. Fverything between the `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` template and the `{{leftcurlybracket}}{{leftcurlybracket}}endcode{{rightcurlybracket}}{{rightcurlybracket}}` template will be put into a block. See the `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` template for more details.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}
+fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec<u8>) -> Vec<Vec<u8>> {
+  let mut raw_row_data = Vec::with_capacity(height as usize);
+  for row in 0..height {
+    let start = row as usize * width as usize;
+    let row_data = pixels[start..start + width as usize].to_vec();
+    raw_row_data.push(row_data.clone());
+  }
+  raw_row_data
+}
+{{leftcurlybracket}}{{leftcurlybracket}}endcode{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**{{linebreak}}
+{{begincode}}
+fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec<u8>) -> Vec<Vec<u8>> {
+  let mut raw_row_data = Vec::with_capacity(height as usize);
+  for row in 0..height {
+    let start = row as usize * width as usize;
+    let row_data = pixels[start..start + width as usize].to_vec();
+    raw_row_data.push(row_data.clone());
+  }
+  raw_row_data
+}
+{{endcode}}
+
+
 
 ## Images
 

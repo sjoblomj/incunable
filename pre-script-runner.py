@@ -78,7 +78,8 @@ def tree_to_set(node):
 
 def tree_to_list(node):
     tups = tree_to_set(node)
-    sorted_tups = sorted(tups, key=lambda tup: tup[1])
+    sorted_tups = sorted(tups, key=lambda tup: tup[0])
+    sorted_tups = sorted(sorted_tups, key=lambda tup: tup[1])
     list_of_names = map(lambda tup: tup[0], sorted_tups)
     return filter(lambda x: x is not root_node_name, list_of_names)
 

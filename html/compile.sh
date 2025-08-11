@@ -1,9 +1,13 @@
 #!/bin/bash
 
-input="$1"
-output="$2"
-resource_folder="$3"
-custom_templates="$4"
+incunable_folder="$(readlink -f "$0")"
+input="$(           readlink -f "$1")"
+output="$(          readlink -f "$2")"
+resource_folder="$( readlink -f "$3")"
+custom_templates="$(readlink -f "$4")"
+
+prev_dir="$(pwd)"
+cd "$(dirname "$incunable_folder")/.." || exit 1
 
 templatedir="$(mktemp -d)/"
 cp -r html/templates/* "$templatedir"
@@ -76,5 +80,6 @@ for target in ${targets}; do
   rm /tmp/header /tmp/footer "$tmp_name"
   rm -f "$additionalfiles"/reflist
 done
+cd "$prev_dir" || exit 1
 
 rm -rf "$output"/header "$output"/footer "$templatedir"

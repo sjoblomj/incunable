@@ -42,21 +42,37 @@ For each input file, the following operations will be performed:
 ## Template documentation
 Documentation of the templates and different features can be found in the `./documentation/output` directory.
 
+## Dependencies
+* Gawk
+* Python3
+* [cmark-gfm](https://github.com/github/cmark-gfm)
+* [texmath](https://github.com/jgm/texmath) - Optional - only required for mathematical equations
+
 ## Usage
 Input markdown files are turned into HTML files using the compile script in the HTML directory. The script requires three arguments; The directory with input files, the directory where to write to, and a resources directory with header, footer and any custom resources.
 
-### Example usage
+### Local usage
 The documentation of the project can be generated like this:
 
 ```
 ./html/compile.sh documentation/input documentation/output documentation/input_resources
 ```
 
-## Dependencies
-* Gawk
-* Python3
-* [cmark-gfm](https://github.com/github/cmark-gfm)
-* [texmath](https://github.com/jgm/texmath) - Optional - only required for mathematical equations
+### Docker usage
+In the incunable directory, build the Docker image with the following command:
+```
+docker build -t incunable:v1.x .
+```
+
+Then to run Incunable in a directory with content, use the following command which mounts the "input", "output", "resources", and "templates" directories into the Docker container:
+
+```
+mkdir output # If the output directory does not exist, Docker will create it but it will be owned by root
+docker run --rm --user $(id -u):$(id -g) -v $(pwd)/input:/input -v $(pwd)/output:/output -v $(pwd)/resources:/resources -v $(pwd)/templates:/templates incunable:v1.x /input /output /resources /templates
+```
+
+### Dockerhub
+There is a job to automatically publish Incunable on Dockerhub. When the author creates a git tag (`git tag v1.x`) and pushes it (`git push origin v1.x`), GitHub Actions will automatically build and publish Incunable on Dockerhub.
 
 ## Testing
 There is a small test script that can be used to verify that the code and templates behave as expected. It will output the documentation in the `/tmp` directory, and verify that it is identical to what is in the `./documentation/output` directory. Run it with `./run_tests.sh`.

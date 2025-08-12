@@ -16,7 +16,7 @@ RUN apt-get update && \
     git clone https://github.com/jgm/texmath.git "$HOME"/texmath && \
     cd "$HOME"/texmath && \
     cabal install -fexecutable && \
-    PATH="$HOME/.cabal/bin:$PATH"
+    cp $HOME/.cabal/bin/texmath /usr/local/bin
 
-# Set entrypoint to the alias
+# Set entrypoint to the incunable command
 ENTRYPOINT ["incunable"]

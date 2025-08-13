@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.7] - 2025-08-13
+
+### Added
+- Will now auto-publish to Docker Hub on new releases.
+- Added `newlines` parameter to the `beginmath` template.
+- Readme improvements - now describes how to run locally or via Docker.
+
+### Changed
+- Templates are now run in deterministic order.
+- HTML compilation script now handles being run from a different directory.
+
+
 ## [1.6] - 2025-08-05
 
 ### Added

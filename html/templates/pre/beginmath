@@ -1,13 +1,16 @@
 #!/bin/bash
 # @precedes ref
 
-# Parameters:  style = displaystyle, (textstyle)
+# Parameters:
+# * style = displaystyle (default), textstyle
+# * newlines = true (default), false
 
 awk -i inplace -i "utils.awk" '
 BEGIN {
     EQ_NUMBER = 0;
 
     is_reading_equation = 0;
+    newline_style    = "";
     equation_style   = "";
     equation_content = "";
 }
@@ -57,7 +60,8 @@ BEGIN {
 
             # Get parameters if any
             template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
-            equation_style  = get_parameter(template, "style");
+            equation_style = get_parameter(template, "style");
+            newline_style  = get_parameter(template, "newlines");
 
             equation_content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1);
             math = latex_to_math();
@@ -72,7 +76,8 @@ BEGIN {
 
             # Get parameters if any
             template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
-            equation_style  = get_parameter(template, "style");
+            equation_style = get_parameter(template, "style");
+            newline_style  = get_parameter(template, "newlines");
 
             line = trim(substr($0, 0, begin_open_pos - 1));
             if (line != "")
@@ -102,6 +107,10 @@ function latex_to_math(eq, tempfile, style, result) {
     style = (equation_style == "textstyle") ? "--inline" : "";
     result = run_system_command_with_output("texmath " style " --from=tex --to=mathml " tempfile);
     run_system_command("rm -f " tempfile);
+
+    if (newline_style == "false") {
+        gsub(/\n/, "", result);
+    }
 
     EQ_NUMBER += 1;
     return result;

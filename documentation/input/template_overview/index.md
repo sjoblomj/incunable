@@ -257,7 +257,7 @@ Shorthand notation for inserting a mathematical equation in the middle of a para
 | `eq`     | Mandatory | The equation to typeset. |
 
 **Side effects:**
-* The template itself will be replaced by `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, followed by the equation given in the `eq` argument, followed by `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. The `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` template will have the argument `class` hardcoded to `inlinemath`, and the argument `style` hardcoded to `textstyle`.
+* The template itself will be replaced by `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, followed by the equation given in the `eq` argument, followed by `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. The `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` template will have the argument `class` hardcoded to `inlinemath`, the argument `style` hardcoded to `textstyle` and the argument `newlines` hardcoded to `false`.
 
 **Example input:** `If {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=t{{rightcurlybracket}}{{rightcurlybracket}} is the temperature, then {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\Delta t{{rightcurlybracket}}{{rightcurlybracket}} could refer to a difference between two temperature systems.`{{linebreak}}
 **Example output:** If {{math |eq=t}} is the temperature, then {{math |eq=\Delta t}} could refer to a difference between two temperature systems.
@@ -267,9 +267,10 @@ Shorthand notation for inserting a mathematical equation in the middle of a para
 Inserts a [LaTeX](https://en.wikipedia.org/wiki/LaTeX) mathematical equation. It will treat everything between the `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` template and the `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}` template as an equation, and turn it into [MathML](https://en.wikipedia.org/wiki/MathML).
 
 **Arguments:**
-| Argument | Status   | Description |
-| :------- | :------- | :---------- |
-| `style`  | Optional | The style to typeset the equations with. For equations in paragraphs, it is recommended to use `textstyle` (in this case it is recommended to use the `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` template, which will set the style to `textstyle` automatically). For equations on lines by themselves, it is recommended to use `displaystyle`. The default value if this argument is omitted is `displaystyle`. |
+| Argument   | Status   | Description |
+| :--------- | :------- | :---------- |
+| `style`    | Optional | The style to typeset the equations with. For equations in paragraphs, it is recommended to use `textstyle` (in this case it is recommended to use the `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` template, which will set the style to `textstyle` automatically). For equations on lines by themselves, it is recommended to use `displaystyle`. The default value if this argument is omitted is `displaystyle`. |
+| `newlines` | Optional | Whether the generated MathML should have newlines or not. One reason for preventing this is if this template is within another template, which would pose a problem since templates can't span over multiple lines. The default value if this argument is omitted is `true`. |
 
 **Side effects:** None{{linebreak}}
 **Example input:**

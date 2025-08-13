@@ -408,17 +408,10 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt
 </table>
 <p><strong>Side effects:</strong></p>
 <ul>
-<li>The template itself will be replaced by <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, followed by the equation given in the <code>eq</code> argument, followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. The <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template will have the argument <code>class</code> hardcoded to <code>inlinemath</code>, and the argument <code>style</code> hardcoded to <code>textstyle</code>.</li>
+<li>The template itself will be replaced by <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code>, followed by the equation given in the <code>eq</code> argument, followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. The <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template will have the argument <code>class</code> hardcoded to <code>inlinemath</code>, the argument <code>style</code> hardcoded to <code>textstyle</code> and the argument <code>newlines</code> hardcoded to <code>false</code>.</li>
 </ul>
 <p><strong>Example input:</strong> <code>If &lbrace;&lbrace;math &#124;eq=t&rbrace;&rbrace; is the temperature, then &lbrace;&lbrace;math &#124;eq=\Delta t&rbrace;&rbrace; could refer to a difference between two temperature systems.</code><br />
-<strong>Example output:</strong> If <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mi>t</mi>
-</math> is the temperature, then <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow>
-<mi mathvariant="normal">Δ</mi>
-<mi>t</mi>
-</mrow>
-</math> could refer to a difference between two temperature systems.</p>
+<strong>Example output:</strong> If <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mi>t</mi></math> is the temperature, then <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mrow>    <mi mathvariant="normal">Δ</mi>    <mi>t</mi>  </mrow></math> could refer to a difference between two temperature systems.</p>
 <h3><code>beginmath</code></h3>
 <p>Inserts a <a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a> mathematical equation. It will treat everything between the <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> template as an equation, and turn it into <a href="https://en.wikipedia.org/wiki/MathML">MathML</a>.</p>
 <p><strong>Arguments:</strong></p>
@@ -435,6 +428,11 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt
 <td style="text-align: left"><code>style</code></td>
 <td style="text-align: left">Optional</td>
 <td style="text-align: left">The style to typeset the equations with. For equations in paragraphs, it is recommended to use <code>textstyle</code> (in this case it is recommended to use the <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> template, which will set the style to <code>textstyle</code> automatically). For equations on lines by themselves, it is recommended to use <code>displaystyle</code>. The default value if this argument is omitted is <code>displaystyle</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>newlines</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">Whether the generated MathML should have newlines or not. One reason for preventing this is if this template is within another template, which would pose a problem since templates can't span over multiple lines. The default value if this argument is omitted is <code>true</code>.</td>
 </tr>
 </tbody>
 </table>

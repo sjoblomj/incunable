@@ -43,43 +43,7 @@
 <p>Images can also be included inline; <code>&lbrace;&lbrace;img &#124;file=smiley.png &#124;title=:)&rbrace;&rbrace;</code> results in this: <img src="images-files/smiley.png" class="" alt=":)" /></p>
 <h1>Math</h1>
 <p><a href="https://en.wikipedia.org/wiki/LaTeX">LaTeX</a> math equations are supported, and they will be turned into <a href="https://en.wikipedia.org/wiki/MathML">MathML</a> and included into the paragraph. There are two commands with which math can be included, <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> for (shorter) inline math snippets, and <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> followed by <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code> for multiline equations.</p>
-<p>Inline equations can be included using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code>, like this one: <code>&lbrace;&lbrace;math &#124;eq=a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,&rbrace;&rbrace;</code>, which is typeset into: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow>
-<msub>
-<mi>a</mi>
-<mn>1</mn>
-</msub>
-<mo>+</mo>
-<msub>
-<mi>a</mi>
-<mn>2</mn>
-</msub>
-<mo>+</mo>
-<mi>.</mi>
-<mi>.</mi>
-<mi>.</mi>
-<mo>+</mo>
-<msub>
-<mi>a</mi>
-<mi>n</mi>
-</msub>
-<mo>=</mo>
-<msubsup>
-<mo>∑</mo>
-<mrow>
-<mi>i</mi>
-<mo>=</mo>
-<mn>1</mn>
-</mrow>
-<mi>n</mi>
-</msubsup>
-<msub>
-<mi>a</mi>
-<mi>i</mi>
-</msub>
-<mspace width="0.167em" />
-</mrow>
-</math>. Note that for technical reasons, an equation cannot end with &quot;}&quot;, hence <code>\,</code> is inserted at the end of the equation, which adds a tiny space. Using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.</p>
+<p>Inline equations can be included using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code>, like this one: <code>&lbrace;&lbrace;math &#124;eq=a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,&rbrace;&rbrace;</code>, which is typeset into: <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mrow>    <msub>      <mi>a</mi>      <mn>1</mn>    </msub>    <mo>+</mo>    <msub>      <mi>a</mi>      <mn>2</mn>    </msub>    <mo>+</mo>    <mi>.</mi>    <mi>.</mi>    <mi>.</mi>    <mo>+</mo>    <msub>      <mi>a</mi>      <mi>n</mi>    </msub>    <mo>=</mo>    <msubsup>      <mo>∑</mo>      <mrow>        <mi>i</mi>        <mo>=</mo>        <mn>1</mn>      </mrow>      <mi>n</mi>    </msubsup>    <msub>      <mi>a</mi>      <mi>i</mi>    </msub>    <mspace width="0.167em" />  </mrow></math>. Note that for technical reasons, an equation cannot end with &quot;}&quot;, hence <code>\,</code> is inserted at the end of the equation, which adds a tiny space. Using <code>&lbrace;&lbrace;math&rbrace;&rbrace;</code> will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.</p>
 <p>Longer, or multi-line or more complex equations can be included by placing the tex markup between <code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;endmath&rbrace;&rbrace;</code>. This will automatically make the math be typeset in a more spacious way; see how the following is typeset compared to the inlined equation of the previous paragraph. The characters of the two equations are identical, but they are typeset differently.</p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
 a_1 + a_2 + ... + a_n = \sum_&lbrace;i = 1&rbrace;^n a_&lbrace;i&rbrace;\,
@@ -193,13 +157,7 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
     <mspace width="0.167em" />
   </mrow>
 </math>
-<p>Equation (1) above is known as Euler's Formula, and the number is referenced by <code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>. We can evaluate Euler's Formula for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow>
-<mi>θ</mi>
-<mo>=</mo>
-<mi>π</mi>
-</mrow>
-</math> (<code>&lbrace;&lbrace;math &#124;eq=\theta = \pi&rbrace;&rbrace;</code>):</p>
+<p>Equation (1) above is known as Euler's Formula, and the number is referenced by <code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>. We can evaluate Euler's Formula for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mrow>    <mi>θ</mi>    <mo>=</mo>    <mi>π</mi>  </mrow></math> (<code>&lbrace;&lbrace;math &#124;eq=\theta = \pi&rbrace;&rbrace;</code>):</p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
 \begin&lbrace;align&rbrace;
   e^&lbrace;i\pi&rbrace;    &= \cos&lbrace;\pi&rbrace; + i \sin&lbrace;\pi&rbrace;  &&lbrace;&lbrace;mathref &#124;ref=Pi1&rbrace;&rbrace;\\
@@ -328,16 +286,8 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
     </mtr>
   </mtable>
 </math>
-<p>In (2) (<code>&lbrace;&lbrace;ref &#124;ref=Pi1&rbrace;&rbrace;</code>) we insert <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mi>π</mi>
-</math> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>) into (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>), i.e. Euler's Formula. In (3) (<code>&lbrace;&lbrace;ref &#124;ref=Pi2&rbrace;&rbrace;</code>) and (4) (<code>&lbrace;&lbrace;ref &#124;ref=Pi3&rbrace;&rbrace;</code>) we solve the equation, and finally in (5) (<code>&lbrace;&lbrace;ref &#124;ref=Pi4&rbrace;&rbrace;</code>), we obtain what is known as <a href="https://en.wikipedia.org/wiki/Euler%27s_identity">Euler's Identity</a>, sometimes called &quot;the most beautiful equation in mathematics&quot;.</p>
-<p>Of course, cool kids use <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mi>τ</mi>
-</math> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) instead of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mi>π</mi>
-</math> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>), see the <a href="https://tauday.com/tau-manifesto">Tau Manifesto</a>. Then we instead get the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mi>τ</mi>
-</math> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity:</p>
+<p>In (2) (<code>&lbrace;&lbrace;ref &#124;ref=Pi1&rbrace;&rbrace;</code>) we insert <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mi>π</mi></math> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>) into (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>), i.e. Euler's Formula. In (3) (<code>&lbrace;&lbrace;ref &#124;ref=Pi2&rbrace;&rbrace;</code>) and (4) (<code>&lbrace;&lbrace;ref &#124;ref=Pi3&rbrace;&rbrace;</code>) we solve the equation, and finally in (5) (<code>&lbrace;&lbrace;ref &#124;ref=Pi4&rbrace;&rbrace;</code>), we obtain what is known as <a href="https://en.wikipedia.org/wiki/Euler%27s_identity">Euler's Identity</a>, sometimes called &quot;the most beautiful equation in mathematics&quot;.</p>
+<p>Of course, cool kids use <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mi>τ</mi></math> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) instead of <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mi>π</mi></math> (<code>&lbrace;&lbrace;math &#124;eq=\pi&rbrace;&rbrace;</code>), see the <a href="https://tauday.com/tau-manifesto">Tau Manifesto</a>. Then we instead get the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mi>τ</mi></math> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity:</p>
 <pre><code>&lbrace;&lbrace;beginmath&rbrace;&rbrace;
 \begin&lbrace;align&rbrace;
   e^&lbrace;i\tau&rbrace;   &= \cos&lbrace;2\pi&rbrace; + i \sin&lbrace;2\pi&rbrace; &&lbrace;&lbrace;mathref &#124;ref=Tau1&rbrace;&rbrace;\\
@@ -443,16 +393,7 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
     </mtr>
   </mtable>
 </math>
-<p>In (6) (<code>&lbrace;&lbrace;ref &#124;ref=Tau1&rbrace;&rbrace;</code>) we solve equation (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>) for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mrow>
-<mi>τ</mi>
-<mo>=</mo>
-<mn>2</mn>
-<mi>π</mi>
-</mrow>
-</math> (<code>&lbrace;&lbrace;math &#124;eq=\tau = 2\pi&rbrace;&rbrace;</code>), and in (7) (<code>&lbrace;&lbrace;ref &#124;ref=Tau2&rbrace;&rbrace;</code>) we simplify. We then obtain the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">
-<mi>τ</mi>
-</math> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity in (8) (<code>&lbrace;&lbrace;ref &#124;ref=Tau3&rbrace;&rbrace;</code>).</p>
+<p>In (6) (<code>&lbrace;&lbrace;ref &#124;ref=Tau1&rbrace;&rbrace;</code>) we solve equation (1) (<code>&lbrace;&lbrace;ref &#124;ref=EulersFormula&rbrace;&rbrace;</code>) for <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mrow>    <mi>τ</mi>    <mo>=</mo>    <mn>2</mn>    <mi>π</mi>  </mrow></math> (<code>&lbrace;&lbrace;math &#124;eq=\tau = 2\pi&rbrace;&rbrace;</code>), and in (7) (<code>&lbrace;&lbrace;ref &#124;ref=Tau2&rbrace;&rbrace;</code>) we simplify. We then obtain the <math display="inline" xmlns="http://www.w3.org/1998/Math/MathML">  <mi>τ</mi></math> (<code>&lbrace;&lbrace;math &#124;eq=\tau&rbrace;&rbrace;</code>) version of Euler's Identity in (8) (<code>&lbrace;&lbrace;ref &#124;ref=Tau3&rbrace;&rbrace;</code>).</p>
 <h1>Galleries</h1>
 <h2>One Thumbnail</h2>
 <p>Below is a gallery with one single thumbnail. Just include a <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code>, and the engine will do the rest. The title of the thumbnail will be the title of the gallery (here the title is &quot;Pretty candles:&quot;, which is included in the text before the gallery).</p>

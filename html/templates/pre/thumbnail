@@ -34,7 +34,7 @@ BEGIN {
         found_thumbnails = 0;
     }
 }
-END {
+ENDFILE {
     if (should_print_thumbnails_after) {
         print "{{thumbnails_after}}";
     }

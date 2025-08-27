@@ -31,7 +31,7 @@ BEGIN {
         found_imglinklist = 0;
     }
 }
-END {
+ENDFILE {
     if (should_print_imglinklist_after) {
         print "{{imglinklist_after}}";
     }

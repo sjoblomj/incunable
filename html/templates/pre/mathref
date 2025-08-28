@@ -3,21 +3,21 @@
 
 awk -i inplace -i "utils.awk" -v additionalfiles="$3" '
 BEGIN {
-    MATH_REF_NO = 0;
+    MATH_REF_NO = 0
 }
 {
     if ($0 ~ "{{mathref ") {
-        ref = write_ref($0);
-        sub("{{mathref .*}}", "\\qquad \\left(" MATH_REF_NO "\\right) \\label{" ref "}\\,", $0);
+        ref = write_ref($0)
+        sub("{{mathref .*}}", "\\qquad \\left(" MATH_REF_NO "\\right) \\label{" ref "}\\,", $0)
     }
-    print $0;
+    print $0
 }
 
 function write_ref(text,  ref) {
-    ref = get_parameter(text, "ref");
+    ref = get_parameter(text, "ref")
 
-    MATH_REF_NO += 1;
-    print ref "=" MATH_REF_NO >> additionalfiles "/reflist";
-    return ref;
+    MATH_REF_NO += 1
+    print ref "=" MATH_REF_NO >> additionalfiles "/reflist"
+    return ref
 }
 ' "$1"

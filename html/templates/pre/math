@@ -4,16 +4,16 @@
 awk -i inplace -i "utils.awk" '
 {
     while (1) {
-        start_pos = index($0, "{{math ");
+        start_pos = index($0, "{{math ")
         if (start_pos > 0) {
-            pos = start_pos + length(OPENING_BRACKETS);
-            eq = get_parameter($0, "eq");
-            end_pos = find_template_closing_pos(substr($0, pos)) + pos + length(CLOSING_BRACKETS) - 1;
-            $0 = substr($0, 0, start_pos - 1) "{{beginmath |class=inlinemath |style=textstyle |newlines=false}}" eq "{{endmath}}" substr($0, end_pos);
+            pos = start_pos + length(OPENING_BRACKETS)
+            eq = get_parameter($0, "eq")
+            end_pos = find_template_closing_pos(substr($0, pos)) + pos + length(CLOSING_BRACKETS) - 1
+            $0 = substr($0, 0, start_pos - 1) "{{beginmath |class=inlinemath |style=textstyle |newlines=false}}" eq "{{endmath}}" substr($0, end_pos)
         } else {
-            break;
+            break
         }
     }
-    print $0;
+    print $0
 }
 ' "$1"

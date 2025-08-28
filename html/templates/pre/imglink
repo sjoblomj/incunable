@@ -3,57 +3,57 @@
 
 awk -i inplace -i "utils.awk" '
 BEGIN {
-    found_imglinklist = 0;
-    should_print_imglinklist_after = 0;
+    FOUND_IMGLINKLIST = 0
+    SHOULD_PRINT_IMGLINKLIST_AFTER = 0
 }
 {
     if ($0 ~ "{{imglinklist") {
-        found_imglinklist = 1;
-        print $0;
-        next;
+        FOUND_IMGLINKLIST = 1
+        print $0
+        next
     }
 
     if ($0 ~ "{{imglink ") {
-        should_print_imglinklist_after = 1;
-        if (found_imglinklist) {
-            print adjust_imglink($0);
+        SHOULD_PRINT_IMGLINKLIST_AFTER = 1
+        if (FOUND_IMGLINKLIST) {
+            print adjust_imglink($0)
         } else {
-            print "{{imglinklist}}\n" adjust_imglink($0);
-            found_imglinklist = 1;
+            print "{{imglinklist}}\n" adjust_imglink($0)
+            FOUND_IMGLINKLIST = 1
         }
     } else {
-        if (should_print_imglinklist_after) {
-            should_print_imglinklist_after = 0;
-            print "{{imglinklist_after}}\n" $0;
+        if (SHOULD_PRINT_IMGLINKLIST_AFTER) {
+            SHOULD_PRINT_IMGLINKLIST_AFTER = 0
+            print "{{imglinklist_after}}\n" $0
         } else {
-            print $0;
+            print $0
         }
-        found_imglinklist = 0;
+        FOUND_IMGLINKLIST = 0
     }
 }
 ENDFILE {
-    if (should_print_imglinklist_after) {
-        print "{{imglinklist_after}}";
+    if (SHOULD_PRINT_IMGLINKLIST_AFTER) {
+        print "{{imglinklist_after}}"
     }
 }
 
 function adjust_imglink(line,  link, img, dir, linkdir) {
-    link = get_parameter(line, "link");
-    img  = get_parameter(line, "img");
-    dir  = get_parameter(line, "dir");
-    linkdir = link;
+    link = get_parameter(line, "link")
+    img  = get_parameter(line, "img")
+    dir  = get_parameter(line, "dir")
+    linkdir = link
     if (dir != "")
-        linkdir = dir "/" link;
+        linkdir = dir "/" link
 
     if (link !~ /^http/) {
         if (link !~ /html$/) {
-            sub("\\|link *= *" link, "|link=" linkdir ".html", line);
+            sub("\\|link *= *" link, "|link=" linkdir ".html", line)
         } else {
-            sub("\\|link *= *" link, "|link=" linkdir,         line);
+            sub("\\|link *= *" link, "|link=" linkdir,         line)
         }
     }
     if (img !~ /^http/)
-        sub("\\|img *= *", "|img=" linkdir "-files/", line);
-    return line;
+        sub("\\|img *= *", "|img=" linkdir "-files/", line)
+    return line
 }
 ' "$1"

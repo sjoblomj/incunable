@@ -2,92 +2,92 @@
 
 awk -i inplace -i "utils.awk" '
 BEGIN {
-    is_reading_code = 0;
-    code_content = "";
+    IS_READING_CODE = 0
+    CODE_CONTENT = ""
 }
 {
     while (1) {
-        begin_open_pos = index($0, "{{begincode");
-        end_open_pos   = index($0, "{{endcode");
+        begin_open_pos = index($0, "{{begincode")
+        end_open_pos   = index($0, "{{endcode")
 
         ## Example input
         # Apa bepa.
-        # CEPA. {{begincode}}if(found) result *= 2;
-        # return result;
+        # CEPA. {{begincode}}if(found) result *= 2
+        # return result
         # {{endcode}} cepa depa {{begincode}}c++{{endcode}} epa fepa {{begincode}}
         # function square(x) {
-        #   return x * x;
+        #   return x * x
         # }
-        # console.log(square(2));
+        # console.log(square(2))
         # {{endcode}} gepa.
         # hepa.
         # ipa.
 
-        if (is_reading_code && end_open_pos == 0) {
+        if (IS_READING_CODE && end_open_pos == 0) {
             # We are currently reading a multiline code snippet and this line does not end it.
             # Read one more line of the code
-            code_content = code_content handle_line($0) "\n";
-            break;
+            CODE_CONTENT = CODE_CONTENT handle_line($0) "\n"
+            break
 
-        } else if (is_reading_code && end_open_pos > 0) {
+        } else if (IS_READING_CODE && end_open_pos > 0) {
             # We are reading a multiline code snippet that ends on this line.
             # Read the rest of the code
-            content = substr($0, 0, end_open_pos - 1);
+            content = substr($0, 0, end_open_pos - 1)
             if (content != "")
-                content = handle_line(content);
-            code_content = code_content content;
+                content = handle_line(content)
+            CODE_CONTENT = CODE_CONTENT content
 
             # Remove the {{endcode}} from $0
-            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1;
-            $0 = code_content "</code></pre>" substr($0, end_finish_pos);
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
+            $0 = CODE_CONTENT "</code></pre>" substr($0, end_finish_pos)
 
-            is_reading_code = 0;
-            code_content = "";
+            IS_READING_CODE = 0
+            CODE_CONTENT = ""
 
         } else if (begin_open_pos > 0 && end_open_pos > 0) {
             # We are not currently reading a code snippet, however,
             # the current line contains both a start and an end of a one-line equation.
 
-            begin_finish_pos = index(substr($0, begin_open_pos), CLOSING_BRACKETS) + begin_open_pos;
-            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1;
+            begin_finish_pos = index(substr($0, begin_open_pos), CLOSING_BRACKETS) + begin_open_pos
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
 
-            content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1);
-            content = "<pre class=\"code-block\"><code>" handle_line(content) "</code></pre>";
-            content = handle_line(content);
-            $0 = substr($0, 0, begin_open_pos - 1) content substr($0, end_finish_pos);
+            content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1)
+            content = "<pre class=\"code-block\"><code>" handle_line(content) "</code></pre>"
+            content = handle_line(content)
+            $0 = substr($0, 0, begin_open_pos - 1) content substr($0, end_finish_pos)
 
         } else if (begin_open_pos > 0) {
             # We are not currently reading a code snippet, however,
             # the current line contains the start of a multi-line code snippet.
 
-            begin_finish_pos = find_template_closing_pos(substr($0, begin_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + begin_open_pos + 1;
+            begin_finish_pos = find_template_closing_pos(substr($0, begin_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + begin_open_pos + 1
 
-            line = trim(substr($0, 0, begin_open_pos - 1));
+            line = trim(substr($0, 0, begin_open_pos - 1))
             if (line != "")
-                print line;
+                print line
 
             # Read code on this line
-            content = substr($0, begin_finish_pos);
+            content = substr($0, begin_finish_pos)
             if (content != "")
-                content = handle_line(content);
-            code_content = "<pre class=\"code-block\"><code>" content "\n";
+                content = handle_line(content)
+            CODE_CONTENT = "<pre class=\"code-block\"><code>" content "\n"
 
-            is_reading_code = 1;
-            break;
+            IS_READING_CODE = 1
+            break
 
         } else {
             # We are not reading a code snippet, and there is not one starting either.
-            print $0;
-            break;
+            print $0
+            break
         }
     }
 }
 
 function handle_line(line) {
     if (line == "")
-        line = " ";
-    gsub("<", "\\&lt;", line);
-    gsub(">", "\\&gt;", line);
-    return "<span class=\"line\">" line "</span>";
+        line = " "
+    gsub("<", "\\&lt;", line)
+    gsub(">", "\\&gt;", line)
+    return "<span class=\"line\">" line "</span>"
 }
 ' "$1"

@@ -7,17 +7,17 @@
 
 awk -i inplace -i "utils.awk" '
 BEGIN {
-    EQ_NUMBER = 0;
+    EQ_NUMBER = 0
 
-    is_reading_equation = 0;
-    newline_style    = "";
-    equation_style   = "";
-    equation_content = "";
+    IS_READING_EQUATION = 0
+    NEWLINE_STYLE    = ""
+    EQUATION_STYLE   = ""
+    EQUATION_CONTENT = ""
 }
 {
     while (1) {
-        begin_open_pos = index($0, "{{beginmath");
-        end_open_pos   = index($0, "{{endmath");
+        begin_open_pos = index($0, "{{beginmath")
+        end_open_pos   = index($0, "{{endmath")
 
         ## Example input
         # Apa bepa.
@@ -30,89 +30,89 @@ BEGIN {
         # hepa.
         # ipa.
 
-        if (is_reading_equation && end_open_pos == 0) {
+        if (IS_READING_EQUATION && end_open_pos == 0) {
             # We are currently reading a multiline equation and this line does not end it.
             # Read one more line of the equation
-            equation_content = equation_content $0 "\n";
-            break;
+            EQUATION_CONTENT = EQUATION_CONTENT $0 "\n"
+            break
 
-        } else if (is_reading_equation && end_open_pos > 0) {
+        } else if (IS_READING_EQUATION && end_open_pos > 0) {
             # We are reading a multiline equation that ends on this line.
             # Read the rest of the equation
-            eq = substr($0, 0, end_open_pos - 1);
-            equation_content = equation_content eq; 
+            eq = substr($0, 0, end_open_pos - 1)
+            EQUATION_CONTENT = EQUATION_CONTENT eq
 
             # Remove the {{endmath}} from $0
-            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1;
-            math = latex_to_math();
-            $0 = math substr($0, end_finish_pos);
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
+            math = latex_to_math()
+            $0 = math substr($0, end_finish_pos)
 
-            is_reading_equation = 0;
-            equation_style   = "";
-            equation_content = "";
+            IS_READING_EQUATION = 0
+            EQUATION_STYLE   = ""
+            EQUATION_CONTENT = ""
 
         } else if (begin_open_pos > 0 && end_open_pos > 0) {
             # We are not currently reading an equation, however,
             # the current line contains both a start and an end of a one-line equation.
 
-            begin_finish_pos = index(substr($0, begin_open_pos), CLOSING_BRACKETS) + begin_open_pos;
-            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1;
+            begin_finish_pos = index(substr($0, begin_open_pos), CLOSING_BRACKETS) + begin_open_pos
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
 
             # Get parameters if any
-            template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
-            equation_style = get_parameter(template, "style");
-            newline_style  = get_parameter(template, "newlines");
+            template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1)
+            EQUATION_STYLE = get_parameter(template, "style")
+            NEWLINE_STYLE  = get_parameter(template, "newlines")
 
-            equation_content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1);
-            math = latex_to_math();
+            EQUATION_CONTENT = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1)
+            math = latex_to_math()
 
-            $0 = substr($0, 0, begin_open_pos - 1) math substr($0, end_finish_pos);
+            $0 = substr($0, 0, begin_open_pos - 1) math substr($0, end_finish_pos)
 
         } else if (begin_open_pos > 0) {
             # We are not currently reading an equation, however,
             # the current line contains a start of a multi-line equation.
 
-            begin_finish_pos = find_template_closing_pos(substr($0, begin_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + begin_open_pos + 1;
+            begin_finish_pos = find_template_closing_pos(substr($0, begin_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + begin_open_pos + 1
 
             # Get parameters if any
-            template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1);
-            equation_style = get_parameter(template, "style");
-            newline_style  = get_parameter(template, "newlines");
+            template = substr($0, begin_open_pos, begin_finish_pos - begin_open_pos + 1)
+            EQUATION_STYLE = get_parameter(template, "style")
+            NEWLINE_STYLE  = get_parameter(template, "newlines")
 
-            line = trim(substr($0, 0, begin_open_pos - 1));
+            line = trim(substr($0, 0, begin_open_pos - 1))
             if (line != "")
-                print line;
+                print line
 
             # Read equation on this line
-            equation_content = substr($0, begin_finish_pos) "\n";
+            EQUATION_CONTENT = substr($0, begin_finish_pos) "\n"
 
-            is_reading_equation = 1;
-            break;
+            IS_READING_EQUATION = 1
+            break
 
         } else {
             # We are not reading an equation, and there is not one starting either.
-            print $0;
-            break;
+            print $0
+            break
         }
     }
 }
 
 function latex_to_math(eq, tempfile, style, result) {
-    tempfile = run_system_command_with_output("mktemp");
+    tempfile = run_system_command_with_output("mktemp")
 
-    eq = trim(equation_content);
-    print eq > tempfile;
-    fflush(tempfile);
+    eq = trim(EQUATION_CONTENT)
+    print eq > tempfile
+    fflush(tempfile)
 
-    style = (equation_style == "textstyle") ? "--inline" : "";
-    result = run_system_command_with_output("texmath " style " --from=tex --to=mathml " tempfile);
-    run_system_command("rm -f " tempfile);
+    style = (EQUATION_STYLE == "textstyle") ? "--inline" : ""
+    result = run_system_command_with_output("texmath " style " --from=tex --to=mathml " tempfile)
+    run_system_command("rm -f " tempfile)
 
-    if (newline_style == "false") {
-        gsub(/\n/, "", result);
+    if (NEWLINE_STYLE == "false") {
+        gsub(/\n/, "", result)
     }
 
-    EQ_NUMBER += 1;
-    return result;
+    EQ_NUMBER += 1
+    return result
 }
 ' "$1"

@@ -26,11 +26,14 @@ BEGIN {
         }
     } else {
         if (SHOULD_PRINT_THUMBNAILS_AFTER) {
+            pos = index($0, "}}")
+            beginning_of_line = trim(substr($0, 1, pos + 1))
+            if (index(beginning_of_line, "{{thumbnails_after}}") == 0) {
+                print "{{thumbnails_after}}\n"
+            }
             SHOULD_PRINT_THUMBNAILS_AFTER = 0
-            print "{{thumbnails_after}}\n" $0
-        } else {
-            print $0
         }
+        print $0
         FOUND_THUMBNAILS = 0
     }
 }

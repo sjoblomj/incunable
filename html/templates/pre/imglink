@@ -7,7 +7,7 @@ BEGIN {
     SHOULD_PRINT_IMGLINKLIST_AFTER = 0
 }
 {
-    if ($0 ~ "{{imglinklist") {
+    if ($0 ~ /{{imglinklist[^_]/) {
         FOUND_IMGLINKLIST = 1
         print $0
         next
@@ -23,11 +23,14 @@ BEGIN {
         }
     } else {
         if (SHOULD_PRINT_IMGLINKLIST_AFTER) {
+            pos = index($0, "}}")
+            beginning_of_line = trim(substr($0, 1, pos + 1))
+            if (index(beginning_of_line, "{{imglinklist_after}}") == 0) {
+                print "{{imglinklist_after}}\n"
+            }
             SHOULD_PRINT_IMGLINKLIST_AFTER = 0
-            print "{{imglinklist_after}}\n" $0
-        } else {
-            print $0
         }
+        print $0
         FOUND_IMGLINKLIST = 0
     }
 }

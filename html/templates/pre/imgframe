@@ -1,4 +1,5 @@
 #!/bin/bash
+# @precedes include-iframe
 
 awk -i inplace -i "utils.awk" -v targetfile="$2" -v additionalfiles="$3" '
 BEGIN {
@@ -29,7 +30,7 @@ BEGIN {
             if (elem != "") {
                 elem = targetfile "-files/" elem
                 template = template "|class=fallback "
-                template = template "|elem=<iframe class=\"iframe\" id=\"" ref "\" src=\"" elem "\" scrolling=\"no\" style=\"display:none; border: 0;\"></iframe>"
+                template = template "|elem={{include-iframe |id=" ref " |file=" elem "}}"
             } else {
                 template = template "|class= |elem="
             }

@@ -2,4 +2,4 @@
 <img class="fallback" src="${fallback}" alt="${fallback_text}" />
 <figcaption class="fallback">${fallback_text}</figcaption>
 </figure>
-<iframe class="iframe" id="${id}" src="${file}" scrolling="no" style="display:none; border: 0;"></iframe>
+{{include-iframe |id=${id} |file=${file}}}

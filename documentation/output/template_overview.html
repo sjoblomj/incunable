@@ -291,6 +291,11 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt
 <td style="text-align: left">Pseudo</td>
 <td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is a numeric counter, needed for technical reasons.</td>
 </tr>
+<tr>
+<td style="text-align: left"><code>id</code></td>
+<td style="text-align: left">Pseudo</td>
+<td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is a unique identifier of the current group of thumbnails.</td>
+</tr>
 </tbody>
 </table>
 <p><strong>Side effects:</strong></p>
@@ -298,20 +303,21 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt
 <li>This template must be surrounded by <code>&lbrace;&lbrace;thumbnails&rbrace;&rbrace;</code> and <code>&lbrace;&lbrace;thumbnails_after&rbrace;&rbrace;</code>, but if these are not present, the engine will insert them.</li>
 <li>The path given in the <code>small</code> and <code>large</code> arguments will be modified to be in the subfolder &quot;[page]-files&quot;, where &quot;[page]&quot; is the name of the page where the image is included.</li>
 <li>An image counter is incremented for each encountered <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> template. The number of the current image is inserted as the <code>num</code> argument.</li>
+<li>An id is inserted for each encountered group of <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> templates. The id is inserted as the <code>id</code> argument, and will also be written to the next <code>&lbrace;&lbrace;thumbnails_after&rbrace;&rbrace;</code> template.</li>
 </ul>
 <p><strong>Example input:</strong> <code>&lbrace;&lbrace;thumbnail &#124;title=Pretty candles &#124;small=candles_small.png &#124;large=candles.jpg&rbrace;&rbrace;</code><br />
 <strong>Example output:</strong><br /></p>
 <p class="screenshottxt">Pretty candles</p>
 <ul class="gallery_large_pic">
 <li>
-  <label for="futurebox0"><img src="template_overview-files/candles_small.png" title="Pretty candles" alt="Pretty candles" /></label>
-  <input type="radio" id="futurebox0" name="gallery" />
-  <div class="overlay">
-    <label for="close" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Pretty candles" class="large" /></label>
+  <label for="thumbnail_0"><img src="template_overview-files/candles_small.png" title="Pretty candles" alt="Pretty candles" /></label>
+  <input type="radio" id="thumbnail_0" name="gallery" />
+  <div class="thumbnail_overlay">
+    <label for="close_template_overview_257" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Pretty candles" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
 </ul>
-<input type="radio" id="close" name="gallery" />
+<input type="radio" id="close_template_overview_257" class="close_thumbnails" name="gallery" />
 <h3><code>thumbnails</code></h3>
 <p>Denotes the start of a gallery, and must come before the first <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the starting template and insert it. When it is automatically inserted, the <code>title</code> argument of the first <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> will be used as the <code>text</code> argument for the inserted <code>&lbrace;&lbrace;thumbnails&rbrace;&rbrace;</code>.</p>
 <p><strong>Arguments:</strong></p>
@@ -341,26 +347,45 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt
 <p class="screenshottxt">Candles and trees in a gallery:</p>
 <ul class="gallery_large_pic">
 <li>
-  <label for="futurebox1"><img src="template_overview-files/candles_small.png" title="Candles" alt="Candles" /></label>
-  <input type="radio" id="futurebox1" name="gallery" />
-  <div class="overlay">
-    <label for="close" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
+  <label for="thumbnail_1"><img src="template_overview-files/candles_small.png" title="Candles" alt="Candles" /></label>
+  <input type="radio" id="thumbnail_1" name="gallery" />
+  <div class="thumbnail_overlay">
+    <label for="close_template_overview_275" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
 <li>
-  <label for="futurebox2"><img src="template_overview-files/trees_small.png" title="Trees" alt="Trees" /></label>
-  <input type="radio" id="futurebox2" name="gallery" />
-  <div class="overlay">
-    <label for="close" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
+  <label for="thumbnail_2"><img src="template_overview-files/trees_small.png" title="Trees" alt="Trees" /></label>
+  <input type="radio" id="thumbnail_2" name="gallery" />
+  <div class="thumbnail_overlay">
+    <label for="close_template_overview_275" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg --> 
 </ul>
-<input type="radio" id="close" name="gallery" />
+<input type="radio" id="close_template_overview_275" class="close_thumbnails" name="gallery" />
 <h3><code>thumbnails_after</code></h3>
 <p>Denotes the end of a gallery, and must come after the last <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the ending template and insert it.</p>
-<p><strong>Arguments:</strong> None<br />
-<strong>Side effects:</strong> None<br />
-<strong>Example input:</strong></p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>id</code></td>
+<td style="text-align: left">Pseudo</td>
+<td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is a unique identifier of the current group of thumbnails.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>An id is inserted for each encountered group of <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> templates. The id is inserted as the <code>id</code> argument of the <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> templates, and will also be written to the next <code>&lbrace;&lbrace;thumbnails_after&rbrace;&rbrace;</code> template.</li>
+</ul>
+<p><strong>Example input:</strong></p>
 <pre><code>&lbrace;&lbrace;thumbnails &#124;text=Candles and trees in a gallery:&rbrace;&rbrace;
 &lbrace;&lbrace;thumbnail &#124;title=Candles &#124;small=candles_small.png &#124;large=candles.jpg&rbrace;&rbrace;
 &lbrace;&lbrace;thumbnail &#124;title=Trees   &#124;small=trees_small.png   &#124;large=trees.png&rbrace;&rbrace;
@@ -370,21 +395,21 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt
 <p class="screenshottxt">Candles and trees in a gallery:</p>
 <ul class="gallery_large_pic">
 <li>
-  <label for="futurebox3"><img src="template_overview-files/candles_small.png" title="Candles" alt="Candles" /></label>
-  <input type="radio" id="futurebox3" name="gallery" />
-  <div class="overlay">
-    <label for="close" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
+  <label for="thumbnail_3"><img src="template_overview-files/candles_small.png" title="Candles" alt="Candles" /></label>
+  <input type="radio" id="thumbnail_3" name="gallery" />
+  <div class="thumbnail_overlay">
+    <label for="close_template_overview_295" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
 <li>
-  <label for="futurebox4"><img src="template_overview-files/trees_small.png" title="Trees" alt="Trees" /></label>
-  <input type="radio" id="futurebox4" name="gallery" />
-  <div class="overlay">
-    <label for="close" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
+  <label for="thumbnail_4"><img src="template_overview-files/trees_small.png" title="Trees" alt="Trees" /></label>
+  <input type="radio" id="thumbnail_4" name="gallery" />
+  <div class="thumbnail_overlay">
+    <label for="close_template_overview_295" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg --> 
 </ul>
-<input type="radio" id="close" name="gallery" />
+<input type="radio" id="close_template_overview_295" class="close_thumbnails" name="gallery" />
 <h3><code>math</code></h3>
 <p>Shorthand notation for inserting a mathematical equation in the middle of a paragraph.</p>
 <p><strong>Arguments:</strong></p>

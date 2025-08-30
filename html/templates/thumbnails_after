@@ -1,2 +1,2 @@
 </ul>
-<input type="radio" id="close" name="gallery" />
+<input type="radio" id="close_${id}" class="close_thumbnails" name="gallery" />

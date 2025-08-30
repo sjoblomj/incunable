@@ -198,11 +198,13 @@ Inserts a gallery with one or many images. The images can be clicked on to be en
 | `small`  | Mandatory | The name of the thumbnail file.                      |
 | `large`  | Mandatory | The name of the large image file.                    |
 | `num`    | Pseudo    | Don't provide this argument manually; the engine will do it for you! It is a numeric counter, needed for technical reasons. |
+| `id`     | Pseudo    | Don't provide this argument manually; the engine will do it for you! It is a unique identifier of the current group of thumbnails. |
 
 **Side effects:**
 * This template must be surrounded by `{{leftcurlybracket}}{{leftcurlybracket}}thumbnails{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}thumbnails_after{{rightcurlybracket}}{{rightcurlybracket}}`, but if these are not present, the engine will insert them.
 * The path given in the `small` and `large` arguments will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 * An image counter is incremented for each encountered `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail{{rightcurlybracket}}{{rightcurlybracket}}` template. The number of the current image is inserted as the `num` argument.
+* An id is inserted for each encountered group of `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail{{rightcurlybracket}}{{rightcurlybracket}}` templates. The id is inserted as the `id` argument, and will also be written to the next `{{leftcurlybracket}}{{leftcurlybracket}}thumbnails_after{{rightcurlybracket}}{{rightcurlybracket}}` template.
 
 **Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail {{pipe}}title=Pretty candles {{pipe}}small=candles_small.png {{pipe}}large=candles.jpg{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
 **Example output:**{{linebreak}}
@@ -232,8 +234,14 @@ Denotes the start of a gallery, and must come before the first `{{leftcurlybrack
 ### `thumbnails_after`
 Denotes the end of a gallery, and must come after the last `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail{{rightcurlybracket}}{{rightcurlybracket}}` of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the ending template and insert it.
 
-**Arguments:** None{{linebreak}}
-**Side effects:** None{{linebreak}}
+**Arguments:**
+| Argument | Status    | Description |
+| :------- | :-------- | :---------- |
+| `id`     | Pseudo    | Don't provide this argument manually; the engine will do it for you! It is a unique identifier of the current group of thumbnails. |
+
+**Side effects:**
+* An id is inserted for each encountered group of `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail{{rightcurlybracket}}{{rightcurlybracket}}` templates. The id is inserted as the `id` argument of the `{{leftcurlybracket}}{{leftcurlybracket}}thumbnail{{rightcurlybracket}}{{rightcurlybracket}}` templates, and will also be written to the next `{{leftcurlybracket}}{{leftcurlybracket}}thumbnails_after{{rightcurlybracket}}{{rightcurlybracket}}` template.
+
 **Example input:**
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}thumbnails {{pipe}}text=Candles and trees in a gallery:{{rightcurlybracket}}{{rightcurlybracket}}

@@ -4,6 +4,7 @@
 awk -i inplace -i "utils.awk" -v targetfile="$2" '
 BEGIN {
     THUMBNAIL_NO = 0
+    THUMBNAIL_GROUP_ID = 0
     FOUND_THUMBNAILS = 0
     SHOULD_PRINT_THUMBNAILS_AFTER = 0
 }
@@ -28,23 +29,28 @@ BEGIN {
         if (SHOULD_PRINT_THUMBNAILS_AFTER) {
             pos = index($0, "}}")
             beginning_of_line = trim(substr($0, 1, pos + 1))
-            if (index(beginning_of_line, "{{thumbnails_after}}") == 0) {
-                print "{{thumbnails_after}}\n"
+            if (index(beginning_of_line, "{{thumbnails_after") == 0) {
+                print "{{thumbnails_after |id=" targetfile "_" THUMBNAIL_GROUP_ID "}}\n"
+            } else {
+                open_pos = index($0, "{{thumbnails_after")
+                closing_pos = find_template_closing_pos(substr($0, open_pos + length("{{")))
+                $0 = substr($0, 0, open_pos - 1) "{{thumbnails_after |id=" targetfile "_" THUMBNAIL_GROUP_ID "}}" substr($0, open_pos + closing_pos + length("}}") + 1)
             }
             SHOULD_PRINT_THUMBNAILS_AFTER = 0
         }
         print $0
         FOUND_THUMBNAILS = 0
+        THUMBNAIL_GROUP_ID += 1
     }
 }
 ENDFILE {
     if (SHOULD_PRINT_THUMBNAILS_AFTER) {
-        print "{{thumbnails_after}}"
+        print "{{thumbnails_after |id=" targetfile "_" THUMBNAIL_GROUP_ID "}}"
     }
 }
 
 function add_ordinal_and_target_to_thumbnail(line) {
-    sub("{{thumbnail ", "{{thumbnail |num=" THUMBNAIL_NO " ", line)
+    sub("{{thumbnail ", "{{thumbnail |num=" THUMBNAIL_NO " |id=" targetfile "_" THUMBNAIL_GROUP_ID " ", line)
     sub("\\|small *= *", "|small=" targetfile "-files/", line)
     sub("\\|large *= *", "|large=" targetfile "-files/", line)
 

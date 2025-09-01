@@ -143,6 +143,50 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec<u8>) -> Vec<Vec
 }
 {{endcode}}
 
+### `codeblock_before`
+Denotes the start of a code-block. This template should not be explicitly inserted -- use `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` instead! The engine will modify each line inside the `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` block, and automatically insert `{{leftcurlybracket}}{{leftcurlybracket}}codeblock_before{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}codeblock_before{{rightcurlybracket}}{{rightcurlybracket}}
+int main() {{leftcurlybracket}}
+  printf("Hello, World!");
+  return 0;
+{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}codeblock_after{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
+{{codeblock_before}}
+int main() {
+printf("Hello, World!");
+return 0;
+}
+{{codeblock_after}}
+
+### `codeblock_after`
+Denotes the end of a code-block. This template should not be explicitly inserted -- use `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` instead! The engine will modify each line inside the `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` block, and automatically insert `{{leftcurlybracket}}{{leftcurlybracket}}codeblock_after{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}codeblock_before{{rightcurlybracket}}{{rightcurlybracket}}
+int main() {{leftcurlybracket}}
+  printf("Hello, World!");
+  return 0;
+{{rightcurlybracket}}
+{{leftcurlybracket}}{{leftcurlybracket}}codeblock_after{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
+{{codeblock_before}}
+int main() {
+printf("Hello, World!");
+return 0;
+}
+{{codeblock_after}}
+
 
 
 ## Images

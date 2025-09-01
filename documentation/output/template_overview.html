@@ -137,10 +137,10 @@ console.log(add(1, 2));
 </code></pre>
 <p><strong>Example output:</strong><br /></p>
 <pre class="code-block"><code>
-<span class="line">function add(a, b) {</span>
-<span class="line">  return a + b;</span>
-<span class="line">}</span>
-<span class="line">console.log(add(1, 2));</span>
+<span class="codeblock-line">function add(a, b) {</span>
+<span class="codeblock-line">  return a + b;</span>
+<span class="codeblock-line">}</span>
+<span class="codeblock-line">console.log(add(1, 2));</span>
 </code></pre>
 <h3><code>endcode</code></h3>
 <p>Ends a code block. Fverything between the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endcode&rbrace;&rbrace;</code> template will be put into a block. See the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> template for more details.</p>
@@ -161,15 +161,53 @@ fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt
 </code></pre>
 <p><strong>Example output:</strong><br /></p>
 <pre class="code-block"><code>
-<span class="line">fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt; Vec&lt;Vec&lt;u8&gt;&gt; {</span>
-<span class="line">  let mut raw_row_data = Vec::with_capacity(height as usize);</span>
-<span class="line">  for row in 0..height {</span>
-<span class="line">    let start = row as usize * width as usize;</span>
-<span class="line">    let row_data = pixels[start..start + width as usize].to_vec();</span>
-<span class="line">    raw_row_data.push(row_data.clone());</span>
-<span class="line">  }</span>
-<span class="line">  raw_row_data</span>
-<span class="line">}</span>
+<span class="codeblock-line">fn read_uncompressed_pixels(width: u16, height: u16, pixels: Vec&lt;u8&gt;) -&gt; Vec&lt;Vec&lt;u8&gt;&gt; {</span>
+<span class="codeblock-line">  let mut raw_row_data = Vec::with_capacity(height as usize);</span>
+<span class="codeblock-line">  for row in 0..height {</span>
+<span class="codeblock-line">    let start = row as usize * width as usize;</span>
+<span class="codeblock-line">    let row_data = pixels[start..start + width as usize].to_vec();</span>
+<span class="codeblock-line">    raw_row_data.push(row_data.clone());</span>
+<span class="codeblock-line">  }</span>
+<span class="codeblock-line">  raw_row_data</span>
+<span class="codeblock-line">}</span>
+</code></pre>
+<h3><code>codeblock_before</code></h3>
+<p>Denotes the start of a code-block. This template should not be explicitly inserted -- use <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> instead! The engine will modify each line inside the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> block, and automatically insert <code>&lbrace;&lbrace;codeblock_before&rbrace;&rbrace;</code>.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;codeblock_before&rbrace;&rbrace;
+int main() &lbrace;
+  printf(&quot;Hello, World!&quot;);
+  return 0;
+&rbrace;
+&lbrace;&lbrace;codeblock_after&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
+<pre class="code-block"><code>
+int main() {
+printf("Hello, World!");
+return 0;
+}
+</code></pre>
+<h3><code>codeblock_after</code></h3>
+<p>Denotes the end of a code-block. This template should not be explicitly inserted -- use <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> instead! The engine will modify each line inside the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> block, and automatically insert <code>&lbrace;&lbrace;codeblock_after&rbrace;&rbrace;</code>.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;codeblock_before&rbrace;&rbrace;
+int main() &lbrace;
+  printf(&quot;Hello, World!&quot;);
+  return 0;
+&rbrace;
+&lbrace;&lbrace;codeblock_after&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
+<pre class="code-block"><code>
+int main() {
+printf("Hello, World!");
+return 0;
+}
 </code></pre>
 <h2>Images</h2>
 <h3><code>img</code></h3>

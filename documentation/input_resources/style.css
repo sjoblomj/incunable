@@ -280,7 +280,7 @@ td > code {
     white-space: pre;
 }
 
-.line {
+.codeblock-line {
     display: block;
     position: relative;
     padding-left: 1.5em;
@@ -288,8 +288,8 @@ td > code {
     font-palette: --myCustomPalette;
 }
 
-/* Line number styling */
-.line::before {
+/* Code block line number styling */
+.codeblock-line::before {
     counter-increment: line;
     content: counter(line);
     position: absolute;

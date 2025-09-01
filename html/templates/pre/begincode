@@ -1,4 +1,5 @@
 #!/bin/bash
+# @precedes codeblock_before, codeblock_after
 
 awk -i inplace -i "utils.awk" '
 BEGIN {
@@ -39,7 +40,7 @@ BEGIN {
 
             # Remove the {{endcode}} from $0
             end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
-            $0 = CODE_CONTENT "</code></pre>" substr($0, end_finish_pos)
+            $0 = "{{codeblock_before}}" CODE_CONTENT "{{codeblock_after}}" substr($0, end_finish_pos)
 
             IS_READING_CODE = 0
             CODE_CONTENT = ""
@@ -52,8 +53,7 @@ BEGIN {
             end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
 
             content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1)
-            content = "<pre class=\"code-block\"><code>" handle_line(content) "</code></pre>"
-            content = handle_line(content)
+            content = "{{codeblock_before}}" handle_line(content) "{{codeblock_after}}"
             $0 = substr($0, 0, begin_open_pos - 1) content substr($0, end_finish_pos)
 
         } else if (begin_open_pos > 0) {
@@ -70,7 +70,7 @@ BEGIN {
             content = substr($0, begin_finish_pos)
             if (content != "")
                 content = handle_line(content)
-            CODE_CONTENT = "<pre class=\"code-block\"><code>" content "\n"
+            CODE_CONTENT = content "\n"
 
             IS_READING_CODE = 1
             break
@@ -88,6 +88,6 @@ function handle_line(line) {
         line = " "
     gsub("<", "\\&lt;", line)
     gsub(">", "\\&gt;", line)
-    return "<span class=\"line\">" line "</span>"
+    return "<span class=\"codeblock-line\">" line "</span>"
 }
 ' "$1"

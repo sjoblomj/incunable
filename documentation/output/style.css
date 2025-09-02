@@ -220,8 +220,6 @@ ul.gallery_large_pic li input:checked + .thumbnail_overlay {
     -moz-box-shadow: 5px 5px 10px #000, -5px -5px 10px #000;
     box-shadow: 5px 5px 10px #000, -5px -5px 10px #000;
     box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
 }
 
 
@@ -240,8 +238,7 @@ pre code {
     word-wrap: break-word;
     padding: .1rem .3rem .3rem;
     border-radius: .2rem;
-    border: 1px solid;
-    border-color: #ccc;
+    border: 1px solid #ccc;
     font-family: monospace;
 }
 
@@ -253,8 +250,7 @@ td > code {
     word-wrap: break-word;
     padding: .1rem .3rem .3rem;
     border-radius: .2rem;
-    border: 1px solid;
-    border-color: #ccc;
+    border: 1px solid #ccc;
     font-family: monospace;
 }
 
@@ -265,17 +261,15 @@ td > code {
 }
 .code-block {
     word-wrap: break-word;
-    padding: .1rem .3rem .3rem;
+    padding: .1rem .3rem .3rem 3em;
     border-radius: .2rem;
     border: 1px solid;
-    border-color: var(--border-colour);
 
     background: lightgray;
     line-height: 1em;
     font-size: medium;
 
     counter-reset: line;
-    padding-left: 3em;
     position: relative;
     white-space: pre;
 }

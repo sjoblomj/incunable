@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.8] - 2025-09-02
+
+### Added
+- Added the `begincodeblock` and `endcodeblock` templates, although these are not intended for manual use -- one should use `begincode` and `endcode` as before.
+- Added the `include-iframe` template.
+
+### Changed
+- The `begincode` template now generates `begincodeblock` and `endcodeblock` templates. Generating separate templates allows to put the HTML in the expected place rather than hidden away inside the `begincode` pre-script.
+- The `thumbnail` template now correctly sets the alt attribute of the generated img tag.
+- The `thumbnail` and `thumbnails_after` templates now correctly sets a unique id of the associated group of thumbnails. This prevents duplicated ids which used to lead to illegal HTML.
+- When needed, the `thumbnails` and `imglink` templates now correctly outputs the `{{thumbnails_after}}` and `{{imglinklist_after}}` templates, respectively, at the end of the file. They also will no longer output duplicated ending templates.
+- Fixed warnings in awk scripts and removed unnecessary semicolons.
+- Refactored code for the `include-html` and `include-framed-html` templates.
+- More sensible css class names.
+- Minor documentation improvements.
+- The HTML code of the documentation is now correct and warning-free.
+
+
+
 ## [1.7] - 2025-08-13
 
 ### Added
@@ -12,6 +31,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Templates are now run in deterministic order.
 - HTML compilation script now handles being run from a different directory.
+
 
 
 ## [1.6] - 2025-08-05

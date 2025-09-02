@@ -120,7 +120,8 @@
 <li>The number of words of the article is calculated, and based on an average reading speed of 230 words per minute, the amount of time to read the article is calculated (if over 5 minutes, it will be rounded to the nearest multiple of 5) and inserted in the <code>time</code> argument.</li>
 </ul>
 <p><strong>Example input:</strong> <code>&lbrace;&lbrace;article &#124;date=2022-11-04 &#124;author=Johan Sjöblom &#124;categories=technology, templates, incunable&rbrace;&rbrace;</code><br />
-<strong>Example output:</strong> <div class="articleheader">By: Johan Sjöblom, 2022-11-04. 15 minute read.</div></p>
+<strong>Example output:</strong><br /></p>
+<div class="articleheader">By: Johan Sjöblom, 2022-11-04. 20 minute read.</div>
 <div class="articlecategories">Categories: technology, templates, incunable</div>
 <h3><code>begincode</code></h3>
 <p>Inserts a code block. It will treat everything between the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> template and the <code>&lbrace;&lbrace;endcode&rbrace;&rbrace;</code> template as code to be put into a block. Every line will be wrapped between <code>&lt;span class=&quot;line&quot;&gt;</code> and <code>&lt;/span&gt;</code>. All <code>&lt;</code> and <code>&gt;</code> characters will be replaced with <code>&amp;lt;</code> and <code>&amp;gt;</code>, respectively, so that the code is not interpreted as HTML.</p>
@@ -279,6 +280,11 @@ return 0;
 <td style="text-align: left">The path to an iframe that can be included. If given, this will set the class of the image in the <code>file</code> argument to be &quot;fallback&quot;, so the iframe takes precedence over the image in the <code>file</code> argument.</td>
 </tr>
 <tr>
+<td style="text-align: left"><code>class</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The CSS-class to use for the image.</td>
+</tr>
+<tr>
 <td style="text-align: left"><code>num</code></td>
 <td style="text-align: left">Pseudo</td>
 <td style="text-align: left">Don't provide this argument manually; the engine will do it for you! It is the numeric counter of the caption text.</td>
@@ -293,8 +299,9 @@ return 0;
 <li>If the <code>frame</code> argument is given, then the image will have class &quot;fallback&quot;, and the <code>elem</code> argument will be overwritten with an <code>iframe</code> HTML tag, loading the page given in the <code>elem</code> argument. If the <code>frame</code> argument is not given, the class of the image will be empty, and the <code>frame</code> argument will be empty.</li>
 </ul>
 <p><strong>Example input:</strong> <code>&lbrace;&lbrace;imgframe &#124;ref=rider &#124;file=rider.jpg &#124;title=Horses of yore&rbrace;&rbrace;</code><br />
-<strong>Example output:</strong> <figure class="imageframe">
-<img src="template_overview-files/rider.jpg" alt="Horses of yore" class="" /></p>
+<strong>Example output:</strong><br /></p>
+<figure class="imageframe">
+<img src="template_overview-files/rider.jpg" alt="Horses of yore" class="" />
 <figcaption>Figure 1: Horses of yore</figcaption>
 </figure> <!-- Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater --> 
 <h3><code>thumbnail</code></h3>
@@ -493,7 +500,7 @@ return 0;
 <tr>
 <td style="text-align: left"><code>newlines</code></td>
 <td style="text-align: left">Optional</td>
-<td style="text-align: left">Whether the generated MathML should have newlines or not. One reason for preventing this is if this template is within another template, which would pose a problem since templates can't span over multiple lines. The default value if this argument is omitted is <code>true</code>.</td>
+<td style="text-align: left">Whether the generated MathML should have newlines or not. One reason for preventing this is if this template is within a list or another template, which would pose a problem since templates can't span over multiple lines. The default value if this argument is omitted is <code>true</code>.</td>
 </tr>
 </tbody>
 </table>
@@ -886,7 +893,7 @@ e^&lbrace;i\theta&rbrace; = \cos\theta + i\sin \theta  &lbrace;&lbrace;mathref &
 <figcaption>Figure 2: Enable Javascript to see a beautiful yellow box. Without Javascript, you get a triangle.</figcaption>
 </figure>
 <h3><code>include-css</code></h3>
-<p>Includes a CSS file into the <code>head</code> section of the HTML document. Thus it is possible to pass in custom CSS files to individual pages.</p>
+<p>Includes a CSS file into the <code>head</code> section of the HTML document. Thus, it is possible to pass in custom CSS files to individual pages.</p>
 <p><strong>Arguments:</strong></p>
 <table>
 <thead>

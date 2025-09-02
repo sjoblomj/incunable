@@ -82,7 +82,8 @@ Marks a page as an article, This will insert a div with the author's name, the d
 * The number of words of the article is calculated, and based on an average reading speed of 230 words per minute, the amount of time to read the article is calculated (if over 5 minutes, it will be rounded to the nearest multiple of 5) and inserted in the `time` argument.
 
 **Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}article {{pipe}}date=2022-11-04 {{pipe}}author=Johan Sjöblom {{pipe}}categories=technology, templates, incunable{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
-**Example output:** {{article |date=2022-11-04 |author=Johan Sjöblom |categories=technology, templates, incunable}}
+**Example output:**{{linebreak}}
+{{article |date=2022-11-04 |author=Johan Sjöblom |categories=technology, templates, incunable}}
 
 
 ### `begincode`
@@ -220,6 +221,7 @@ Inserts an image in a frame, with an associated caption and counter. One can als
 | `title`  | Mandatory | The caption of the image, as well as the alt-text. |
 | `ref`    | Optional  | An id referring to the numeric counter of the caption text. Use the `{{leftcurlybracket}}{{leftcurlybracket}}ref{{rightcurlybracket}}{{rightcurlybracket}}` template to retrieve the numeric counter. |
 | `elem`   | Optional  | The path to an iframe that can be included. If given, this will set the class of the image in the `file` argument to be "fallback", so the iframe takes precedence over the image in the `file` argument. |
+| `class`  | Optional  | The CSS-class to use for the image. |
 | `num`    | Pseudo    | Don't provide this argument manually; the engine will do it for you! It is the numeric counter of the caption text. |
 
 **Side effects:**
@@ -229,7 +231,8 @@ Inserts an image in a frame, with an associated caption and counter. One can als
 * If the `frame` argument is given, then the image will have class "fallback", and the `elem` argument will be overwritten with an `iframe` HTML tag, loading the page given in the `elem` argument. If the `frame` argument is not given, the class of the image will be empty, and the `frame` argument will be empty.
 
 **Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}imgframe {{pipe}}ref=rider {{pipe}}file=rider.jpg {{pipe}}title=Horses of yore{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
-**Example output:** {{imgframe |ref=rider |file=rider.jpg |title=Horses of yore}} {{comment |text=Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater}}
+**Example output:**{{linebreak}}
+{{imgframe |ref=rider |file=rider.jpg |title=Horses of yore}} {{comment |text=Source: Bibliotheca Spenceriana; or, A descriptive catalogue of the library of George John, earl Spencer - https://archive.org/details/bibliothecaspenc03spen/mode/1up?view=theater}}
 
 
 ### `thumbnail`
@@ -322,7 +325,7 @@ Inserts a [LaTeX](https://en.wikipedia.org/wiki/LaTeX) mathematical equation. It
 | Argument   | Status   | Description |
 | :--------- | :------- | :---------- |
 | `style`    | Optional | The style to typeset the equations with. For equations in paragraphs, it is recommended to use `textstyle` (in this case it is recommended to use the `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` template, which will set the style to `textstyle` automatically). For equations on lines by themselves, it is recommended to use `displaystyle`. The default value if this argument is omitted is `displaystyle`. |
-| `newlines` | Optional | Whether the generated MathML should have newlines or not. One reason for preventing this is if this template is within another template, which would pose a problem since templates can't span over multiple lines. The default value if this argument is omitted is `true`. |
+| `newlines` | Optional | Whether the generated MathML should have newlines or not. One reason for preventing this is if this template is within a list or another template, which would pose a problem since templates can't span over multiple lines. The default value if this argument is omitted is `true`. |
 
 **Side effects:** None{{linebreak}}
 **Example input:**
@@ -526,7 +529,7 @@ If there already is a file called "iframe.js" in the folder of the page, then no
 
 
 ### `include-css`
-Includes a CSS file into the `head` section of the HTML document. Thus it is possible to pass in custom CSS files to individual pages.
+Includes a CSS file into the `head` section of the HTML document. Thus, it is possible to pass in custom CSS files to individual pages.
 
 **Arguments:**
 | Argument | Status    | Description          |

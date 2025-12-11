@@ -47,6 +47,9 @@ body {
 .headerlinks li {
     display: inline-block;
 }
+.page-description {
+    margin-left: 2.5em;
+}
 
 h1 {
     font-size: 271%;

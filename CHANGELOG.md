@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9] - 2025-12-11
+
+### Added
+- Added the `nbsp` template for inserting non-breaking spaces.
+- Added the `dash` template for inserting dashes.
+- Added the `softbreak` template for inserting soft linebreaks.
+- Added the `quote` template for inserting quotes.
+- Added the `heading` template for inserting headings of various levels.
+- Added support for changing the header and footer through template substitution. Any number of substitutions can be made to the header and footer files, and different pages can substitute different content.
+
+
+
 ## [1.8] - 2025-09-02
 
 ### Added

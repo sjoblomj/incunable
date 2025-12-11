@@ -1,0 +1,103 @@
+#!/bin/bash
+# @precedes quote_before, quote_after, quote-time
+
+awk -i inplace -i "utils.awk" '
+BEGIN {
+    IS_READING_QUOTE = 0
+    QUOTE_CONTENT = ""
+    QUOTE_SOURCE  = ""
+    QUOTE_TIME    = ""
+}
+{
+    while (1) {
+        begin_open_pos = index($0, "{{beginquote")
+        end_open_pos   = index($0, "{{endquote")
+
+        ## Example input
+        # Apa bepa.
+        # CEPA. {{beginquote}}Some quote
+        # yadda yadda
+        # {{endquote}} cepa depa {{beginquote}}lol{{endquote}} epa fepa {{beginquote}}
+        # blah blah
+        # yadda yadda
+        # {{endquote}} gepa.
+        # hepa.
+        # ipa.
+
+        if (IS_READING_QUOTE && end_open_pos == 0) {
+            # We are currently reading a multiline quote and this line does not end it.
+            # Read one more line of the quote.
+            QUOTE_CONTENT = QUOTE_CONTENT handle_line($0) "\n"
+            break
+
+        } else if (IS_READING_QUOTE && end_open_pos > 0) {
+            # We are reading a multiline quote that ends on this line.
+            # Read the rest of the quote
+            content = substr($0, 0, end_open_pos - 1)
+            if (content != "")
+                content = handle_line(content)
+            QUOTE_CONTENT = QUOTE_CONTENT content
+
+            # Remove the {{endquote}} from $0
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
+            $0 = "{{quote_before}}" QUOTE_CONTENT "{{quote_after |quote-source=" QUOTE_SOURCE "}}"
+            if (QUOTE_TIME != "")
+                $0 = $0 "{{quote-time |quote-time=" QUOTE_TIME "}}"
+
+            IS_READING_QUOTE = 0
+            QUOTE_CONTENT = ""
+            QUOTE_SOURCE  = ""
+            QUOTE_TIME    = ""
+
+        } else if (begin_open_pos > 0 && end_open_pos > 0) {
+            # We are not currently reading a quote, however,
+            # the current line contains both a start and an end of a one-line quote.
+
+            begin_finish_pos = index(substr($0, begin_open_pos), CLOSING_BRACKETS) + begin_open_pos
+            end_finish_pos = find_template_closing_pos(substr($0, end_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + end_open_pos + 1
+
+            QUOTE_SOURCE = get_parameter(substr($0, begin_open_pos), "quote-source")
+            QUOTE_TIME   = get_parameter(substr($0, begin_open_pos), "quote-time")
+            content = substr($0, begin_finish_pos + 1, end_open_pos - begin_finish_pos - 1)
+            content = "{{quote_before}}" handle_line(content) "{{quote_after |quote-source=" QUOTE_SOURCE "}}"
+            if (QUOTE_TIME != "")
+                content = content "{{quote-time |quote-time=" QUOTE_TIME "}}"
+            QUOTE_SOURCE = ""
+            QUOTE_TIME   = ""
+
+            $0 = substr($0, 0, begin_open_pos - 1) content substr($0, end_finish_pos)
+
+        } else if (begin_open_pos > 0) {
+            # We are not currently reading a quote, however,
+            # the current line contains the start of a multi-line quote.
+
+            begin_finish_pos = find_template_closing_pos(substr($0, begin_open_pos + length(OPENING_BRACKETS))) + length(OPENING_BRACKETS) + begin_open_pos + 1
+
+            line = trim(substr($0, 0, begin_open_pos - 1))
+            if (line != "")
+                print line
+
+            QUOTE_SOURCE = get_parameter(substr($0, begin_open_pos), "quote-source")
+            QUOTE_TIME   = get_parameter(substr($0, begin_open_pos), "quote-time")
+
+            # Read quote on this line
+            content = substr($0, begin_finish_pos)
+            if (content != "")
+                content = handle_line(content)
+            QUOTE_CONTENT = content "\n"
+
+            IS_READING_QUOTE = 1
+            break
+
+        } else {
+            # We are not reading a quote, and there is not one starting either.
+            print $0
+            break
+        }
+    }
+}
+
+function handle_line(line) {
+    return line
+}
+' "$1"

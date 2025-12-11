@@ -1,0 +1,29 @@
+#!/bin/bash
+
+awk -i inplace -i "utils.awk" '
+{
+    open_pos = index($0, "{{heading")
+    if (open_pos != 0) {
+        template = substr($0, open_pos + length(OPENING_BRACKETS))
+        closing_pos = find_template_closing_pos(template)
+        template = substr(template, 0, closing_pos - 1 + length(CLOSING_BRACKETS))
+
+        level = get_parameter(template, "level")
+        title = get_parameter(template, "title")
+        link  = get_parameter(template, "link")
+        if (link == "") {
+            link = title
+            gsub(/ /, "-", link)
+            gsub(/[^[:alnum:]-]/, "", link)
+        }
+        if (!match(level, /^[1-6]$/)) {
+            level = "2"
+            print_error("Invalid or missing `level` parameter in heading template. Valid levels are 1-6. Defaulting to level 2.")
+        }
+
+        template = "{{heading |level=" level " |title=" title " |link=" link " }}"
+        $0 = substr($0, 0, open_pos - 1) template substr($0, open_pos + closing_pos + length(CLOSING_BRACKETS) + 1)
+    }
+    print $0
+}
+' "$1"

@@ -71,8 +71,8 @@ mkdir output # If the output directory does not exist, Docker will create it but
 docker run --rm --user $(id -u):$(id -g) -v $(pwd)/input:/input -v $(pwd)/output:/output -v $(pwd)/resources:/resources -v $(pwd)/templates:/templates incunable:v1.x /input /output /resources /templates
 ```
 
-### Dockerhub
-There is a job to automatically publish Incunable on Dockerhub. When the author creates a git tag (`git tag v1.x`) and pushes it (`git push origin v1.x`), GitHub Actions will automatically build and publish Incunable on Dockerhub.
+### Docker Hub
+There is a job to automatically publish [Incunable on Docker Hub](https://hub.docker.com/r/sjoblomj/incunable). When the author creates a git tag (`git tag v1.x`) and pushes it (`git push origin v1.x`), GitHub Actions will automatically build and publish Incunable on Docker Hub.
 
 ## Testing
 There is a small test script that can be used to verify that the code and templates behave as expected. It will output the documentation in the `/tmp` directory, and verify that it is identical to what is in the `./documentation/output` directory. Run it with `./run_tests.sh`.

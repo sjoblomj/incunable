@@ -28,6 +28,15 @@ Inserts a linebreak into the page, i.e. it forces the text to be on a new line.
 **Example output:** '{{linebreak}}'
 
 
+### `softbreak`
+Inserts a soft linebreak into the page source, but does not force the HTML text to be on a new line.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:** `'{{leftcurlybracket}}{{leftcurlybracket}}softbreak{{rightcurlybracket}}{{rightcurlybracket}}'`{{linebreak}}
+**Example output:** '{{softbreak}}'
+
+
 ### `leftcurlybracket`
 Inserts a left curly bracket into the page.
 
@@ -55,6 +64,15 @@ Inserts a pipe into the page.
 **Example output:** {{pipe}}
 
 
+### `dash`
+Inserts a dash into the page.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}dash{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** {{dash}}
+
+
 ### `amp`
 Inserts an amphersand into the page.
 
@@ -64,8 +82,35 @@ Inserts an amphersand into the page.
 **Example output:** {{amp}}
 
 
+### `nbsp`
+Inserts a no-break space into the page.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}nbsp{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:** a{{nbsp}}b
+
+
 
 ## Misc
+
+### `heading`
+Inserts a heading into the page. The heading will have an anchor, so that it can be linked to directly.
+
+In the example below, you can direct the browser straight to the resulting heading by adding <a href="#Example-heading">`#Example-heading` to the URL</a>.
+
+**Arguments:**
+| Argument     | Status    | Description                                     |
+| :----------- | :-------- | :---------------------------------------------- |
+| `level`      | Mandatory | The level of the heading. Valid values are 1-6. |
+| `title`      | Mandatory | The text in the heading.                        |
+| `link`       | Optional  | The anchor link to be insered. If not given, the `title` will be turned into an anchor text. |
+
+**Side effects:** None{{linebreak}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}heading {{pipe}}level=4 {{pipe}}title=Example heading{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:**{{linebreak}}
+{{heading |level=4 |title=Example heading}}
+
 
 ### `article`
 Marks a page as an article, This will insert a div with the author's name, the date of the article and an automatically calculated reading time approximation. A div with a list of categories will also be inserted.
@@ -167,7 +212,7 @@ return 0;
 {{codeblock_after}}
 
 ### `codeblock_after`
-Denotes the end of a code-block. This template should not be explicitly inserted -- use `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` instead! The engine will modify each line inside the `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` block, and automatically insert `{{leftcurlybracket}}{{leftcurlybracket}}codeblock_after{{rightcurlybracket}}{{rightcurlybracket}}`.
+Denotes the end of a code-block. This template should not be explicitly inserted -- use `{{leftcurlybracket}}{{leftcurlybracket}}endcode{{rightcurlybracket}}{{rightcurlybracket}}` instead! The engine will modify each line inside the `{{leftcurlybracket}}{{leftcurlybracket}}begincode{{rightcurlybracket}}{{rightcurlybracket}}` block, and automatically insert `{{leftcurlybracket}}{{leftcurlybracket}}codeblock_after{{rightcurlybracket}}{{rightcurlybracket}}`.
 
 **Arguments:** None{{linebreak}}
 **Side effects:** None{{linebreak}}
@@ -187,6 +232,98 @@ printf("Hello, World!");
 return 0;
 }
 {{codeblock_after}}
+
+
+### `beginquote`
+The beginning of a quote.
+
+**Arguments:**
+| Argument       | Status    | Description                      |
+| :------------- | :-------- | :------------------------------- |
+| `quote-source` | Mandatory | The person or opus being quoted. |
+| `quote-time`   | Optional  | The time the quote was made.     |
+
+**Side effects:**
+* If the `quote-time` argument is given, it will be propagated into the `{{leftcurlybracket}}{{leftcurlybracket}}quote-time{{rightcurlybracket}}{{rightcurlybracket}}` template, which will be inserted just after the quote block.
+
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}beginquote {{pipe}}quote-source=Abraham Lincoln {{pipe}}quote-time=2025-12-11 18:39:41{{rightcurlybracket}}{{rightcurlybracket}}
+Don't believe everything you read on the Internet.
+{{leftcurlybracket}}{{leftcurlybracket}}endquote{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**{{linebreak}}
+{{beginquote |quote-source=Abraham Lincoln |quote-time=2025-12-11 18:39:41}}
+Don't believe everything you read on the Internet.
+{{endquote}}
+
+
+### `endquote`
+The ending of a quote.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}beginquote {{pipe}}quote-source=Abraham Lincoln {{pipe}}quote-time=2025-12-11 18:39:41{{rightcurlybracket}}{{rightcurlybracket}}
+Don't believe everything you read on the Internet.
+{{leftcurlybracket}}{{leftcurlybracket}}endquote{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**{{linebreak}}
+{{beginquote |quote-source=Abraham Lincoln |quote-time=2025-12-11 18:39:41}}
+Don't believe everything you read on the Internet.
+{{endquote}}
+
+
+### `quote_before`
+Denotes the start of a quote-block. This template should not be explicitly inserted -- use `{{leftcurlybracket}}{{leftcurlybracket}}beginquote{{rightcurlybracket}}{{rightcurlybracket}}` instead! The engine will modify read each line inside the `{{leftcurlybracket}}{{leftcurlybracket}}beginquote{{rightcurlybracket}}{{rightcurlybracket}}` block, and automatically insert `{{leftcurlybracket}}{{leftcurlybracket}}quote_before{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+**Arguments:** None{{linebreak}}
+**Side effects:** None{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}quote_before{{rightcurlybracket}}{{rightcurlybracket}}
+Don't believe everything you read on the Internet.
+{{leftcurlybracket}}{{leftcurlybracket}}quote_after {{pipe}}quote-source=Abraham Lincoln{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
+{{quote_before}}
+Don't believe everything you read on the Internet.
+{{quote_after |quote-source=Abraham Lincoln}}
+
+### `quote_after`
+Denotes the end of a quote-block. This template should not be explicitly inserted -- use `{{leftcurlybracket}}{{leftcurlybracket}}endquote{{rightcurlybracket}}{{rightcurlybracket}}` instead! The engine will read each line inside the `{{leftcurlybracket}}{{leftcurlybracket}}beginquote{{rightcurlybracket}}{{rightcurlybracket}}` block, and automatically insert `{{leftcurlybracket}}{{leftcurlybracket}}quote_after{{rightcurlybracket}}{{rightcurlybracket}}`.
+
+**Arguments:**
+| Argument       | Status    | Description                      |
+| :------------- | :-------- | :------------------------------- |
+| `quote-source` | Mandatory | The person or opus being quoted. |
+
+**Side effects:** None{{linebreak}}
+**Example input:**
+```
+{{leftcurlybracket}}{{leftcurlybracket}}quote_before{{rightcurlybracket}}{{rightcurlybracket}}
+Don't believe everything you read on the Internet.
+{{leftcurlybracket}}{{leftcurlybracket}}quote_after {{pipe}}quote-source=Abraham Lincoln{{rightcurlybracket}}{{rightcurlybracket}}
+```
+**Example output:**
+{{quote_before}}
+Don't believe everything you read on the Internet.
+{{quote_after |quote-source=Abraham Lincoln}}
+
+
+### `quote-time`
+The time of a quote.
+
+**Arguments:**
+| Argument       | Status    | Description                  |
+| :------------- | :-------- | :--------------------------- |
+| `quote-time`   | Mandatory | The time the quote was made. |
+
+**Side effects:** None{{linebreak}}
+**Example input:** `{{leftcurlybracket}}{{leftcurlybracket}}quote-time {{pipe}}quote-time=2025-12-11 18:39:41{{rightcurlybracket}}{{rightcurlybracket}}`{{linebreak}}
+**Example output:**{{linebreak}}
+{{quote-time |quote-time=2025-12-11 18:39:41}}
 
 
 
@@ -536,7 +673,7 @@ Includes a CSS file into the `head` section of the HTML document. Thus, it is po
 | :------- | :-------- | :------------------- |
 | `file`   | Mandatory | CSS file to include. |
 
-**Side effects:** 
+**Side effects:**
 * Each included CSS will be inserted into the `head` section of the HTML document. This is not done during the "pre run" pass like with other templates; instead this is hardcoded into the html compile script.
 * The path given in the `file` argument will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 
@@ -557,7 +694,7 @@ Includes a script file into the `head` section of the HTML document. Via custom 
 | :------- | :-------- | :---------------------- |
 | `file`   | Mandatory | Script file to include. |
 
-**Side effects:** 
+**Side effects:**
 * Each included script will be inserted into the `head` section of the HTML document. This is not done during the "pre run" pass like with other templates; instead this is hardcoded into the html compile script.
 * The path given in the `file` argument will be modified to be in the subfolder "[page]-files", where "[page]" is the name of the page where the image is included.
 

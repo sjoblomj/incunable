@@ -15,14 +15,17 @@
     <h1 class="headername">Incunable</h1>
     <div class="vl"></div>
 
-    <ul class="headerlinks">
+    <div class="links">
+      <ul class="headerlinks">
         <li><a href="index.html">Index</a></li>
         <li><a href="examples/misc.html">Misc</a></li>
         <li><a href="examples/images.html">Images</a></li>
         <li><a href="examples/includes.html">Includes</a></li>
         <li><a href="examples/iframes.html">IFrames</a></li>
         <li><a href="template_overview.html">Template Overview</a></li>
-    </ul>
+      </ul>
+      <div class="page-description"></div>
+    </div>
   </div>
 <h1>Template Overview</h1>
 <p>Here follows an overview of all the templates and their arguments. A template in itself can only perform substitution; no logic is supported. However, some templates have a &quot;pre-run&quot; pass, where arguments can be changed, external programs can be called, other templates can be inserted etc. This is referred to in this document as &quot;Side effects&quot;. These side effects are where the convenience of Incunable comes from.</p>
@@ -56,6 +59,13 @@
 <strong>Side effects:</strong> None<br />
 <strong>Example input:</strong> <code>'&lbrace;&lbrace;linebreak&rbrace;&rbrace;'</code><br />
 <strong>Example output:</strong> '<br />'</p>
+<h3><code>softbreak</code></h3>
+<p>Inserts a soft linebreak into the page source, but does not force the HTML text to be on a new line.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong> <code>'&lbrace;&lbrace;softbreak&rbrace;&rbrace;'</code><br />
+<strong>Example output:</strong> '
+'</p>
 <h3><code>leftcurlybracket</code></h3>
 <p>Inserts a left curly bracket into the page.</p>
 <p><strong>Arguments:</strong> None<br />
@@ -74,13 +84,59 @@
 <strong>Side effects:</strong> None<br />
 <strong>Example input:</strong> <code>&lbrace;&lbrace;pipe&rbrace;&rbrace;</code><br />
 <strong>Example output:</strong> |</p>
+<h3><code>dash</code></h3>
+<p>Inserts a dash into the page.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong> <code>&lbrace;&lbrace;dash&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> —</p>
 <h3><code>amp</code></h3>
 <p>Inserts an amphersand into the page.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
 <strong>Example input:</strong> <code>&lbrace;&lbrace;amp&rbrace;&rbrace;</code><br />
 <strong>Example output:</strong> &</p>
+<h3><code>nbsp</code></h3>
+<p>Inserts a no-break space into the page.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong> <code>&lbrace;&lbrace;nbsp&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong> a b</p>
 <h2>Misc</h2>
+<h3><code>heading</code></h3>
+<p>Inserts a heading into the page. The heading will have an anchor, so that it can be linked to directly.</p>
+<p>In the example below, you can direct the browser straight to the resulting heading by adding <a href="#Example-heading"><code>#Example-heading</code> to the URL</a>.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>level</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The level of the heading. Valid values are 1-6.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>title</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The text in the heading.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>link</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The anchor link to be insered. If not given, the <code>title</code> will be turned into an anchor text.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong> None<br />
+<strong>Example input:</strong> <code>&lbrace;&lbrace;heading &#124;level=4 &#124;title=Example heading&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong><br />
+<a name="Example-heading"></a><h4>Example heading</h4></p>
 <h3><code>article</code></h3>
 <p>Marks a page as an article, This will insert a div with the author's name, the date of the article and an automatically calculated reading time approximation. A div with a list of categories will also be inserted.</p>
 <p><strong>Arguments:</strong></p>
@@ -192,7 +248,7 @@ return 0;
 }
 </code></pre>
 <h3><code>codeblock_after</code></h3>
-<p>Denotes the end of a code-block. This template should not be explicitly inserted -- use <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> instead! The engine will modify each line inside the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> block, and automatically insert <code>&lbrace;&lbrace;codeblock_after&rbrace;&rbrace;</code>.</p>
+<p>Denotes the end of a code-block. This template should not be explicitly inserted -- use <code>&lbrace;&lbrace;endcode&rbrace;&rbrace;</code> instead! The engine will modify each line inside the <code>&lbrace;&lbrace;begincode&rbrace;&rbrace;</code> block, and automatically insert <code>&lbrace;&lbrace;codeblock_after&rbrace;&rbrace;</code>.</p>
 <p><strong>Arguments:</strong> None<br />
 <strong>Side effects:</strong> None<br />
 <strong>Example input:</strong></p>
@@ -210,6 +266,125 @@ printf("Hello, World!");
 return 0;
 }
 </code></pre>
+<h3><code>beginquote</code></h3>
+<p>The beginning of a quote.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>quote-source</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The person or opus being quoted.</td>
+</tr>
+<tr>
+<td style="text-align: left"><code>quote-time</code></td>
+<td style="text-align: left">Optional</td>
+<td style="text-align: left">The time the quote was made.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong></p>
+<ul>
+<li>If the <code>quote-time</code> argument is given, it will be propagated into the <code>&lbrace;&lbrace;quote-time&rbrace;&rbrace;</code> template, which will be inserted just after the quote block.</li>
+</ul>
+<p><strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;beginquote &#124;quote-source=Abraham Lincoln &#124;quote-time=2025-12-11 18:39:41&rbrace;&rbrace;
+Don't believe everything you read on the Internet.
+&lbrace;&lbrace;endquote&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong><br /></p>
+<blockquote>
+Don't believe everything you read on the Internet.
+</blockquote>
+<div class="quote-source">Abraham Lincoln</div><div class="quote-time">2025-12-11 18:39:41</div>
+<h3><code>endquote</code></h3>
+<p>The ending of a quote.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;beginquote &#124;quote-source=Abraham Lincoln &#124;quote-time=2025-12-11 18:39:41&rbrace;&rbrace;
+Don't believe everything you read on the Internet.
+&lbrace;&lbrace;endquote&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong><br /></p>
+<blockquote>
+Don't believe everything you read on the Internet.
+</blockquote>
+<div class="quote-source">Abraham Lincoln</div><div class="quote-time">2025-12-11 18:39:41</div>
+<h3><code>quote_before</code></h3>
+<p>Denotes the start of a quote-block. This template should not be explicitly inserted -- use <code>&lbrace;&lbrace;beginquote&rbrace;&rbrace;</code> instead! The engine will modify read each line inside the <code>&lbrace;&lbrace;beginquote&rbrace;&rbrace;</code> block, and automatically insert <code>&lbrace;&lbrace;quote_before&rbrace;&rbrace;</code>.</p>
+<p><strong>Arguments:</strong> None<br />
+<strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;quote_before&rbrace;&rbrace;
+Don't believe everything you read on the Internet.
+&lbrace;&lbrace;quote_after &#124;quote-source=Abraham Lincoln&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
+<blockquote>
+Don't believe everything you read on the Internet.
+</blockquote>
+<div class="quote-source">Abraham Lincoln</div>
+<h3><code>quote_after</code></h3>
+<p>Denotes the end of a quote-block. This template should not be explicitly inserted -- use <code>&lbrace;&lbrace;endquote&rbrace;&rbrace;</code> instead! The engine will read each line inside the <code>&lbrace;&lbrace;beginquote&rbrace;&rbrace;</code> block, and automatically insert <code>&lbrace;&lbrace;quote_after&rbrace;&rbrace;</code>.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>quote-source</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The person or opus being quoted.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong> None<br />
+<strong>Example input:</strong></p>
+<pre><code>&lbrace;&lbrace;quote_before&rbrace;&rbrace;
+Don't believe everything you read on the Internet.
+&lbrace;&lbrace;quote_after &#124;quote-source=Abraham Lincoln&rbrace;&rbrace;
+</code></pre>
+<p><strong>Example output:</strong></p>
+<blockquote>
+Don't believe everything you read on the Internet.
+</blockquote>
+<div class="quote-source">Abraham Lincoln</div>
+<h3><code>quote-time</code></h3>
+<p>The time of a quote.</p>
+<p><strong>Arguments:</strong></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left">Argument</th>
+<th style="text-align: left">Status</th>
+<th style="text-align: left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left"><code>quote-time</code></td>
+<td style="text-align: left">Mandatory</td>
+<td style="text-align: left">The time the quote was made.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Side effects:</strong> None<br />
+<strong>Example input:</strong> <code>&lbrace;&lbrace;quote-time &#124;quote-time=2025-12-11 18:39:41&rbrace;&rbrace;</code><br />
+<strong>Example output:</strong><br /></p>
+<div class="quote-time">2025-12-11 18:39:41</div>
 <h2>Images</h2>
 <h3><code>img</code></h3>
 <p>Inserts an image. It can be either on a line of its own, or included in inline text.</p>
@@ -358,11 +533,11 @@ return 0;
   <label for="thumbnail_0"><img src="template_overview-files/candles_small.png" title="Pretty candles" alt="Pretty candles" /></label>
   <input type="radio" id="thumbnail_0" name="gallery" />
   <div class="thumbnail_overlay">
-    <label for="close_template_overview_257" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Pretty candles" class="large" /></label>
+    <label for="close_template_overview_394" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Pretty candles" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
 </ul>
-<input type="radio" id="close_template_overview_257" class="close_thumbnails" name="gallery" />
+<input type="radio" id="close_template_overview_394" class="close_thumbnails" name="gallery" />
 <h3><code>thumbnails</code></h3>
 <p>Denotes the start of a gallery, and must come before the first <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the starting template and insert it. When it is automatically inserted, the <code>title</code> argument of the first <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> will be used as the <code>text</code> argument for the inserted <code>&lbrace;&lbrace;thumbnails&rbrace;&rbrace;</code>.</p>
 <p><strong>Arguments:</strong></p>
@@ -395,18 +570,18 @@ return 0;
   <label for="thumbnail_1"><img src="template_overview-files/candles_small.png" title="Candles" alt="Candles" /></label>
   <input type="radio" id="thumbnail_1" name="gallery" />
   <div class="thumbnail_overlay">
-    <label for="close_template_overview_275" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
+    <label for="close_template_overview_412" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
 <li>
   <label for="thumbnail_2"><img src="template_overview-files/trees_small.png" title="Trees" alt="Trees" /></label>
   <input type="radio" id="thumbnail_2" name="gallery" />
   <div class="thumbnail_overlay">
-    <label for="close_template_overview_275" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
+    <label for="close_template_overview_412" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg --> 
 </ul>
-<input type="radio" id="close_template_overview_275" class="close_thumbnails" name="gallery" />
+<input type="radio" id="close_template_overview_412" class="close_thumbnails" name="gallery" />
 <h3><code>thumbnails_after</code></h3>
 <p>Denotes the end of a gallery, and must come after the last <code>&lbrace;&lbrace;thumbnail&rbrace;&rbrace;</code> of the gallery. This template can be explicitly inserted, but may be omitted; the engine will automatically detect that the gallery lacks the ending template and insert it.</p>
 <p><strong>Arguments:</strong></p>
@@ -443,18 +618,18 @@ return 0;
   <label for="thumbnail_3"><img src="template_overview-files/candles_small.png" title="Candles" alt="Candles" /></label>
   <input type="radio" id="thumbnail_3" name="gallery" />
   <div class="thumbnail_overlay">
-    <label for="close_template_overview_295" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
+    <label for="close_template_overview_432" title="Click to close"><img src="template_overview-files/candles.jpg" alt="Candles" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Liesel_22-12-2012_4._Advent.jpg --> 
 <li>
   <label for="thumbnail_4"><img src="template_overview-files/trees_small.png" title="Trees" alt="Trees" /></label>
   <input type="radio" id="thumbnail_4" name="gallery" />
   <div class="thumbnail_overlay">
-    <label for="close_template_overview_295" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
+    <label for="close_template_overview_432" title="Click to close"><img src="template_overview-files/trees.png" alt="Trees" class="large" /></label>
   </div>
 </li> <!-- Source: https://commons.wikimedia.org/wiki/File:Laudtee_Meenikunnos.jpg --> 
 </ul>
-<input type="radio" id="close_template_overview_295" class="close_thumbnails" name="gallery" />
+<input type="radio" id="close_template_overview_432" class="close_thumbnails" name="gallery" />
 <h3><code>math</code></h3>
 <p>Shorthand notation for inserting a mathematical equation in the middle of a paragraph.</p>
 <p><strong>Arguments:</strong></p>

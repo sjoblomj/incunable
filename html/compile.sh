@@ -61,7 +61,7 @@ for target in ${targets}; do
 
   sed -e "s|\${nesting}|${nesting}|g" "$output"/header > /tmp/header
   sed -e "s|\${nesting}|${nesting}|g" "$output"/footer > /tmp/footer
-  awk -v title="${title}" -v filename="${basename}" -v sourcedir="${additionalfiles}" -v folder="${basename}-files/" -v custom_css="${custom_css}" -v custom_scripts="${custom_scripts}" -i "utils.awk" -i inplace '{
+  awk -v title="$title" -v path="$target" -v filename="$basename" -v sourcedir="$additionalfiles" -v folder="$basename-files/" -v custom_css="$custom_css" -v custom_scripts="$custom_scripts" -i "utils.awk" -i inplace '{
     css = ""
     scripts = ""
     split(custom_css, c, " ")
@@ -74,15 +74,17 @@ for target in ${targets}; do
     if (match($0, /\$\{include-header-([0-9]+)\}/, arr)) {
         sub("\\${include-header-" arr[1] "}", read_file(sourcedir "/_include-header-" arr[1]))
     }
+    sub("\\${path}",     path,     $0)
     sub("\\${title}",    title,    $0)
     sub("\\${filename}", filename, $0)
     print $0
     }' /tmp/header
 
-  awk -v title="${title}" -v filename="${basename}" -v sourcedir="${additionalfiles}" -i "utils.awk" -i inplace '{
+  awk -v title="$title" -v path="$target" -v filename="$basename" -v sourcedir="$additionalfiles" -i "utils.awk" -i inplace '{
     if (match($0, /\$\{include-footer-([0-9]+)\}/, arr)) {
         sub("\\${include-footer-" arr[1] "}", read_file(sourcedir "_include-footer-" arr[1]))
     }
+    sub("\\${path}",     path,     $0)
     sub("\\${title}",    title,    $0)
     sub("\\${filename}", filename, $0)
     print $0

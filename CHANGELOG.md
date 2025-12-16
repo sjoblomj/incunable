@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.1] - 2025-12-16
+
+### Changed
+- Making the `heading` template show a link when hovering over it.
+- The header and footer will now substitute the `${path}` variable with the path of the current file, in addition to the `${title}` and `${filename}` substitutions from before.
+
+
+
 ## [1.9] - 2025-12-11
 
 ### Added
@@ -10,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - Added the `softbreak` template for inserting soft linebreaks.
 - Added the `quote` template for inserting quotes.
 - Added the `heading` template for inserting headings of various levels.
+- The header and footer will now substitute the `${filename}` variable with the name of the current file, in addition to the `${title}` substitution from before.
 - Added support for changing the header and footer through template substitution. Any number of substitutions can be made to the header and footer files, and different pages can substitute different content.
 
 

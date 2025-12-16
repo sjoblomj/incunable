@@ -51,6 +51,23 @@ body {
     margin-left: 2.5em;
 }
 
+.heading {
+    display: flex;
+    flex-direction: row;
+}
+.headingtitle {
+    margin: 1ex;
+}
+.heading:hover > .headinglink {
+    display: block;
+}
+.headinglink {
+    display: none;
+    align-content: center;
+    margin-left: 1em;
+}
+
+
 h1 {
     font-size: 271%;
     font-weight: bold;

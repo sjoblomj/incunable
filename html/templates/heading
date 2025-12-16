@@ -1,1 +1,1 @@
-<a name="${link}"></a><h${level}>${title}</h${level}>
+<div class="heading"><a name="${link}"></a><h${level} class="headingtitle">${title}</h${level}><a title="Link to this heading" class="headinglink" href="#${link}">¶</a></div>

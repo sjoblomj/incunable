@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.9.2] - 2026-01-04
+
+### Changed
+- The engine will now copy the Markdown input file to the output directory, next to the HTML file.
+
+
+
 ## [1.9.1] - 2025-12-16
 
 ### Changed

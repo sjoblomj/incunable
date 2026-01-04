@@ -36,10 +36,11 @@ for target in ${targets}; do
 
   additionalfiles=${output}/${target}-files
   mkdir -p "$additionalfiles"
+  cp "$input/$target/index.md" "$output/$target.md"
   cp -r "$input/$target"/* "$additionalfiles"
   mv "$additionalfiles"/index.md "$tmp_name"
 
-  if command -v python3 &>/dev/null; then
+  if command  -v python3 &>/dev/null; then
     PYTHON=python3
   elif command -v python &>/dev/null; then
     PYTHON=python

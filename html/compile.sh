@@ -1,10 +1,46 @@
 #!/bin/bash
 
+if [ $# -lt 3 ] || [ $# -gt 4 ]; then
+  echo "Usage: $0 <input directory> <output directory> <resource directory> [custom templates directory]" >&2
+  exit 1
+fi
+
 incunable_folder="$(readlink -f "$0")"
 input="$(           readlink -f "$1")"
 output="$(          readlink -f "$2")"
 resource_folder="$( readlink -f "$3")"
-custom_templates="$(readlink -f "$4")"
+custom_templates=""
+if [ -n "$4" ]; then
+  custom_templates="$(readlink -f "$4")"
+fi
+
+if [ ! -d "$input" ]; then
+  echo "Error: The input directory '$1' does not exist." >&2
+  exit 1
+fi
+if [ ! -f "$resource_folder/header" ] || [ ! -f "$resource_folder/footer" ]; then
+  echo "Error: The resource directory '$3' must contain the files 'header' and 'footer'." >&2
+  exit 1
+fi
+if [ -n "$4" ] && [ ! -d "$custom_templates" ]; then
+  echo "Error: The custom templates directory '$4' does not exist." >&2
+  exit 1
+fi
+
+for dependency in gawk cmark-gfm; do
+  if ! command -v "$dependency" &>/dev/null; then
+    echo "Error: $dependency is not installed." >&2
+    exit 1
+  fi
+done
+if command -v python3 &>/dev/null; then
+  PYTHON=python3
+elif command -v python &>/dev/null; then
+  PYTHON=python
+else
+  echo "Error: Python is not installed." >&2
+  exit 1
+fi
 
 prev_dir="$(pwd)"
 cd "$(dirname "$incunable_folder")/.." || exit 1
@@ -52,14 +88,6 @@ for target in "${targets[@]}"; do
   cp -r "$input/$target"/* "$additionalfiles"
   mv "$additionalfiles"/index.md "$tmp_name"
 
-  if command  -v python3 &>/dev/null; then
-    PYTHON=python3
-  elif command -v python &>/dev/null; then
-    PYTHON=python
-  else
-    echo "Error: Python is not installed." >&2
-    exit 1
-  fi
   $PYTHON pre-script-runner.py "$templatedir" "$tmp_name" "$basename" "$additionalfiles" "$input"
   title=$(grep -oP '^# *\K.*' "$tmp_name" | head -n 1)
   custom_scripts=$(awk '{if ($0 ~ "{{include-script") { sub("}}", "", $2); file = substr($2, index($2, "=") + 1); print file;}}' "$tmp_name")

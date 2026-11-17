@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - Pages in folders whose names contain spaces can now be built.
 - A page that only uses the `include-html` template now gets the iframe script created and included automatically, as the documentation describes.
 - Temporary files are now kept in a private folder that is always cleaned up, so two builds can run at the same time without disturbing each other.
+- The build now stops with a clear message when it is started with missing or wrong folders, or when a required program is not installed.
 
 
 

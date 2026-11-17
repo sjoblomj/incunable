@@ -1,15 +1,35 @@
 #!/bin/bash
 # @precedes include-script, include-iframe
 
-awk -i inplace -v targetfile="$2" '
+awk -i inplace -i "utils.awk" -v targetfile="$2" '
 {
-    if ($0 ~ "{{include-html") {
+    line_read   = ""
+    line_unread = $0
+    while (1) {
+        open_pos = index(line_unread, "{{include-html")
+        if (open_pos == 0) {
+            line_read = line_read line_unread
+            break
+        }
+
+        template = substr(line_unread, open_pos + length(OPENING_BRACKETS))
+        closing_pos = find_template_closing_pos(template)
+        if (closing_pos == 0) {
+            # The template is never closed; leave the rest of the line as it is
+            line_read = line_read line_unread
+            break
+        }
+        template = substr(template, 0, closing_pos - 1)
+
         # Add id if not present
-        if ($0 !~ "\\|id")
-            sub("{{include-html ", "{{include-html |id=" targetfile " ", $0)
-        sub("\\|file *= *",        "|file="     targetfile "-files/",    $0)
-        sub("\\|fallback *= *",    "|fallback=" targetfile "-files/",    $0)
+        if (template !~ "\\|id")
+            sub("^include-html ", "include-html |id=" targetfile " ", template)
+        sub("\\|file *= *",     "|file="     targetfile "-files/", template)
+        sub("\\|fallback *= *", "|fallback=" targetfile "-files/", template)
+
+        line_read   = line_read substr(line_unread, 0, open_pos - 1) OPENING_BRACKETS template CLOSING_BRACKETS
+        line_unread = substr(line_unread, open_pos + closing_pos + length(CLOSING_BRACKETS) + 1)
     }
-    print $0
+    print line_read
 }
 ' "$1"

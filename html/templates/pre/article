@@ -13,7 +13,7 @@ BEGIN {
 }
 
 function calculate_article_length(len) {
-    len = run_system_command_with_output("cat " targetfilepath "| wc -w")
+    len = run_system_command_with_output("wc -w < " shell_quote(targetfilepath))
     len = int(len / AVERAGE_WORDS_PER_MINUTE_READ)
     if (len <= 0)
         return 1

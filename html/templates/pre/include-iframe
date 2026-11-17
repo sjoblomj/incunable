@@ -1,10 +1,11 @@
 #!/bin/bash
 
-awk -i inplace -v additionalfiles="$3" '
+awk -i inplace -i "utils.awk" -v additionalfiles="$3" '
 {
     if ($0 ~ "{{include-iframe") {
-        if (system("test -f " additionalfiles "/iframe.js") != 0) {
+        if (!file_exists(additionalfiles "/iframe.js")) {
             print iframe_script() > additionalfiles "/iframe.js"
+            close(additionalfiles "/iframe.js")
             $0 = "{{include-script |file=iframe.js}}\n" $0
         }
     }

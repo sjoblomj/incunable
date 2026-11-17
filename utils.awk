@@ -122,6 +122,20 @@ function read_file(file,  line, lines) {
     return lines
 }
 
+# Quotes the given [string] so that it can safely be used as a single argument in a system command,
+# regardless of whether it contains spaces or other characters with a special meaning to the shell.
+function shell_quote(string) {
+    gsub(/'/, "'\\''", string)
+    return "'" string "'"
+}
+
+# Returns 1 if the given [file] exists and can be read, otherwise 0.
+function file_exists(file,  line, result) {
+    result = (getline line < file)
+    close(file)
+    return result >= 0
+}
+
 # Runs the given system command and returns its output
 function run_system_command_with_output(command,  line, output) {
     output = ""

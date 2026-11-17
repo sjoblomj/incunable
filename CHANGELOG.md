@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Building a site is much faster on computers with several processors, since several pages are now compiled at the same time. The number of simultaneous pages can be set with the environment variable `INCUNABLE_JOBS`.
 - Pages with mathematical equations are built faster.
 - Each page is put together in fewer steps, which makes building slightly faster.
+- When building into a folder that already holds an earlier build, only pages that have changed are built again, which makes rebuilding a large site much faster. Set the environment variable `INCUNABLE_FORCE=1` to rebuild everything.
 
 ### Fixed
 - Building a site a second time into the same output folder no longer makes pages with iframes lose their automatically included script.

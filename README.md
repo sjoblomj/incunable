@@ -60,6 +60,8 @@ The documentation of the project can be generated like this:
 ./html/compile.sh documentation/input documentation/output documentation/input_resources
 ```
 
+When compiling into an output directory that already contains a previous build, only the pages that have changed are compiled again. A page counts as changed if anything in its directory, the header or footer, the templates or Incunable itself is newer than the HTML file of the page. To compile all pages regardless, set the environment variable `INCUNABLE_FORCE=1`. This is needed when switching to a different resource directory or custom templates directory, as that is not detected.
+
 Several pages are compiled at the same time, by default as many as the computer has processors. The number can be set with the environment variable `INCUNABLE_JOBS`, for example `INCUNABLE_JOBS=1 ./html/compile.sh ...` to compile one page at a time.
 
 ### Docker usage

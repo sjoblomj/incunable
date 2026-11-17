@@ -118,6 +118,26 @@ cp -r "$resource_folder"/* "$output"
 rm -f "$output"/header "$output"/footer
 export INCUNABLE_TEMPLATE_DIR="$templatedir"
 
+# Everything that affects all pages: the header and footer, the templates, and the engine itself
+common_dependencies=("$resource_folder/header" "$resource_folder/footer" "$PWD/html/templates" "$PWD/html/compile.sh" \
+                     "$PWD/template_substituter.awk" "$PWD/utils.awk" "$PWD/pre-script-runner.py")
+if [ -n "$custom_templates" ]; then
+  common_dependencies+=("$custom_templates")
+fi
+
+# Tells whether the page given as the first argument was compiled after the latest change to anything it depends on,
+# in which case it does not need to be compiled again. Setting the environment variable INCUNABLE_FORCE to 1
+# makes all pages count as changed.
+function is_up_to_date() {
+  local target="$1"
+  local html="$output/$target.html"
+  if [ "$INCUNABLE_FORCE" = "1" ] || [ ! -f "$html" ] || [ ! -f "$output/$target.md" ] || [ ! -d "$output/$target-files" ]; then
+    return 1
+  fi
+  # Directories are included in the search, since they are modified when a file in them is removed
+  [ -z "$(find "$input/$target" "${common_dependencies[@]}" -newer "$html" -print -quit)" ]
+}
+
 # Compiles the page given as the first argument. The second argument
 # is a directory for the temporary files of the page.
 function compile_page() {
@@ -125,6 +145,10 @@ function compile_page() {
   local subdirs nesting c basename tmp_name tmp_body additionalfiles title custom_scripts custom_css
   local result=0
 
+  if is_up_to_date "$target"; then
+    echo "Up to date: $target"
+    return 0
+  fi
   echo "Compiling $target"
 
   subdirs="${target//[^\/]}"
@@ -214,6 +238,10 @@ function compile_page() {
     }' "$resource_folder"/header "$tmp_body" "$resource_folder"/footer > "$output/$target.html"
 
   rm -rf "$pagedir" "$additionalfiles"/reflist
+  if [ $result -ne 0 ]; then
+    # Give the failed page an old modification time, so that it is compiled again on the next run
+    touch -d @0 "$output/$target.html"
+  fi
   return $result
 }
 

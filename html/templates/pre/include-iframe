@@ -2,7 +2,8 @@
 
 awk -i inplace -i "utils.awk" -v additionalfiles="$3" '
 {
-    if ($0 ~ "{{include-iframe") {
+    # The include-html template turns into an include-iframe template during substitution
+    if ($0 ~ "{{include-iframe" || $0 ~ "{{include-html") {
         if (!file_exists(additionalfiles "/iframe.js")) {
             print iframe_script() > additionalfiles "/iframe.js"
             close(additionalfiles "/iframe.js")

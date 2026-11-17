@@ -30,11 +30,13 @@ function update_ref(template,  ref, number) {
     return template
 }
 
-function find_ref_number(ref,  n, i, arr) {
+function find_ref_number(ref,  n, i, arr, pos) {
     n = split(REF_FILE, arr, "\n")
     for (i = 1; i <= n; i++) {
-        if (arr[i] ~ "^" ref "=*") {
-            return substr(arr[i], index(arr[i], "=") + 1)
+        # The number comes after the last equals sign; everything before it is the name of the reference
+        pos = match(arr[i], /=[^=]*$/)
+        if (pos > 0 && substr(arr[i], 1, pos - 1) == ref) {
+            return substr(arr[i], pos + 1)
         }
     }
     return -1

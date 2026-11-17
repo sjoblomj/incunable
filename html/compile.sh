@@ -122,7 +122,7 @@ export INCUNABLE_TEMPLATE_DIR="$templatedir"
 # is a directory for the temporary files of the page.
 function compile_page() {
   local target="$1" pagedir="$2"
-  local subdirs nesting c basename tmp_name tmp_header tmp_footer additionalfiles title custom_scripts custom_css
+  local subdirs nesting c basename tmp_name tmp_body additionalfiles title custom_scripts custom_css
   local result=0
 
   echo "Compiling $target"
@@ -132,11 +132,10 @@ function compile_page() {
   for (( c=1; c<=${#subdirs}; c++ )); do
     nesting="${nesting}../"
   done
-  basename=$(basename "$target")
+  basename="${target##*/}"
   mkdir "$pagedir"
   tmp_name="$pagedir/${basename}"
-  tmp_header="$pagedir/header"
-  tmp_footer="$pagedir/footer"
+  tmp_body="$pagedir/body.html"
 
   additionalfiles="${output}/${target}-files"
   mkdir -p "$additionalfiles"
@@ -150,68 +149,71 @@ function compile_page() {
   if ! run_pre_scripts; then
     result=1
   fi
-  title=$(grep -oP '^# *\K.*' "$tmp_name" | head -n 1)
-  custom_scripts=$(awk '{if ($0 ~ "{{include-script") { sub("}}", "", $2); file = substr($2, index($2, "=") + 1); print file;}}' "$tmp_name")
-  custom_css=$(    awk '{if ($0 ~ "{{include-css")    { sub("}}", "", $2); file = substr($2, index($2, "=") + 1); print file;}}' "$tmp_name")
+  # Find the title of the page, and the scripts and stylesheets it includes
+  {
+    IFS= read -r title
+    IFS= read -r custom_scripts
+    IFS= read -r custom_css
+  } < <(awk '
+    /^#/ && !title_found       { title = $0; sub(/^# */, "", title); title_found = 1 }
+    $0 ~ "{{include-script"    { sub("}}", "", $2); scripts = scripts substr($2, index($2, "=") + 1) " " }
+    $0 ~ "{{include-css"       { sub("}}", "", $2); css     = css     substr($2, index($2, "=") + 1) " " }
+    END                        { print title; print scripts; print css }
+    ' "$tmp_name")
 
-  ./template_substituter.awk "$tmp_name" > "${tmp_name}_2" && mv "${tmp_name}_2" "$tmp_name"
-  cmark-gfm -e table -e strikethrough -e footnotes --table-prefer-style-attributes --unsafe "$tmp_name" > "${tmp_name}_2" && mv "${tmp_name}_2" "$tmp_name"
   # The softbreak template is turned into a newline only after the Markdown has been
   # processed, so that it does not affect how the Markdown is interpreted.
-  sed -i -e 's/&amp;/\&/g' -e 's/&incunable-softbreak;/\n/g' "$tmp_name"
+  ./template_substituter.awk "$tmp_name" \
+    | cmark-gfm -e table -e strikethrough -e footnotes --table-prefer-style-attributes --unsafe \
+    | sed -e 's/&amp;/\&/g' -e 's/&incunable-softbreak;/\n/g' > "$tmp_body"
 
-
-  sed -e "s|\${nesting}|${nesting}|g" "$resource_folder"/header > "$tmp_header"
-  sed -e "s|\${nesting}|${nesting}|g" "$resource_folder"/footer > "$tmp_footer"
+  # Put the header, the page and the footer together, substituting the variables of the header and footer.
   # The values are passed through the environment rather than with -v, since awk would otherwise interpret
   # any backslashes in them as escape sequences.
-  export INCUNABLE_TITLE="$title" INCUNABLE_PATH="$target" INCUNABLE_FILENAME="$basename" INCUNABLE_SOURCEDIR="$additionalfiles"
-  awk -v folder="$basename-files/" -v custom_css="$custom_css" -v custom_scripts="$custom_scripts" -i "utils.awk" -i inplace '
+  INCUNABLE_TITLE="$title" INCUNABLE_PATH="$target" INCUNABLE_FILENAME="$basename" INCUNABLE_SOURCEDIR="$additionalfiles" \
+  INCUNABLE_NESTING="$nesting" INCUNABLE_SCRIPTS="$custom_scripts" INCUNABLE_CSS="$custom_css" INCUNABLE_BODY="$tmp_body" \
+  awk -i "utils.awk" '
     BEGIN {
       title     = ENVIRON["INCUNABLE_TITLE"]
       path      = ENVIRON["INCUNABLE_PATH"]
       filename  = ENVIRON["INCUNABLE_FILENAME"]
       sourcedir = ENVIRON["INCUNABLE_SOURCEDIR"]
+      nesting   = ENVIRON["INCUNABLE_NESTING"]
+      body      = ENVIRON["INCUNABLE_BODY"]
+      folder    = filename "-files/"
+
+      css = ""
+      scripts = ""
+      n = split(ENVIRON["INCUNABLE_CSS"], c, " ")
+      for (i = 1; i <= n; i++) css = css "  <link rel=\"stylesheet\" type=\"text/css\" href=\"" folder c[i] "\" />\n"
+      n = split(ENVIRON["INCUNABLE_SCRIPTS"], s, " ")
+      for (i = 1; i <= n; i++) scripts = scripts "  <script src=\"" folder s[i] "\"></script>\n"
+    }
+    FILENAME == body {
+      # The page itself is already finished
+      print $0
+      next
     }
     {
-    css = ""
-    scripts = ""
-    split(custom_css, c, " ")
-    split(custom_scripts, s, " ")
+      $0 = replace_literal($0, "${nesting}", nesting)
+      if (FNR == NR) {
+        # Only the header is read at this point
+        $0 = replace_literal($0, "</head>", css scripts "</head>")
+        type = "header"
+      } else {
+        type = "footer"
+      }
 
-    for (i in c) css = css "  <link rel=\"stylesheet\" type=\"text/css\" href=\"" folder c[i] "\" />\n"
-    for (i in s) scripts = scripts "  <script src=\"" folder s[i] "\"></script>\n"
-    $0 = replace_literal($0, "</head>", css scripts "</head>")
+      if (match($0, "\\$\\{include-" type "-([0-9]+)\\}", arr)) {
+        $0 = replace_literal($0, "${include-" type "-" arr[1] "}", read_file(sourcedir "/_include-" type "-" arr[1]))
+      }
+      $0 = replace_literal($0, "${path}",     path)
+      $0 = replace_literal($0, "${title}",    title)
+      $0 = replace_literal($0, "${filename}", filename)
+      print $0
+    }' "$resource_folder"/header "$tmp_body" "$resource_folder"/footer > "$output/$target.html"
 
-    if (match($0, /\$\{include-header-([0-9]+)\}/, arr)) {
-        $0 = replace_literal($0, "${include-header-" arr[1] "}", read_file(sourcedir "/_include-header-" arr[1]))
-    }
-    $0 = replace_literal($0, "${path}",     path)
-    $0 = replace_literal($0, "${title}",    title)
-    $0 = replace_literal($0, "${filename}", filename)
-    print $0
-    }' "$tmp_header"
-
-  awk -i "utils.awk" -i inplace '
-    BEGIN {
-      title     = ENVIRON["INCUNABLE_TITLE"]
-      path      = ENVIRON["INCUNABLE_PATH"]
-      filename  = ENVIRON["INCUNABLE_FILENAME"]
-      sourcedir = ENVIRON["INCUNABLE_SOURCEDIR"]
-    }
-    {
-    if (match($0, /\$\{include-footer-([0-9]+)\}/, arr)) {
-        $0 = replace_literal($0, "${include-footer-" arr[1] "}", read_file(sourcedir "/_include-footer-" arr[1]))
-    }
-    $0 = replace_literal($0, "${path}",     path)
-    $0 = replace_literal($0, "${title}",    title)
-    $0 = replace_literal($0, "${filename}", filename)
-    print $0
-    }' "$tmp_footer"
-  cat "$tmp_header" "$tmp_name" "$tmp_footer" > "$output/$target.html"
-
-  rm -rf "$pagedir"
-  rm -f "$additionalfiles"/reflist
+  rm -rf "$pagedir" "$additionalfiles"/reflist
   return $result
 }
 

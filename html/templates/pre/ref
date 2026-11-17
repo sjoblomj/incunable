@@ -2,7 +2,15 @@
 
 awk -i inplace -i "utils.awk" -v additionalfiles="$3" '
 BEGIN {
-    REF_FILE = read_file(additionalfiles "/reflist")
+    # Read the numbers of all references. Each line has the form "name=number";
+    # the number comes after the last equals sign.
+    n = split(read_file(additionalfiles "/reflist"), lines, "\n")
+    for (i = 1; i <= n; i++) {
+        pos = match(lines[i], /=[^=]*$/)
+        name = substr(lines[i], 1, pos - 1)
+        if (pos > 0 && !(name in REF_NUMBERS))
+            REF_NUMBERS[name] = substr(lines[i], pos + 1)
+    }
 }
 {
     line = $0
@@ -30,15 +38,7 @@ function update_ref(template,  ref, number) {
     return template
 }
 
-function find_ref_number(ref,  n, i, arr, pos) {
-    n = split(REF_FILE, arr, "\n")
-    for (i = 1; i <= n; i++) {
-        # The number comes after the last equals sign; everything before it is the name of the reference
-        pos = match(arr[i], /=[^=]*$/)
-        if (pos > 0 && substr(arr[i], 1, pos - 1) == ref) {
-            return substr(arr[i], pos + 1)
-        }
-    }
-    return -1
+function find_ref_number(ref) {
+    return (ref in REF_NUMBERS) ? REF_NUMBERS[ref] : -1
 }
 ' "$1"

@@ -79,6 +79,10 @@ function substitute_template_content(line,  a, template, template_content, l, ke
     return template_content
 }
 
+# Returns the content of the template with the given name. Each template
+# is only read from disk the first time it is used.
 function read_template_file(file) {
-    return read_file(ENVIRON["INCUNABLE_TEMPLATE_DIR"] file)
+    if (!(file in TEMPLATE_CACHE))
+        TEMPLATE_CACHE[file] = read_file(ENVIRON["INCUNABLE_TEMPLATE_DIR"] file)
+    return TEMPLATE_CACHE[file]
 }

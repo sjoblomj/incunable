@@ -4,9 +4,6 @@ All notable changes to this project will be documented in this file.
 
 ## [1.10] - 2026-11-17
 
-### Added
-- 
-
 ### Changed
 - Building a site is faster: the order of the pre-processing steps is now worked out once per build instead of once per page.
 - Building a site is faster: pre-processing steps for templates that a page does not use are now skipped for that page.

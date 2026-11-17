@@ -92,6 +92,18 @@ function trim(string) {
     return string
 }
 
+# Replaces every occurrence of [needle] in [text] with [replacement] and returns the result. Unlike sub() and gsub(),
+# both [needle] and [replacement] are treated literally, so an ampersand or a backslash in [replacement] is inserted
+# as it is.
+function replace_literal(text, needle, replacement,  pos, result) {
+    result = ""
+    while ((pos = index(text, needle)) > 0) {
+        result = result substr(text, 1, pos - 1) replacement
+        text = substr(text, pos + length(needle))
+    }
+    return result text
+}
+
 # Prints [message] to stderr
 function print_error(message) {
     print FILENAME ": " message > "/dev/stderr"

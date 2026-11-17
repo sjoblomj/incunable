@@ -65,7 +65,17 @@ for target in ${targets}; do
 
   sed -e "s|\${nesting}|${nesting}|g" "$output"/header > /tmp/header
   sed -e "s|\${nesting}|${nesting}|g" "$output"/footer > /tmp/footer
-  awk -v title="$title" -v path="$target" -v filename="$basename" -v sourcedir="$additionalfiles" -v folder="$basename-files/" -v custom_css="$custom_css" -v custom_scripts="$custom_scripts" -i "utils.awk" -i inplace '{
+  # The values are passed through the environment rather than with -v, since awk would otherwise interpret
+  # any backslashes in them as escape sequences.
+  export INCUNABLE_TITLE="$title" INCUNABLE_PATH="$target" INCUNABLE_FILENAME="$basename" INCUNABLE_SOURCEDIR="$additionalfiles"
+  awk -v folder="$basename-files/" -v custom_css="$custom_css" -v custom_scripts="$custom_scripts" -i "utils.awk" -i inplace '
+    BEGIN {
+      title     = ENVIRON["INCUNABLE_TITLE"]
+      path      = ENVIRON["INCUNABLE_PATH"]
+      filename  = ENVIRON["INCUNABLE_FILENAME"]
+      sourcedir = ENVIRON["INCUNABLE_SOURCEDIR"]
+    }
+    {
     css = ""
     scripts = ""
     split(custom_css, c, " ")
@@ -73,28 +83,36 @@ for target in ${targets}; do
 
     for (i in c) css = css "  <link rel=\"stylesheet\" type=\"text/css\" href=\"" folder c[i] "\" />\n"
     for (i in s) scripts = scripts "  <script src=\"" folder s[i] "\"></script>\n"
-    sub("</head>", css scripts "</head>", $0)
+    $0 = replace_literal($0, "</head>", css scripts "</head>")
 
     if (match($0, /\$\{include-header-([0-9]+)\}/, arr)) {
-        sub("\\${include-header-" arr[1] "}", read_file(sourcedir "/_include-header-" arr[1]))
+        $0 = replace_literal($0, "${include-header-" arr[1] "}", read_file(sourcedir "/_include-header-" arr[1]))
     }
-    sub("\\${path}",     path,     $0)
-    sub("\\${title}",    title,    $0)
-    sub("\\${filename}", filename, $0)
+    $0 = replace_literal($0, "${path}",     path)
+    $0 = replace_literal($0, "${title}",    title)
+    $0 = replace_literal($0, "${filename}", filename)
     print $0
     }' /tmp/header
 
-  awk -v title="$title" -v path="$target" -v filename="$basename" -v sourcedir="$additionalfiles" -i "utils.awk" -i inplace '{
-    if (match($0, /\$\{include-footer-([0-9]+)\}/, arr)) {
-        sub("\\${include-footer-" arr[1] "}", read_file(sourcedir "/_include-footer-" arr[1]))
+  awk -i "utils.awk" -i inplace '
+    BEGIN {
+      title     = ENVIRON["INCUNABLE_TITLE"]
+      path      = ENVIRON["INCUNABLE_PATH"]
+      filename  = ENVIRON["INCUNABLE_FILENAME"]
+      sourcedir = ENVIRON["INCUNABLE_SOURCEDIR"]
     }
-    sub("\\${path}",     path,     $0)
-    sub("\\${title}",    title,    $0)
-    sub("\\${filename}", filename, $0)
+    {
+    if (match($0, /\$\{include-footer-([0-9]+)\}/, arr)) {
+        $0 = replace_literal($0, "${include-footer-" arr[1] "}", read_file(sourcedir "/_include-footer-" arr[1]))
+    }
+    $0 = replace_literal($0, "${path}",     path)
+    $0 = replace_literal($0, "${title}",    title)
+    $0 = replace_literal($0, "${filename}", filename)
     print $0
     }' /tmp/footer
   echo -e "$(cat /tmp/header)\n$(cat "$tmp_name")\n$(cat /tmp/footer)" > "$output/$target.html"
 
+  unset INCUNABLE_TITLE INCUNABLE_PATH INCUNABLE_FILENAME INCUNABLE_SOURCEDIR
   rm /tmp/header /tmp/footer "$tmp_name"
   rm -f "$additionalfiles"/reflist
 done

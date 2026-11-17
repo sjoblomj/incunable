@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Building a site a second time into the same output folder no longer makes pages with iframes lose their automatically included script.
 - Content for the footer, provided by a page through an `_include-footer` file, is now actually inserted into the footer.
 - References made with the `ref` template could point to the wrong figure or equation when one reference name began with another (for example "fig1" and "fig10"). They now always point to the right one.
+- An ampersand (&) in a page title or in a template argument is now shown as written, instead of being replaced with a piece of template code.
 
 
 

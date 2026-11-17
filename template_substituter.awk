@@ -72,7 +72,7 @@ function substitute_template_content(line,  a, template, template_content, l, ke
         sub("=", "", key)
         key = trim(key)
         val = trim(substr(l, 0, key_pos1 - 1))
-        gsub("\\$\\{" key "\\}", val, template_content)
+        template_content = replace_literal(template_content, "${" key "}", val)
     }
     if (template_content == "")
         return OPENING_BRACKETS line CLOSING_BRACKETS

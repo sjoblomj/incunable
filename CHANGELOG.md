@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Building a site is faster: the order of the pre-processing steps is now worked out once per build instead of once per page.
 - Building a site is faster: pre-processing steps for templates that a page does not use are now skipped for that page.
+- Building a site is much faster on computers with several processors, since several pages are now compiled at the same time. The number of simultaneous pages can be set with the environment variable `INCUNABLE_JOBS`.
 
 ### Fixed
 - Building a site a second time into the same output folder no longer makes pages with iframes lose their automatically included script.

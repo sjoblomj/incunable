@@ -60,6 +60,8 @@ The documentation of the project can be generated like this:
 ./html/compile.sh documentation/input documentation/output documentation/input_resources
 ```
 
+Several pages are compiled at the same time, by default as many as the computer has processors. The number can be set with the environment variable `INCUNABLE_JOBS`, for example `INCUNABLE_JOBS=1 ./html/compile.sh ...` to compile one page at a time.
+
 ### Docker usage
 In the incunable directory, build the Docker image with the following command:
 ```

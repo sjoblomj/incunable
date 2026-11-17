@@ -116,8 +116,14 @@ mkdir -p "$output"
 cp -r "$resource_folder"/* "$output"
 # The header and footer are not part of the output; they are instead inserted into each page
 rm -f "$output"/header "$output"/footer
-exit_code=0
-for target in "${targets[@]}"; do
+export INCUNABLE_TEMPLATE_DIR="$templatedir"
+
+# Compiles the page given as the first argument. The second argument
+# is a directory for the temporary files of the page.
+function compile_page() {
+  local target="$1" pagedir="$2"
+  local subdirs nesting c basename tmp_name tmp_header tmp_footer additionalfiles title custom_scripts custom_css
+  local result=0
 
   echo "Compiling $target"
 
@@ -127,9 +133,10 @@ for target in "${targets[@]}"; do
     nesting="${nesting}../"
   done
   basename=$(basename "$target")
-  tmp_name="$workdir/${basename}"
-  tmp_header="$workdir/header"
-  tmp_footer="$workdir/footer"
+  mkdir "$pagedir"
+  tmp_name="$pagedir/${basename}"
+  tmp_header="$pagedir/header"
+  tmp_footer="$pagedir/footer"
 
   additionalfiles="${output}/${target}-files"
   mkdir -p "$additionalfiles"
@@ -141,19 +148,17 @@ for target in "${targets[@]}"; do
   mv "$additionalfiles"/index.md "$tmp_name"
 
   if ! run_pre_scripts; then
-    exit_code=1
+    result=1
   fi
   title=$(grep -oP '^# *\K.*' "$tmp_name" | head -n 1)
   custom_scripts=$(awk '{if ($0 ~ "{{include-script") { sub("}}", "", $2); file = substr($2, index($2, "=") + 1); print file;}}' "$tmp_name")
   custom_css=$(    awk '{if ($0 ~ "{{include-css")    { sub("}}", "", $2); file = substr($2, index($2, "=") + 1); print file;}}' "$tmp_name")
 
-  export INCUNABLE_TEMPLATE_DIR="$templatedir"
   ./template_substituter.awk "$tmp_name" > "${tmp_name}_2" && mv "${tmp_name}_2" "$tmp_name"
   cmark-gfm -e table -e strikethrough -e footnotes --table-prefer-style-attributes --unsafe "$tmp_name" > "${tmp_name}_2" && mv "${tmp_name}_2" "$tmp_name"
   # The softbreak template is turned into a newline only after the Markdown has been
   # processed, so that it does not affect how the Markdown is interpreted.
   sed -i -e 's/&amp;/\&/g' -e 's/&incunable-softbreak;/\n/g' "$tmp_name"
-  unset INCUNABLE_TEMPLATE_DIR
 
 
   sed -e "s|\${nesting}|${nesting}|g" "$resource_folder"/header > "$tmp_header"
@@ -205,10 +210,37 @@ for target in "${targets[@]}"; do
     }' "$tmp_footer"
   cat "$tmp_header" "$tmp_name" "$tmp_footer" > "$output/$target.html"
 
-  unset INCUNABLE_TITLE INCUNABLE_PATH INCUNABLE_FILENAME INCUNABLE_SOURCEDIR
-  rm "$tmp_header" "$tmp_footer" "$tmp_name"
+  rm -rf "$pagedir"
   rm -f "$additionalfiles"/reflist
+  return $result
+}
+
+# The pages do not depend on each other, so several are compiled at the same time. The number of simultaneous
+# pages defaults to the number of processors, and can be set with the environment variable INCUNABLE_JOBS.
+max_jobs="${INCUNABLE_JOBS:-$(nproc 2>/dev/null || echo 1)}"
+if ! [[ "$max_jobs" =~ ^[1-9][0-9]*$ ]]; then
+  echo "Error: INCUNABLE_JOBS must be a positive number, but is '$max_jobs'." >&2
+  exit 1
+fi
+
+running_jobs=0
+page_number=0
+for target in "${targets[@]}"; do
+  if [ "$running_jobs" -ge "$max_jobs" ]; then
+    wait -n
+    running_jobs=$((running_jobs - 1))
+  fi
+  page_number=$((page_number + 1))
+  # Pages that fail leave a marker file behind, since the exit status of a background job is cumbersome to collect
+  ( compile_page "$target" "$workdir/page-$page_number" || touch "$workdir/failed" ) &
+  running_jobs=$((running_jobs + 1))
 done
+wait
+
+exit_code=0
+if [ -e "$workdir/failed" ]; then
+  exit_code=1
+fi
 cd "$prev_dir" || exit 1
 
 exit $exit_code

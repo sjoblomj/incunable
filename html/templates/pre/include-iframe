@@ -1,4 +1,5 @@
 #!/bin/bash
+# @handles include-html
 
 awk -i inplace -i "utils.awk" -v additionalfiles="$3" '
 {

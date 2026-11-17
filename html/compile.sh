@@ -66,10 +66,41 @@ if [ -n "$pre_script_order" ]; then
   mapfile -t pre_scripts <<< "$pre_script_order"
 fi
 
+# A pre-processing script is only run on pages that contain a template it handles, since starting a
+# script is costly. A script handles the template it is named after, and any templates listed on a
+# line starting with "# @handles". Scripts with a line starting with "# @always" are run on every page.
+declare -A always_run handled_templates
+for script in "${pre_scripts[@]}"; do
+  handled_templates["$script"]="$script"
+  while IFS= read -r line; do
+    if [[ "$line" =~ ^#\ *@always ]]; then
+      always_run["$script"]=1
+    elif [[ "$line" =~ ^#\ *@handles(.*)$ ]]; then
+      handled_templates["$script"]+=",${BASH_REMATCH[1]}"
+    fi
+  done < "${templatedir}pre/$script"
+done
+
 # Runs the pre-processing scripts on the page currently being compiled.
 function run_pre_scripts() {
-  local script
+  local script content template templates found
   for script in "${pre_scripts[@]}"; do
+    if [ -z "${always_run[$script]}" ]; then
+      # The page is read anew for each script, as earlier scripts may have written new templates to it
+      content="$(<"$tmp_name")"
+      found=0
+      IFS=',' read -ra templates <<< "${handled_templates[$script]}"
+      for template in "${templates[@]}"; do
+        template="${template//[[:space:]]/}"
+        if [ -n "$template" ] && [[ "$content" == *"{{$template"* ]]; then
+          found=1
+          break
+        fi
+      done
+      if [ $found -eq 0 ]; then
+        continue
+      fi
+    fi
     if ! "${templatedir}pre/$script" "$tmp_name" "$basename" "$additionalfiles" "$input"; then
       echo "Error: The pre-processing script '$script' failed for $target" >&2
       return 1

@@ -32,6 +32,8 @@ Some templates will as output write **other** templates; for example `{{math |eq
 
 The engine takes care of creating a tree of the order in which the pre-processing scripts will be run, so that one can take over from another.
 
+A pre-processing script is named after the template it handles, and is only run on pages where that template occurs, i.e. the script `imgframe` is run on pages containing `{{imgframe`. If a script handles more templates than the one it is named after, they can be listed on a line starting with `# @handles`, separated by commas. A script that needs to run on every page can state so with a line starting with `# @always`.
+
 
 ## Algorithm
 For each input file, the following operations will be performed:

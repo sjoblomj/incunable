@@ -13,82 +13,72 @@ from os.path import isfile, join
 
 precedes_string = "# *@precedes"
 path = join(sys.argv[1], "pre")
-root_node_name = ""
-
-class Tree:
-    def __init__(self, name, depth = -1):
-        self.children = []
-        self.parents = []
-        self.name = name
-        self.depth = depth
 
 
-def recalculate_depth_of_children(node):
-    for c in node.children:
-        c.depth = max(c.depth, node.depth + 1)
-        recalculate_depth_of_children(c)
-
-def is_descendant_of_itself(tree, name):
-    if tree.name == name:
-        return True
-    for p in tree.parents:
-        if is_descendant_of_itself(p, name):
-            return True
-    return False
-
-
+# Returns a dictionary, where each key is the name of a script, and the value is the set of
+# scripts that it precedes, i.e. the scripts that must be run after it.
 def find_all_scripts():
     files = [f for f in listdir(path) if isfile(join(path, f))]
-    all_nodes = {}
+    following = {f: set() for f in files}
 
     for f in files:
-        if f not in all_nodes:
-            all_nodes[f] = Tree(f)
-
-        for line in open(join(path, f)).readlines():
-            if re.match(precedes_string, line):
-                line = re.sub(precedes_string, "", line)
-                following_scripts = map(lambda x: x.strip(), line.split(","))
-
-                parent = all_nodes[f]
-                for s in following_scripts:
-                    if is_descendant_of_itself(parent, s):
-                        raise ValueError("Attempting to add '" + s + "', but it is already a descendant of itself")
-
-                    if s not in all_nodes:
-                        new_node = Tree(s)
-                        new_node.parents.append(parent)
-                        all_nodes[s] = new_node
-                    parent.children.append(all_nodes[s])
-
-    root = Tree(root_node_name, 0)
-    for k, v in all_nodes.items():
-        if not v.parents:
-            v.parents.append(root)
-            root.children.append(v)
-    recalculate_depth_of_children(root)
-    return root
+        with open(join(path, f)) as script:
+            for line in script:
+                if re.match(precedes_string, line):
+                    line = re.sub(precedes_string, "", line)
+                    for s in line.split(","):
+                        s = s.strip()
+                        if s:
+                            following[f].add(s)
+                            following.setdefault(s, set())
+    return following
 
 
-def tree_to_set(node):
-    tups = [(node.name, node.depth)]
-    for c in node.children:
-        tups.extend(tree_to_set(c))
-    return set(tups)
+# Returns the depth of each script, which is the length of the longest chain of scripts that precede it.
+# Scripts that are not preceded by anything have depth 1.
+def calculate_depths(following):
+    depths = {}
+    in_progress = []
 
-def tree_to_list(node):
-    tups = tree_to_set(node)
-    sorted_tups = sorted(tups, key=lambda tup: tup[0])
-    sorted_tups = sorted(sorted_tups, key=lambda tup: tup[1])
-    list_of_names = map(lambda tup: tup[0], sorted_tups)
-    return filter(lambda x: x is not root_node_name, list_of_names)
+    def visit(name, depth):
+        if name in in_progress:
+            chain = in_progress[in_progress.index(name):] + [name]
+            raise ValueError("The pre-processing scripts precede each other in a circle: " + " -> ".join(chain))
+        if depths.get(name, 0) >= depth:
+            return
+        depths[name] = depth
+        in_progress.append(name)
+        for s in sorted(following[name]):
+            visit(s, depth + 1)
+        in_progress.pop()
+
+    preceded = set().union(*following.values()) if following else set()
+    roots = [name for name in following if name not in preceded]
+    if following and not roots:
+        raise ValueError("The pre-processing scripts precede each other in a circle; none of them can be run first")
+    for name in sorted(roots):
+        visit(name, 1)
+    return depths
+
+
+# Returns the names of the scripts in the order they should be run; ordered by depth and then by name.
+def order_scripts(following):
+    depths = calculate_depths(following)
+    return sorted(depths, key=lambda name: (depths[name], name))
+
 
 def run_scripts(scripts):
     for f in scripts:
         filepath = join(path, f)
         if isfile(filepath):
             s = [filepath, sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]]
-            subprocess.call(s)
+            exit_code = subprocess.call(s)
+            if exit_code != 0:
+                sys.exit("Error: The pre-processing script '" + f + "' failed with exit code " + str(exit_code))
 
-scripts = find_all_scripts()
-run_scripts(tree_to_list(scripts))
+
+try:
+    scripts = order_scripts(find_all_scripts())
+except ValueError as e:
+    sys.exit("Error: " + str(e))
+run_scripts(scripts)

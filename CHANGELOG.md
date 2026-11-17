@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - The build now stops with a clear message when it is started with missing or wrong folders, or when a required program is not installed.
 - Several numbered equation references (`mathref`) can now be placed on the same line; previously everything between the first and the last one was lost.
 - Several `include-html` templates can now be placed on the same line; previously only the first one got the right paths and id.
+- If the pre-processing scripts depend on each other in a circle, or if one of them fails, the build now reports the problem instead of hanging or silently carrying on.
 
 
 

@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 - Several numbered equation references (`mathref`) can now be placed on the same line; previously everything between the first and the last one was lost.
 - Several `include-html` templates can now be placed on the same line; previously only the first one got the right paths and id.
 - If the pre-processing scripts depend on each other in a circle, or if one of them fails, the build now reports the problem instead of hanging or silently carrying on.
+- Backslashes in a page are now kept exactly as written. Earlier, text such as `\n` or `\t` was turned into a line break or a tab, and a double backslash into a single one. **Note:** if you wrote double backslashes to get a single one, you now need to write just one.
 
 
 

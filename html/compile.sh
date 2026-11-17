@@ -100,7 +100,9 @@ for target in "${targets[@]}"; do
   export INCUNABLE_TEMPLATE_DIR="$templatedir"
   ./template_substituter.awk "$tmp_name" > "${tmp_name}_2" && mv "${tmp_name}_2" "$tmp_name"
   cmark-gfm -e table -e strikethrough -e footnotes --table-prefer-style-attributes --unsafe "$tmp_name" > "${tmp_name}_2" && mv "${tmp_name}_2" "$tmp_name"
-  sed -i 's/&amp;/\&/g' "$tmp_name"
+  # The softbreak template is turned into a newline only after the Markdown has been
+  # processed, so that it does not affect how the Markdown is interpreted.
+  sed -i -e 's/&amp;/\&/g' -e 's/&incunable-softbreak;/\n/g' "$tmp_name"
   unset INCUNABLE_TEMPLATE_DIR
 
 
@@ -151,7 +153,7 @@ for target in "${targets[@]}"; do
     $0 = replace_literal($0, "${filename}", filename)
     print $0
     }' "$tmp_footer"
-  echo -e "$(cat "$tmp_header")\n$(cat "$tmp_name")\n$(cat "$tmp_footer")" > "$output/$target.html"
+  cat "$tmp_header" "$tmp_name" "$tmp_footer" > "$output/$target.html"
 
   unset INCUNABLE_TITLE INCUNABLE_PATH INCUNABLE_FILENAME INCUNABLE_SOURCEDIR
   rm "$tmp_header" "$tmp_footer" "$tmp_name"

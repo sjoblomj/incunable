@@ -18,13 +18,13 @@ Images can also be included inline; `{{leftcurlybracket}}{{leftcurlybracket}}img
 # Math
 [LaTeX](https://en.wikipedia.org/wiki/LaTeX) math equations are supported, and they will be turned into [MathML](https://en.wikipedia.org/wiki/MathML) and included into the paragraph. There are two commands with which math can be included, `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` for (shorter) inline math snippets, and `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` followed by `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}` for multiline equations.
 
-Inline equations can be included using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}`, like this one: `{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\,{{rightcurlybracket}}{{rightcurlybracket}}`, which is typeset into: {{math |eq=a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\,}}. Note that for technical reasons, an equation cannot end with "{{rightcurlybracket}}", hence `\,` is inserted at the end of the equation, which adds a tiny space. Using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.
+Inline equations can be included using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}`, like this one: `{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=a_1 + a_2 + ... + a_n = \sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\,{{rightcurlybracket}}{{rightcurlybracket}}`, which is typeset into: {{math |eq=a_1 + a_2 + ... + a_n = \sum_{i = 1}^n a_{i}\,}}. Note that for technical reasons, an equation cannot end with "{{rightcurlybracket}}", hence `\,` is inserted at the end of the equation, which adds a tiny space. Using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` will automatically make the equation compacted, since it is intended for math that is embedded inside the paragraph, and thus needs to take less space.
 
 Longer, or multi-line or more complex equations can be included by placing the tex markup between `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` and `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. This will automatically make the math be typeset in a more spacious way; see how the following is typeset compared to the inlined equation of the previous paragraph. The characters of the two equations are identical, but they are typeset differently.
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\,
+a_1 + a_2 + ... + a_n = \sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\,
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 
@@ -36,11 +36,11 @@ Under the hood, `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket
 
 
 ## Style
-As mentioned, using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` will typeset equations compacted (using `\\textstyle` of LaTeX). Using `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, equations will by default be typeset with `\\displaystyle`. This can be overridden by providing the `style` argument to `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, like this:
+As mentioned, using `{{leftcurlybracket}}{{leftcurlybracket}}math{{rightcurlybracket}}{{rightcurlybracket}}` will typeset equations compacted (using `\textstyle` of LaTeX). Using `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, equations will by default be typeset with `\displaystyle`. This can be overridden by providing the `style` argument to `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, like this:
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath {{pipe}}style=textstyle{{rightcurlybracket}}{{rightcurlybracket}}
-\\sum_{{leftcurlybracket}}i=1{{rightcurlybracket}}^n i = \\frac{{leftcurlybracket}}n(n+1){{rightcurlybracket}}{{leftcurlybracket}}2{{rightcurlybracket}}\,
+\sum_{{leftcurlybracket}}i=1{{rightcurlybracket}}^n i = \frac{{leftcurlybracket}}n(n+1){{rightcurlybracket}}{{leftcurlybracket}}2{{rightcurlybracket}}\,
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 
@@ -54,7 +54,7 @@ Equations can be referenced by including a `{{leftcurlybracket}}{{leftcurlybrack
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-e^{{leftcurlybracket}}i\\theta{{rightcurlybracket}} = \\cos\\theta + i\\sin \\theta  {{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}
+e^{{leftcurlybracket}}i\theta{{rightcurlybracket}} = \cos\theta + i\sin \theta  {{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 
@@ -62,16 +62,16 @@ e^{{leftcurlybracket}}i\\theta{{rightcurlybracket}} = \\cos\\theta + i\\sin \\th
 e^{i\theta} = \cos\theta + i\sin \theta  {{mathref |ref=EulersFormula}}
 {{endmath}}
 
-Equation ({{ref |ref=EulersFormula}}) above is known as Euler's Formula, and the number is referenced by `{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}`. We can evaluate Euler's Formula for {{math |eq=\theta = \pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\theta = \\pi{{rightcurlybracket}}{{rightcurlybracket}}`):
+Equation ({{ref |ref=EulersFormula}}) above is known as Euler's Formula, and the number is referenced by `{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}`. We can evaluate Euler's Formula for {{math |eq=\theta = \pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\theta = \pi{{rightcurlybracket}}{{rightcurlybracket}}`):
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-\\begin{{leftcurlybracket}}align{{rightcurlybracket}}
-  e^{{leftcurlybracket}}i\\pi{{rightcurlybracket}}    &= \\cos{{leftcurlybracket}}\\pi{{rightcurlybracket}} + i \\sin{{leftcurlybracket}}\\pi{{rightcurlybracket}}  &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi1{{rightcurlybracket}}{{rightcurlybracket}}\\\\
-  e^{{leftcurlybracket}}i\\pi{{rightcurlybracket}}    &= -1 + i\\cdot 0            &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi2{{rightcurlybracket}}{{rightcurlybracket}}\\\\
-  e^{{leftcurlybracket}}i\\pi{{rightcurlybracket}}    &= -1                       &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi3{{rightcurlybracket}}{{rightcurlybracket}}\\\\
-  e^{{leftcurlybracket}}i\\pi{{rightcurlybracket}} +1 &= 0                        &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi4{{rightcurlybracket}}{{rightcurlybracket}}
-\\end{{leftcurlybracket}}align{{rightcurlybracket}}
+\begin{{leftcurlybracket}}align{{rightcurlybracket}}
+  e^{{leftcurlybracket}}i\pi{{rightcurlybracket}}    &= \cos{{leftcurlybracket}}\pi{{rightcurlybracket}} + i \sin{{leftcurlybracket}}\pi{{rightcurlybracket}}  &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi1{{rightcurlybracket}}{{rightcurlybracket}}\\
+  e^{{leftcurlybracket}}i\pi{{rightcurlybracket}}    &= -1 + i\cdot 0            &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi2{{rightcurlybracket}}{{rightcurlybracket}}\\
+  e^{{leftcurlybracket}}i\pi{{rightcurlybracket}}    &= -1                       &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi3{{rightcurlybracket}}{{rightcurlybracket}}\\
+  e^{{leftcurlybracket}}i\pi{{rightcurlybracket}} +1 &= 0                        &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Pi4{{rightcurlybracket}}{{rightcurlybracket}}
+\end{{leftcurlybracket}}align{{rightcurlybracket}}
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 
@@ -84,17 +84,17 @@ Equation ({{ref |ref=EulersFormula}}) above is known as Euler's Formula, and the
 \end{align}
 {{endmath}}
 
-In ({{ref |ref=Pi1}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi1{{rightcurlybracket}}{{rightcurlybracket}}`) we insert {{math |eq=\pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\pi{{rightcurlybracket}}{{rightcurlybracket}}`) into ({{ref |ref=EulersFormula}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}`), i.e. Euler's Formula. In ({{ref |ref=Pi2}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi2{{rightcurlybracket}}{{rightcurlybracket}}`) and ({{ref |ref=Pi3}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi3{{rightcurlybracket}}{{rightcurlybracket}}`) we solve the equation, and finally in ({{ref |ref=Pi4}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi4{{rightcurlybracket}}{{rightcurlybracket}}`), we obtain what is known as [Euler's Identity](https://en.wikipedia.org/wiki/Euler%27s_identity), sometimes called "the most beautiful equation in mathematics".
+In ({{ref |ref=Pi1}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi1{{rightcurlybracket}}{{rightcurlybracket}}`) we insert {{math |eq=\pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\pi{{rightcurlybracket}}{{rightcurlybracket}}`) into ({{ref |ref=EulersFormula}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}`), i.e. Euler's Formula. In ({{ref |ref=Pi2}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi2{{rightcurlybracket}}{{rightcurlybracket}}`) and ({{ref |ref=Pi3}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi3{{rightcurlybracket}}{{rightcurlybracket}}`) we solve the equation, and finally in ({{ref |ref=Pi4}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Pi4{{rightcurlybracket}}{{rightcurlybracket}}`), we obtain what is known as [Euler's Identity](https://en.wikipedia.org/wiki/Euler%27s_identity), sometimes called "the most beautiful equation in mathematics".
 
-Of course, cool kids use {{math |eq=\tau}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\tau{{rightcurlybracket}}{{rightcurlybracket}}`) instead of {{math |eq=\pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\pi{{rightcurlybracket}}{{rightcurlybracket}}`), see the [Tau Manifesto](https://tauday.com/tau-manifesto). Then we instead get the {{math |eq=\tau}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\tau{{rightcurlybracket}}{{rightcurlybracket}}`) version of Euler's Identity:
+Of course, cool kids use {{math |eq=\tau}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\tau{{rightcurlybracket}}{{rightcurlybracket}}`) instead of {{math |eq=\pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\pi{{rightcurlybracket}}{{rightcurlybracket}}`), see the [Tau Manifesto](https://tauday.com/tau-manifesto). Then we instead get the {{math |eq=\tau}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\tau{{rightcurlybracket}}{{rightcurlybracket}}`) version of Euler's Identity:
 
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-\\begin{{leftcurlybracket}}align{{rightcurlybracket}}
-  e^{{leftcurlybracket}}i\\tau{{rightcurlybracket}}   &= \\cos{{leftcurlybracket}}2\\pi{{rightcurlybracket}} + i \\sin{{leftcurlybracket}}2\\pi{{rightcurlybracket}} &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Tau1{{rightcurlybracket}}{{rightcurlybracket}}\\\\
-  e^{{leftcurlybracket}}i\\tau{{rightcurlybracket}}   &= 1 + i \\cdot 0             &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Tau2{{rightcurlybracket}}{{rightcurlybracket}}\\\\
-  e^{{leftcurlybracket}}i\\tau{{rightcurlybracket}}   &= 1                         &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Tau3{{rightcurlybracket}}{{rightcurlybracket}}
-\\end{{leftcurlybracket}}align{{rightcurlybracket}}
+\begin{{leftcurlybracket}}align{{rightcurlybracket}}
+  e^{{leftcurlybracket}}i\tau{{rightcurlybracket}}   &= \cos{{leftcurlybracket}}2\pi{{rightcurlybracket}} + i \sin{{leftcurlybracket}}2\pi{{rightcurlybracket}} &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Tau1{{rightcurlybracket}}{{rightcurlybracket}}\\
+  e^{{leftcurlybracket}}i\tau{{rightcurlybracket}}   &= 1 + i \cdot 0             &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Tau2{{rightcurlybracket}}{{rightcurlybracket}}\\
+  e^{{leftcurlybracket}}i\tau{{rightcurlybracket}}   &= 1                         &{{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=Tau3{{rightcurlybracket}}{{rightcurlybracket}}
+\end{{leftcurlybracket}}align{{rightcurlybracket}}
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 
@@ -106,7 +106,7 @@ Of course, cool kids use {{math |eq=\tau}} (`{{leftcurlybracket}}{{leftcurlybrac
 \end{align}
 {{endmath}}
 
-In ({{ref |ref=Tau1}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Tau1{{rightcurlybracket}}{{rightcurlybracket}}`) we solve equation ({{ref |ref=EulersFormula}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}`) for {{math |eq=\tau = 2\pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\tau = 2\\pi{{rightcurlybracket}}{{rightcurlybracket}}`), and in ({{ref |ref=Tau2}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Tau2{{rightcurlybracket}}{{rightcurlybracket}}`) we simplify. We then obtain the {{math |eq=\tau}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\tau{{rightcurlybracket}}{{rightcurlybracket}}`) version of Euler's Identity in ({{ref |ref=Tau3}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Tau3{{rightcurlybracket}}{{rightcurlybracket}}`).
+In ({{ref |ref=Tau1}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Tau1{{rightcurlybracket}}{{rightcurlybracket}}`) we solve equation ({{ref |ref=EulersFormula}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}`) for {{math |eq=\tau = 2\pi}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\tau = 2\pi{{rightcurlybracket}}{{rightcurlybracket}}`), and in ({{ref |ref=Tau2}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Tau2{{rightcurlybracket}}{{rightcurlybracket}}`) we simplify. We then obtain the {{math |eq=\tau}} (`{{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\tau{{rightcurlybracket}}{{rightcurlybracket}}`) version of Euler's Identity in ({{ref |ref=Tau3}}) (`{{leftcurlybracket}}{{leftcurlybracket}}ref {{pipe}}ref=Tau3{{rightcurlybracket}}{{rightcurlybracket}}`).
 
 
 # Galleries

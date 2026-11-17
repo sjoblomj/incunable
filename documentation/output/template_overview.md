@@ -451,7 +451,7 @@ Shorthand notation for inserting a mathematical equation in the middle of a para
 **Side effects:**
 * The template itself will be replaced by `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}`, followed by the equation given in the `eq` argument, followed by `{{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}`. The `{{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}` template will have the argument `class` hardcoded to `inlinemath`, the argument `style` hardcoded to `textstyle` and the argument `newlines` hardcoded to `false`.
 
-**Example input:** `If {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=t{{rightcurlybracket}}{{rightcurlybracket}} is the temperature, then {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\\Delta t{{rightcurlybracket}}{{rightcurlybracket}} could refer to a difference between two temperature systems.`{{linebreak}}
+**Example input:** `If {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=t{{rightcurlybracket}}{{rightcurlybracket}} is the temperature, then {{leftcurlybracket}}{{leftcurlybracket}}math {{pipe}}eq=\Delta t{{rightcurlybracket}}{{rightcurlybracket}} could refer to a difference between two temperature systems.`{{linebreak}}
 **Example output:** If {{math |eq=t}} is the temperature, then {{math |eq=\Delta t}} could refer to a difference between two temperature systems.
 
 
@@ -468,7 +468,7 @@ Inserts a [LaTeX](https://en.wikipedia.org/wiki/LaTeX) mathematical equation. It
 **Example input:**
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-a_1 + a_2 + ... + a_n = \\sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\\,
+a_1 + a_2 + ... + a_n = \sum_{{leftcurlybracket}}i = 1{{rightcurlybracket}}^n a_{{leftcurlybracket}}i{{rightcurlybracket}}\,
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 **Example output:**{{linebreak}}
@@ -485,7 +485,7 @@ Ends a mathematical equation. Everything between the `{{leftcurlybracket}}{{left
 **Example input:**
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-\\sum_{{leftcurlybracket}}i=1{{rightcurlybracket}}^n i = \\frac{{leftcurlybracket}}n(n+1){{rightcurlybracket}}{{leftcurlybracket}}2{{rightcurlybracket}}\\,
+\sum_{{leftcurlybracket}}i=1{{rightcurlybracket}}^n i = \frac{{leftcurlybracket}}n(n+1){{rightcurlybracket}}{{leftcurlybracket}}2{{rightcurlybracket}}\,
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 **Example output:**{{linebreak}}
@@ -508,7 +508,7 @@ Will typeset an equation number in parenthesis to the right of the equation. The
 **Example input:**
 ```
 {{leftcurlybracket}}{{leftcurlybracket}}beginmath{{rightcurlybracket}}{{rightcurlybracket}}
-e^{{leftcurlybracket}}i\\theta{{rightcurlybracket}} = \\cos\\theta + i\\sin \\theta  {{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}
+e^{{leftcurlybracket}}i\theta{{rightcurlybracket}} = \cos\theta + i\sin \theta  {{leftcurlybracket}}{{leftcurlybracket}}mathref {{pipe}}ref=EulersFormula{{rightcurlybracket}}{{rightcurlybracket}}
 {{leftcurlybracket}}{{leftcurlybracket}}endmath{{rightcurlybracket}}{{rightcurlybracket}}
 ```
 **Example output:**{{linebreak}}

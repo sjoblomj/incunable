@@ -6,11 +6,28 @@ BEGIN {
     MATH_REF_NO = 0
 }
 {
-    if ($0 ~ "{{mathref ") {
-        ref = write_ref($0)
-        sub("{{mathref .*}}", "\\qquad \\left(" MATH_REF_NO "\\right) \\label{" ref "}\\,", $0)
+    line_read   = ""
+    line_unread = $0
+    while (1) {
+        open_pos = index(line_unread, "{{mathref ")
+        if (open_pos == 0) {
+            line_read = line_read line_unread
+            break
+        }
+
+        template = substr(line_unread, open_pos + length(OPENING_BRACKETS))
+        closing_pos = find_template_closing_pos(template)
+        if (closing_pos == 0) {
+            # The template is never closed; leave the rest of the line as it is
+            line_read = line_read line_unread
+            break
+        }
+        ref = write_ref(substr(template, 0, closing_pos - 1) CLOSING_BRACKETS)
+
+        line_read   = line_read substr(line_unread, 0, open_pos - 1) "\\qquad \\left(" MATH_REF_NO "\\right) \\label{" ref "}\\,"
+        line_unread = substr(line_unread, open_pos + closing_pos + length(CLOSING_BRACKETS) + 1)
     }
-    print $0
+    print line_read
 }
 
 function write_ref(text,  ref) {

@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.10] - 2026-11-17
+
+### Added
+- 
+
+### Changed
+- 
+
+### Fixed
+- Building a site a second time into the same output folder no longer makes pages with iframes lose their automatically included script.
+
+
+
 ## [1.9.2] - 2026-01-04
 
 ### Changed

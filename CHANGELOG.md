@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - An ampersand (&) in a page title or in a template argument is now shown as written, instead of being replaced with a piece of template code.
 - Pages in folders whose names contain spaces can now be built.
 - A page that only uses the `include-html` template now gets the iframe script created and included automatically, as the documentation describes.
+- Temporary files are now kept in a private folder that is always cleaned up, so two builds can run at the same time without disturbing each other.
 
 
 

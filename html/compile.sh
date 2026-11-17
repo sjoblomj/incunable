@@ -9,7 +9,13 @@ custom_templates="$(readlink -f "$4")"
 prev_dir="$(pwd)"
 cd "$(dirname "$incunable_folder")/.." || exit 1
 
-templatedir="$(mktemp -d)/"
+# All temporary files are kept in a directory of their own, which is removed when the script exits. This way,
+# several instances can run at the same time without overwriting each others files.
+workdir="$(mktemp -d)" || exit 1
+trap 'rm -rf "$workdir"' EXIT
+
+templatedir="$workdir/templates/"
+mkdir "$templatedir"
 cp -r html/templates/* "$templatedir"
 if [ -n "$custom_templates" ]; then
   cp -r "$custom_templates"/* "$templatedir"
@@ -21,6 +27,8 @@ mapfile -t targets < <(find "${input}" -mindepth 2 -type f -name "index.md" -pri
 
 mkdir -p "$output"
 cp -r "$resource_folder"/* "$output"
+# The header and footer are not part of the output; they are instead inserted into each page
+rm -f "$output"/header "$output"/footer
 for target in "${targets[@]}"; do
 
   echo "Compiling $target"
@@ -31,7 +39,9 @@ for target in "${targets[@]}"; do
     nesting="${nesting}../"
   done
   basename=$(basename "$target")
-  tmp_name="/tmp/${basename}"
+  tmp_name="$workdir/${basename}"
+  tmp_header="$workdir/header"
+  tmp_footer="$workdir/footer"
 
   additionalfiles="${output}/${target}-files"
   mkdir -p "$additionalfiles"
@@ -62,8 +72,8 @@ for target in "${targets[@]}"; do
   unset INCUNABLE_TEMPLATE_DIR
 
 
-  sed -e "s|\${nesting}|${nesting}|g" "$output"/header > /tmp/header
-  sed -e "s|\${nesting}|${nesting}|g" "$output"/footer > /tmp/footer
+  sed -e "s|\${nesting}|${nesting}|g" "$resource_folder"/header > "$tmp_header"
+  sed -e "s|\${nesting}|${nesting}|g" "$resource_folder"/footer > "$tmp_footer"
   # The values are passed through the environment rather than with -v, since awk would otherwise interpret
   # any backslashes in them as escape sequences.
   export INCUNABLE_TITLE="$title" INCUNABLE_PATH="$target" INCUNABLE_FILENAME="$basename" INCUNABLE_SOURCEDIR="$additionalfiles"
@@ -91,7 +101,7 @@ for target in "${targets[@]}"; do
     $0 = replace_literal($0, "${title}",    title)
     $0 = replace_literal($0, "${filename}", filename)
     print $0
-    }' /tmp/header
+    }' "$tmp_header"
 
   awk -i "utils.awk" -i inplace '
     BEGIN {
@@ -108,13 +118,11 @@ for target in "${targets[@]}"; do
     $0 = replace_literal($0, "${title}",    title)
     $0 = replace_literal($0, "${filename}", filename)
     print $0
-    }' /tmp/footer
-  echo -e "$(cat /tmp/header)\n$(cat "$tmp_name")\n$(cat /tmp/footer)" > "$output/$target.html"
+    }' "$tmp_footer"
+  echo -e "$(cat "$tmp_header")\n$(cat "$tmp_name")\n$(cat "$tmp_footer")" > "$output/$target.html"
 
   unset INCUNABLE_TITLE INCUNABLE_PATH INCUNABLE_FILENAME INCUNABLE_SOURCEDIR
-  rm /tmp/header /tmp/footer "$tmp_name"
+  rm "$tmp_header" "$tmp_footer" "$tmp_name"
   rm -f "$additionalfiles"/reflist
 done
 cd "$prev_dir" || exit 1
-
-rm -rf "$output"/header "$output"/footer "$templatedir"

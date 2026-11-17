@@ -1,15 +1,13 @@
 import re
 import sys
-import subprocess
 from os import listdir
 from os.path import isfile, join
 
+# Prints the names of the pre-processing scripts, one per line, in the order that they should be run.
+# The order is the same for every page, so this script only needs to be run once per compilation.
+#
 # Arguments to this script:
 # 1. Path to the template directory of the resource type (html/templates, latex/templates, ...)
-# 2. Path to file being processed
-# 3. Name of file being processed
-# 4. Path to directory with extra files belonging to the file being processed
-# 5. Root path to all files being processed
 
 precedes_string = "# *@precedes"
 path = join(sys.argv[1], "pre")
@@ -67,18 +65,10 @@ def order_scripts(following):
     return sorted(depths, key=lambda name: (depths[name], name))
 
 
-def run_scripts(scripts):
-    for f in scripts:
-        filepath = join(path, f)
-        if isfile(filepath):
-            s = [filepath, sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5]]
-            exit_code = subprocess.call(s)
-            if exit_code != 0:
-                sys.exit("Error: The pre-processing script '" + f + "' failed with exit code " + str(exit_code))
-
-
 try:
     scripts = order_scripts(find_all_scripts())
 except ValueError as e:
     sys.exit("Error: " + str(e))
-run_scripts(scripts)
+for f in scripts:
+    if isfile(join(path, f)):
+        print(f)

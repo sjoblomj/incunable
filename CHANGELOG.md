@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 - 
 
 ### Changed
-- 
+- Building a site is faster: the order of the pre-processing steps is now worked out once per build instead of once per page.
 
 ### Fixed
 - Building a site a second time into the same output folder no longer makes pages with iframes lose their automatically included script.

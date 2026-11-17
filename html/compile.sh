@@ -57,6 +57,26 @@ if [ -n "$custom_templates" ]; then
   cp -r "$custom_templates"/* "$templatedir"
 fi
 
+# The order in which to run the pre-processing scripts is the same for every page, so it is calculated only once.
+if ! pre_script_order="$($PYTHON pre-script-runner.py "$templatedir")"; then
+  exit 1
+fi
+pre_scripts=()
+if [ -n "$pre_script_order" ]; then
+  mapfile -t pre_scripts <<< "$pre_script_order"
+fi
+
+# Runs the pre-processing scripts on the page currently being compiled.
+function run_pre_scripts() {
+  local script
+  for script in "${pre_scripts[@]}"; do
+    if ! "${templatedir}pre/$script" "$tmp_name" "$basename" "$additionalfiles" "$input"; then
+      echo "Error: The pre-processing script '$script' failed for $target" >&2
+      return 1
+    fi
+  done
+}
+
 # Each directory with an index.md file is a page to compile. The targets are read
 # line by line, so that directory names containing spaces are kept intact.
 mapfile -t targets < <(find "${input}" -mindepth 2 -type f -name "index.md" -printf '%P\n' | sed -r "s|/index.md$||")
@@ -89,8 +109,7 @@ for target in "${targets[@]}"; do
   cp -r "$input/$target"/* "$additionalfiles"
   mv "$additionalfiles"/index.md "$tmp_name"
 
-  if ! $PYTHON pre-script-runner.py "$templatedir" "$tmp_name" "$basename" "$additionalfiles" "$input"; then
-    echo "Error: Pre-processing failed for $target" >&2
+  if ! run_pre_scripts; then
     exit_code=1
   fi
   title=$(grep -oP '^# *\K.*' "$tmp_name" | head -n 1)

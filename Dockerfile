@@ -1,4 +1,4 @@
-FROM ubuntu:jammy
+FROM ubuntu:26.04
 
 # Install dependencies. This is done before copying the code, so that the dependencies
 # do not have to be installed and built again when only the code has changed.
@@ -7,8 +7,10 @@ RUN apt-get update && \
     cabal update && \
     git clone https://github.com/jgm/texmath.git "$HOME"/texmath && \
     cd "$HOME"/texmath && \
-    cabal install -fexecutable && \
-    cp $HOME/.cabal/bin/texmath /usr/local/bin
+    cabal install -fexecutable --install-method=copy --installdir=/usr/local/bin
+
+# Use a UTF-8 locale, so that texmath can output non-ASCII characters
+ENV LANG=C.UTF-8
 
 # Copy the directory
 COPY . /opt/incunable/

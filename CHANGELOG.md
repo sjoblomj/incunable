@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Pages with mathematical equations are built faster.
 - Each page is put together in fewer steps, which makes building slightly faster.
 - When building into a folder that already holds an earlier build, only pages that have changed are built again, which makes rebuilding a large site much faster. Set the environment variable `INCUNABLE_FORCE=1` to rebuild everything.
+- The Docker image is quicker to rebuild after a change to Incunable, since the slow installation of its dependencies is no longer repeated.
 
 ### Fixed
 - Building a site a second time into the same output folder no longer makes pages with iframes lose their automatically included script.

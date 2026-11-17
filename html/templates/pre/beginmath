@@ -97,16 +97,12 @@ BEGIN {
     }
 }
 
-function latex_to_math(eq, tempfile, style, result) {
-    tempfile = run_system_command_with_output("mktemp")
-
+function latex_to_math(eq, style, result) {
     eq = trim(EQUATION_CONTENT)
-    print eq > tempfile
-    fflush(tempfile)
 
+    # The equation is piped straight to texmath, which is faster than first writing it to a temporary file
     style = (EQUATION_STYLE == "textstyle") ? "--inline" : ""
-    result = run_system_command_with_output("texmath " style " --from=tex --to=mathml " tempfile)
-    run_system_command("rm -f " tempfile)
+    result = run_system_command_with_output("printf \"%s\\n\" " shell_quote(eq) " | texmath " style " --from=tex --to=mathml")
 
     if (NEWLINE_STYLE == "false") {
         gsub(/\n/, "", result)

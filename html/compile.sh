@@ -86,7 +86,7 @@ for target in ${targets}; do
 
   awk -v title="$title" -v path="$target" -v filename="$basename" -v sourcedir="$additionalfiles" -i "utils.awk" -i inplace '{
     if (match($0, /\$\{include-footer-([0-9]+)\}/, arr)) {
-        sub("\\${include-footer-" arr[1] "}", read_file(sourcedir "_include-footer-" arr[1]))
+        sub("\\${include-footer-" arr[1] "}", read_file(sourcedir "/_include-footer-" arr[1]))
     }
     sub("\\${path}",     path,     $0)
     sub("\\${title}",    title,    $0)

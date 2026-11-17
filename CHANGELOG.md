@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Building a site a second time into the same output folder no longer makes pages with iframes lose their automatically included script.
+- Content for the footer, provided by a page through an `_include-footer` file, is now actually inserted into the footer.
 
 
 
